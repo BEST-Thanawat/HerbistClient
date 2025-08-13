@@ -10,7 +10,7 @@ import { ToastrTranslateService } from './toastr-translate.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
@@ -20,7 +20,13 @@ export class AccountService {
   email: string = '';
   //private auth: boolean = false;
 
-  constructor(private tts: ToastrTranslateService, private http: HttpClient, private router: Router, private localStorageService: LocalstorageService, private appService: AppService) {
+  constructor(
+    private tts: ToastrTranslateService,
+    private http: HttpClient,
+    private router: Router,
+    private localStorageService: LocalstorageService,
+    private appService: AppService
+  ) {
     //console.log(this.baseUrl);
   }
 
@@ -55,7 +61,7 @@ export class AccountService {
       this.localStorageService.removeItem('token');
       this.setNullCurrentUserSource();
       this.router.navigateByUrl('/');
-      this.tts.success('Logout Successfully');   
+      this.tts.success('Logout Successfully');
     }
   }
 
@@ -65,19 +71,20 @@ export class AccountService {
 
       return of(null);
     }
-    
+
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
+    // console.log(headers);
     return this.http.get(this.baseUrl + 'account', { headers }).pipe(
       map((user: IUser) => {
         if (user) {
-          //console.log(user);
+          // console.log(user);
           if (this.appService.isBrowser()) {
             this.localStorageService.setItem('token', user.token!);
             this.currentUserSource.next(user);
             this.email = user.email!;
-            //this.auth = true;              
+            //this.auth = true;
             //console.log('first');
           }
         }
@@ -92,7 +99,6 @@ export class AccountService {
       this.setNullCurrentUserSource();
     }
 
-    
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
@@ -104,13 +110,12 @@ export class AccountService {
           this.currentUserSource.next(user);
           this.email = user.email!;
           //this.auth = true;
-          return true;   
+          return true;
         }
 
         return false;
       })
     );
-
 
     // let result = false;
     // appService.isBrowser().subscribe(isBrowser => {
@@ -146,7 +151,7 @@ export class AccountService {
     this.localStorageService.removeItem('token');
     this.setNullCurrentUserSource();
     this.router.navigateByUrl('/');
-    this.tts.success('Logout Successfully');         
+    this.tts.success('Logout Successfully');
   }
 
   loadCurrentBackendUser(token: string | null): Observable<any> {
@@ -155,7 +160,7 @@ export class AccountService {
 
       return of(null);
     }
-    
+
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
     return this.http.get(this.baseUrl + 'account', { headers }).pipe(

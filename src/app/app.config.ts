@@ -1,64 +1,34 @@
-import {
-  APP_ID,
-  ApplicationConfig,
-  importProvidersFrom,
-  provideAppInitializer,
-  provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { APP_ID, ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { GuardsCheckEnd, NavigationEnd, provideRouter } from '@angular/router';
 import { progressInterceptor } from 'ngx-progressbar/http';
 
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import {
-  BrowserModule,
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from '@angular/common/http';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNgProgressRouter } from 'ngx-progressbar/router';
 import { provideToastr } from 'ngx-toastr';
 import { InitialService } from './shared/services/initial.service';
-import {
-  provideTranslateService,
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
+import { provideTranslateService, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppService } from './shared/services/app.service';
 import { of } from 'rxjs';
-import {
-  PRECONNECT_CHECK_BLOCKLIST,
-  provideCloudinaryLoader,
-} from '@angular/common';
-import { ErrorInterceptor } from './shared/core/interceptors/error.interceptor';
+import { PRECONNECT_CHECK_BLOCKLIST, provideCloudinaryLoader } from '@angular/common';
+import { errorInterceptor } from './shared/core/interceptors/error.interceptor';
 import { LoadingInterceptor } from './shared/core/interceptors/loading.interceptor';
 import { JwtInterceptor } from './shared/core/interceptors/jwt.interceptor';
 
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { provideNgProgressOptions } from 'ngx-progressbar';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
-export function app_init(initialService: InitialService) {
-  return () => initialService.initializeApp();
+export function app_init() {
+  const initialService = inject(InitialService);
+  return initialService.initializeApp(); // can return void, Promise, or Observable
 }
 
-export function translate_init(
-  translate: TranslateService,
-  appService: AppService
-) {
+export function translate_init(translate: TranslateService, appService: AppService) {
   return () => {
     if (appService.isBrowser()) {
       translate.addLangs(['th', 'en']);
@@ -91,8 +61,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   },
   type: 'info',
   content: {
-    message:
-      'This website uses cookies to ensure you get the best experience on our website.',
+    message: 'This website uses cookies to ensure you get the best experience on our website.',
     dismiss: 'Got it!',
     deny: 'Refuse cookies',
     link: 'Learn more',
@@ -103,12 +72,7 @@ const cookieConfig: NgcCookieConsentConfig = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(
-      BrowserModule,
-      CarouselModule,
-      ModalModule.forRoot(),
-      NgcCookieConsentModule.forRoot(cookieConfig)
-    ),
+    importProvidersFrom(BrowserModule, CarouselModule, ModalModule.forRoot(), NgcCookieConsentModule.forRoot(cookieConfig)),
     { provide: APP_ID, useValue: 'serverApp' },
     provideAnimations(),
     provideBrowserGlobalErrorListeners(),
@@ -123,7 +87,16 @@ export const appConfig: ApplicationConfig = {
       progressBar: true,
       enableHtml: true,
     }),
-    provideHttpClient(withFetch(), withInterceptors([progressInterceptor])),
+    // provideHttpClient(withFetch(), withInterceptors([progressInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([progressInterceptor, errorInterceptor]),
+      withInterceptorsFromDi() // 👈 tells Angular to load DI-provided interceptors
+    ),
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+
     provideNgProgressOptions({
       spinner: false,
     }),
@@ -132,16 +105,7 @@ export const appConfig: ApplicationConfig = {
       completeEvents: [NavigationEnd],
       minDuration: 1000,
     }),
-
-    {
-      provide: provideAppInitializer,
-      useFactory: app_init,
-      deps: [InitialService],
-      multi: true,
-    },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    provideAppInitializer(app_init),
     provideCloudinaryLoader('https://res.cloudinary.com/djg2zn5cf/'),
     {
       provide: PRECONNECT_CHECK_BLOCKLIST,

@@ -8,15 +8,23 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InitialService {
-  constructor(private router: Router, private injector: Injector, private cartService: CartService, private accountService: AccountService, private localStorageService: LocalstorageService, private analyticsService: AnalyticsService, private appService: AppService) { }
+  constructor(
+    private router: Router,
+    private injector: Injector,
+    private cartService: CartService,
+    private accountService: AccountService,
+    private localStorageService: LocalstorageService,
+    private analyticsService: AnalyticsService,
+    private appService: AppService
+  ) {}
 
   initializeApp() {
     if (this.appService.isBrowser()) {
       // Show progress bar when route changed
-      this.showProgressBar();      
+      this.showProgressBar();
       this.analyticsService.activateGtag();
 
       const token = this.localStorageService.getItem('token');
@@ -28,11 +36,10 @@ export class InitialService {
       }
 
       try {
-        firstValueFrom(this.injector.get(AccountService).loadCurrentUser(token)).catch(
-          (e) => {
-            console.log(e);
-            this.localStorageService.removeItem('token');
-          });
+        firstValueFrom(this.injector.get(AccountService).loadCurrentUser(token)).catch((e) => {
+          console.log(e);
+          this.localStorageService.removeItem('token');
+        });
       } catch (e) {
         console.log(e);
       }

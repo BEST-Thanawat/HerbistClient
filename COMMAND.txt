@@ -1,3 +1,22 @@
 //To run
 1.cd HerbistClient
-2.ng serve --open
+2.ng serve -c development -o
+
+
+//prettier add this into package.json file and install "npm install prettier@latest" into the project
+"prettier": {
+    "singleAttributePerLine": false,
+    "printWidth": 900,
+    "semi": true,
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },

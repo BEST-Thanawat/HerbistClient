@@ -11,6 +11,12 @@
     "serve:ssr:HerbistClient": "node dist/HerbistClient/server/server.mjs"
   },
   "prettier": {
+    "singleAttributePerLine": false,
+    "printWidth": 900,
+    "semi": true,
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
     "overrides": [
       {
         "files": "*.html",
@@ -47,6 +53,7 @@
     "ngx-owl-carousel-o": "^20.0.1",
     "ngx-progressbar": "^14.0.0",
     "ngx-toastr": "^19.0.0",
+    "prettier": "^3.6.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "uuid": "^11.1.0",

@@ -34,7 +34,7 @@ export class CartService {
   getCart(id: string) {
     return this.http.get(this.baseUrl + 'cart?id=' + id).pipe(
       map((cart: ICart | any) => {
-        //console.log(cart);
+        // console.log(cart);
         if (cart.items.length == 0 || cart.items == null) {
           this.deleteCart(cart);
         }

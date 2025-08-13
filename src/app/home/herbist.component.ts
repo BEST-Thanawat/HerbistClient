@@ -61,7 +61,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
   // private noCookieLawSubscription: Subscription | undefined;
 
   public BlogSliderConfig: any = BlogSlider;
-  showParalax: boolean = false;
+  showParalax: boolean = true;
 
   // parallaxSrcset = '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w, 1920w';
   // parallaxImgUrl = environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp';
