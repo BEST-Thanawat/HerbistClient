@@ -18,6 +18,6 @@ export class StepperComponent extends CdkStepper implements OnInit {
 
   onClick(index: number) {
     this.selectedIndex = index;
-    //console.log(this.selectedIndex);
+    // console.log(this.selectedIndex);
   }
 }

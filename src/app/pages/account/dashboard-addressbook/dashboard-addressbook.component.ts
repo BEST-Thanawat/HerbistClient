@@ -15,10 +15,11 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 import { TextInputComponent } from '../../../shared/components/text-input/text-input.component';
+import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directive';
 
 @Component({
   selector: 'app-dashboard-addressbook',
-  imports: [BreadcrumbComponent, ReactiveFormsModule, CommonModule, TranslateModule, RouterModule, TextInputComponent],
+  imports: [BreadcrumbComponent, ReactiveFormsModule, CommonModule, TranslateModule, RouterModule, TextInputComponent, PhoneMaskDirective],
   templateUrl: './dashboard-addressbook.component.html',
   styleUrls: ['./dashboard-addressbook.component.scss']
 })

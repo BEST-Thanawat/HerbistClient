@@ -9,10 +9,12 @@ import { AccountService } from '../../shared/services/account.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ShopService } from '../../shared/services/shop.service';
 import { TextInputComponent } from '../../shared/components/text-input/text-input.component';
+import { PhoneMaskDirective } from '../../shared/directive/phone-mask.directive';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-address',
-  imports: [ReactiveFormsModule, CommonModule, TranslateModule, TextInputComponent],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule, TextInputComponent, PhoneMaskDirective, CdkStepperModule ],
   templateUrl: './checkout-address.component.html',
   styleUrls: ['./checkout-address.component.scss']
 })

@@ -29,7 +29,7 @@ export class OrderSuccessComponent implements OnInit {
   OrderStatus = OrderStatus;
 
   sizes = '10vw';
-  srcset = '160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset = '';//'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   constructor(private seoService: SeoService, private route: ActivatedRoute, public productService: ProductService, private orderService: OrderService, private shopService: ShopService, private appService: AppService) { 
     if (this.appService.isBrowser()) {

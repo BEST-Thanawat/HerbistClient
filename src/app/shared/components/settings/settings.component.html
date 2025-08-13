@@ -167,29 +167,37 @@
           </div>
         </li>
         <li>
-          <div class="total" *ngIf="cartTotals$ | async as cartTotal">
+          @if (cartTotals$ | async; as cartTotal) {
+          <div class="total">
             <h5>
               {{ "Subtotal" | translate }} :
-              <span>{{
-                cartTotal.subtotal
-                  | currency : productService!.Currency.currency : "symbol"
-              }}</span>
+              <span>
+                {{
+                  cartTotal.subtotal
+                    | currency : productService!.Currency.currency : "symbol"
+                }}
+              </span>
             </h5>
             <h5>
               {{ "Discount" | translate }} :
-              <span>{{
-                -cartTotal.discount!
-                  | currency : productService!.Currency.currency : "symbol"
-              }}</span>
+              <span>
+                {{
+                  -cartTotal.discount!
+                    | currency : productService!.Currency.currency : "symbol"
+                }}
+              </span>
             </h5>
             <h5>
               {{ "Total" | translate }} :
-              <span>{{
-                cartTotal.subtotal! - cartTotal.discount!
-                  | currency : productService!.Currency.currency : "symbol"
-              }}</span>
+              <span>
+                {{
+                  cartTotal.subtotal! - cartTotal.discount!
+                    | currency : productService!.Currency.currency : "symbol"
+                }}
+              </span>
             </h5>
           </div>
+          }
         </li>
         <li>
           <div class="buttons">

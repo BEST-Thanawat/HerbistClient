@@ -63,7 +63,7 @@
                                         <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="yyyy-mm-dd" formControlName="transfer_date"
                                         (bsValueChange)="onValueChange($event)"
                                         [ngClass]="(this.paymentForm!.get('transfer_date')) ? !isValid ? 'is-invalid' : 'is-valid' : null"
-                                        [bsValue]="bsValue" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', isAnimated: true, showTodayButton: true, todayPosition: 'center', todayButtonLabel: 'Today' | translate }">
+                                        [bsValue]="bsValue" [bsConfig]="{ containerClass: 'theme-red', dateInputFormat: 'YYYY-MM-DD', isAnimated: true, showTodayButton: true, todayPosition: 'center', todayButtonLabel: 'Today' | translate }">
                                         <div class="input-group-append">
                                             <button class="btn calendar" (click)="dp.toggle()" type="button" [attr.aria-expanded]="dp.isOpen"><i class="fa fa-calendar"></i></button>
                                         </div>

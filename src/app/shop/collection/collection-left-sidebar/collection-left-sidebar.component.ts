@@ -59,12 +59,12 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
   
   destroyed = new Subject<any>();
 
-  bannerSrcset = '150w, 220w, 295w';
+  bannerSrcset = '';//'150w, 220w, 295w';
   bannerSizes = '20vw';
-  collectionBannerSrcset = '320w, 481w, 672w, 800w, 1000w, 1200w, 1370w'
+  collectionBannerSrcset = '';//'320w, 481w, 672w, 800w, 1000w, 1200w, 1370w'
   collectionBannerSizes = '60vw';
-  collectionSidebarBannerImg = environment.cloudinary ? environment.cloudinaryId + '/assets/images/collection-sidebar-banner.webp' : "assets/images/collection-sidebar-banner.webp";
-  collectionBannerImg = environment.cloudinary ? environment.cloudinaryId + '/assets/images/collection-banner.webp' : "assets/images/collection-banner.webp";
+  collectionSidebarBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-sidebar-banner.webp' : "assets/images/collection-sidebar-banner.webp";
+  collectionBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-banner.webp' : "assets/images/collection-banner.webp";
 
   modalLoadingRef?: BsModalRef;
   
@@ -124,7 +124,7 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
           imageUrl = imageUrl.replace('https', 'http');
         }
         let apiImageUrl = imageUrl + 'Content/images/products/';
-        let cloudinaryUrl = environment.cloudinaryId + '/Products/';
+        let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
         //  console.log(apiImageUrl);
         //  console.log(cloudinaryUrl);
 

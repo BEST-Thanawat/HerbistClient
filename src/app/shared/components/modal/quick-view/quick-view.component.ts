@@ -26,7 +26,7 @@ export class QuickViewComponent implements OnInit, OnDestroy {
   public modalOpen: boolean = false;
 
   modalRef?: BsModalRef;
-  srcset: string = '160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset: string = ''; //'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
   productSizes = '60vw';
 
   constructor(private appService: AppService, public productService: ProductService, private cartService: CartService, private modalService: BsModalService) { } 

@@ -31,7 +31,7 @@ export class CartComponent implements OnInit {
   public products: IProduct[] = [];
 
   sizes = '10vw';
-  srcset = '160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset = ''; //'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   constructor(private translate: TranslateService, private ccService: NgcCookieConsentService, private seoService: SeoService, public cartService: CartService, public productService: ProductService, private shopService: ShopService, private appService: AppService, private analyticsService: AnalyticsService) {
     this.cart$ = this.cartService.cart$.pipe(map((cart: ICart | any) => {

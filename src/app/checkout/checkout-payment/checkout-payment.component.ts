@@ -24,10 +24,12 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccordionItemDirective } from "../../shared/components/accordion/directives/accordion-item.directive";
 import { TextCreditcardComponent } from "../widgets/text-creditcard/text-creditcard.component";
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { AccordionContentDirective } from '../../shared/components/accordion/directives/accordion-content.directive';
 
 @Component({
   selector: 'app-checkout-payment',
-  imports: [ReactiveFormsModule, CommonModule, TranslateModule, AccordionComponent, AccordionItemDirective, TextCreditcardComponent],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule, AccordionComponent, AccordionItemDirective, TextCreditcardComponent, CdkStepperModule, AccordionContentDirective],
   templateUrl: './checkout-payment.component.html',
   styleUrls: ['./checkout-payment.component.scss']
 })

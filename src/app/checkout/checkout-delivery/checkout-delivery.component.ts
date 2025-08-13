@@ -9,10 +9,11 @@ import { ProductService } from '../../shared/services/product.service';
 import { ShopService } from '../../shared/services/shop.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-delivery',
-  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule, CdkStepperModule],
   templateUrl: './checkout-delivery.component.html',
   styleUrls: ['./checkout-delivery.component.scss']
 })

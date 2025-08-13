@@ -33,10 +33,11 @@ import { AccordionComponent } from "../../shared/components/accordion/accordion.
 import { AccordionItemDirective } from "../../shared/components/accordion/directives/accordion-item.directive";
 import { RelatedProductComponent } from "./widgets/related-product/related-product.component";
 import { TextInputComponent } from '../../shared/components/text-input/text-input.component';
+import { AccordionContentDirective } from '../../shared/components/accordion/directives/accordion-content.directive';
 
 @Component({
   selector: 'app-product-left-sidebar',
-  imports: [CommonModule, TranslateModule, TextInputComponent, ReactiveFormsModule, RouterModule, BreadcrumbComponent, CategoriesComponent, ServicesComponent, ProductBoxVerticalSliderComponent, CarouselModule, DiscountPipe, StockInventoryComponent, SocialComponent, AccordionComponent, AccordionItemDirective, RelatedProductComponent],
+  imports: [CommonModule, TranslateModule, AccordionContentDirective, TextInputComponent, ReactiveFormsModule, RouterModule, BreadcrumbComponent, CategoriesComponent, ServicesComponent, ProductBoxVerticalSliderComponent, CarouselModule, DiscountPipe, StockInventoryComponent, SocialComponent, AccordionComponent, AccordionItemDirective, RelatedProductComponent],
   templateUrl: './product-left-sidebar.component.html',
   styleUrls: ['./product-left-sidebar.component.scss'],
 })

@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
   searchImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/search.png' : "assets/images/icon/search.png";
   cartImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/cart.png' : "assets/images/icon/cart.png";
   sizes = '10vw';
-  srcset = '160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset = '';//'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   cart$!: Observable<ICart | null>;
   cartTotals$!: Observable<ICartTotals | null>;

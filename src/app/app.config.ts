@@ -42,10 +42,14 @@ import { ErrorInterceptor } from './shared/core/interceptors/error.interceptor';
 import { LoadingInterceptor } from './shared/core/interceptors/loading.interceptor';
 import { JwtInterceptor } from './shared/core/interceptors/jwt.interceptor';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { provideNgProgressOptions } from 'ngx-progressbar';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
 export function app_init(initialService: InitialService) {
   return () => initialService.initializeApp();
@@ -66,15 +70,47 @@ export function translate_init(
   };
 }
 
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'herbist.shop',
+    //"domain": "localhost"
+  },
+  position: 'bottom',
+  theme: 'classic',
+  palette: {
+    popup: {
+      background: '#565264',
+      text: '#ffffff',
+      link: '#ffffff',
+    },
+    button: {
+      background: '#ffffff',
+      text: '#000',
+      border: 'transparent',
+    },
+  },
+  type: 'info',
+  content: {
+    message:
+      'This website uses cookies to ensure you get the best experience on our website.',
+    dismiss: 'Got it!',
+    deny: 'Refuse cookies',
+    link: 'Learn more',
+    href: 'https://herbist.shop',
+    policy: 'Cookie Policy',
+  },
+};
+
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       BrowserModule,
-      BrowserAnimationsModule,
       CarouselModule,
-      ModalModule.forRoot()
+      ModalModule.forRoot(),
+      NgcCookieConsentModule.forRoot(cookieConfig)
     ),
     { provide: APP_ID, useValue: 'serverApp' },
+    provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),

@@ -11,12 +11,13 @@ import { OrderStatus } from '../../shared/classes/order';
 import { BreadcrumbComponent } from "../../shared/components/breadcrumb/breadcrumb.component";
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-success',
   templateUrl: './checkout-success.component.html',
   styleUrls: ['./checkout-success.component.scss'],
-  imports: [BreadcrumbComponent, CommonModule, TranslateModule, RouterModule]
+  imports: [BreadcrumbComponent, CommonModule, TranslateModule, RouterModule, CdkStepperModule]
 })
 export class CheckoutSuccessComponent implements OnInit, AfterViewInit{
   order!: IOrder;
@@ -27,7 +28,7 @@ export class CheckoutSuccessComponent implements OnInit, AfterViewInit{
   OrderStatus = OrderStatus;
 
   sizes = '10vw';
-  srcset = '160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset = '';//'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   constructor(private analyticsService: AnalyticsService, private router: Router, public productService: ProductService, private shopService: ShopService, private appService: AppService) {
     const navigation = this.router.getCurrentNavigation();
