@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">{{'Order Creation' | translate}}</h4>
+    <!-- <button type="button" class="btn-close" aria-describedby="modal-title" (click)="cancel()"></button> -->
+</div>
+<div class="modal-body">
+    <p>
+        <strong><span>{{'Are you sure to order' | translate}}?</span></strong>
+    </p>
+    <p> 
+        <span class="text-danger">{{'Please make payment' | translate}} {{'within 12 hrs otherwise this order will be canceled' | translate}} </span>
+    </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="decline()">{{'Cancel' | translate}}</button>
+    <button type="button" class="btn btn-danger" (click)="confirm()">{{'Submit Order' | translate}}</button>
+</div>

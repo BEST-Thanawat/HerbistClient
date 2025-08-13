@@ -1,0 +1,39 @@
+<div class="row mt-5">
+    <div class="col-lg-12 col-sm-12 col-xs-12" [formGroup]="checkoutForm!">
+        <div class="checkout-title">
+            <h3>{{'Shipping Details' | translate}}</h3>
+        </div>
+        <div class="row check-out" formGroupName="deliveryForm">
+            <div>
+                <!-- <div class="row" *ngIf="(cart$ | async) as cart">
+                    <div class="item shippingItem col-12">
+                        Shipping
+                    </div>
+                </div> -->
+                <div *ngIf="!deliveryMethods" class="delivery">
+                    <div>
+                        <label>{{'Please input Zipcode to see shipping options' | translate}}</label>
+                    </div>
+                </div>
+                <div *ngIf="(cart$ | async) as cart">
+                    <div *ngFor="let method of deliveryMethods">
+                        <div class="row shippingmethoditem">
+                            <div class="shopping-option radio-option col-8 shippingmethoditem">
+                                <input formControlName="shippingmethodid" style="margin-right: 8px; cursor: pointer;" (click)="setShippingPrice(method)" type="radio" id="{{ method.id }}" value="{{ method.id }}">
+                                <label for="{{ method.id }}" style="cursor: pointer;">{{ method.shortName }}</label>
+                            </div>
+                            <div class="col-4 priceitem">
+                                <label for="{{ method.id }}" style="cursor: pointer;">{{ method.total | currency:productService!.Currency!.currency:'symbol' }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+                                
+                <div class="float-none d-flex justify-content-between flex-column flex-lg-row mt-3">
+                    <button type="button" class="btn-solid btn" cdkStepperPrevious (click)="clearShippingMethod()"><i class="fa fa-angle-left"></i> {{'Back to Billing' | translate}}</button>
+                    <button type="button" [disabled]="checkoutForm!.get('deliveryForm')!.invalid" class="btn-solid btn" cdkStepperNext (click)="setShippingPriceAndMethodId()">{{'Go to Payment' | translate}} <i class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

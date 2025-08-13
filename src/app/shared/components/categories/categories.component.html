@@ -1,0 +1,36 @@
+<!-- Start Categories List -->
+<div class="collection-collapse-block border-0" [class.open]="collapse">
+    <h3 class="collapse-block-title" (click)="collapse = !collapse">{{'Category' | translate}}</h3>
+    <div class="collection-collapse-block-content">
+        <div class="collection-brand-filter">
+            <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let type of this.categories; let i=index">
+                <input #categories_checkboxes
+                    type="checkbox" 
+                    [value]="type.name" 
+                    [id]="9000+type.id" 
+                    (change)="appliedFilter($event)"
+                    [checked]="checked(9000 + type.id)"
+                    class="custom-control-input" />
+                    <label class="custom-control-label" for="{{ 9000+type.id }}">{{ type.name | translate }}</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- [checked]="checked(9000+type.id)" -->
+<!-- End Categories List -->
+
+<!-- Start Categories List 
+<div class="collection-collapse-block border-0" [class.open]="collapse">
+    <h3 class="collapse-block-title" (click)="collapse = !collapse">Category</h3>
+    <div class="collection-collapse-block-content">
+        <div class="collection-brand-filter">
+            <ul class="category-list">
+                <li *ngFor="let type of this.types" [value]="type.id" (click)="onTypeSelected(type.id)">
+                    <a href="javascript:void(0)">{{ type.name }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>-->
+<!-- End Categories List -->

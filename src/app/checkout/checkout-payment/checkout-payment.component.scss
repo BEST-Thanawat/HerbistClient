@@ -1,0 +1,73 @@
+.paymentmethoditem {
+    font-size: 16px;
+}
+
+// .btn-solid {
+//     margin-bottom: 10px;
+// }
+
+input[type=radio] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #fff;
+    /* this is needed for iOS. Otherwise the background just becomes black. */
+    border: 1px solid #565264;
+    height: 1.4em;
+    width: 1.4em;
+    display: inline-block;
+    border-radius: 100%;
+    vertical-align: middle;
+    position: relative;
+
+    &[disabled],
+    &[aria-disabled=true] {
+        opacity: .4;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        top: 0;
+    }
+
+    // &:focus {
+    // 	outline: 2px solid;
+    // 	outline-offset: 2px;
+    // }
+}
+
+input[type=radio]::before {
+    height: 0;
+    width: 0;
+}
+
+input[type=radio]:checked::before {
+    border: 6px solid transparent;
+    border-radius: 100%;
+    outline-offset: -6px;
+    background: #565264;
+}
+
+
+
+.input-group-btn.input-space {
+    padding-left: 15px;
+}
+
+.input-group .btn {
+    height: calc(3.5rem + 2px);
+}
+
+.invalid-feedback {
+    display: block;
+    //top: 55px;
+}
+
+.valid-feedback {
+    display: block;
+}

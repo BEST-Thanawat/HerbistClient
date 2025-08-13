@@ -1,0 +1,152 @@
+<!--footer section -->
+<footer [class]="class">
+	<div class="light-layout" *ngIf="newsletter">
+		<div class="container">
+			<section class="small-section border-section border-top-0">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="subscribe">
+							<div>
+								<h4>{{'KNOW IT ALL FIRST' | translate}}</h4>
+								<p>{{'Never Miss Anything From Herbist By Signing Up To Our Newsletter' | translate}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-12">
+						<form class="form-inline subscribe-form" [formGroup]="subscribeForm!" (ngSubmit)="onSubmit()">
+							<div class="input-group center-memail">
+								<app-text-input formControlName="email" [label]="'Email'"></app-text-input>
+								<span class="input-group-btn input-space">
+									<button type="submit" class="btn btn-solid ml-2" [disabled]="subscribeForm!.invalid">{{'Subscribe' | translate}}</button>
+							 	</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<section class="section-b-space light-layout">
+		<div class="container">
+			<div class="row footer-theme partition-f">
+				<div class="col-lg-6 col-md-6">
+					<div class="footer-title footer-mobile-title">
+						<h4>{{'About' | translate}}</h4>
+					</div>
+					<div class="footer-contant">
+						<div class="footer-logo">
+							<img [src]="themeLogo" alt="logo" width="167" height="34">
+						</div>
+
+						<p>{{'We aimed to import seeds, especially herbs, flowers, and vegetables. We offer only non-GMO varieties that are very special for home gardeners. With more than 200 varieties, all seeds are new and fresh with a high germination rate. This seed line is our selection of new, exciting, and unusual seed choices of time-tested heirlooms, certified organic seeds, the best international hybrids, and fine open-pollinated varieties' | translate}}</p>
+						<div class="footer-social">
+                            <ul>
+                                <li>
+                                    <a href="https://www.facebook.com/herbist.primed.rosemary/" aria-label="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                </li>
+								<li>
+                                    <a href="https://www.instagram.com/rosemary.herbist/" aria-label="instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                </li>
+								<li style="vertical-align:top;">
+									<a href="https://line.me/R/ti/p/@herbist" aria-label="line"><i class="flag:LINE" style="width: 20px;" aria-hidden="true"></i></a>
+									<!-- <a href="https://line.me/R/ti/p/@herbist" aria-label="line"><fa-icon [icon]="faLine" size="lg" [styles]="{'stroke': 'black', 'color': 'black'}" aria-hidden="true"></fa-icon></a> -->
+								</li>
+                                <!-- <li>
+                                    <a href="javascript:void(0)"><i class="fa fa-google-plus" aria-hidden="true"></i></a>                 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                </li> -->
+                                
+                                <!-- <li>
+                                    <a href="javascript:void(0)"><i class="fa fa-rss" aria-hidden="true"></i></a>
+                                </li> -->
+                            </ul>
+                        </div>
+					</div>
+				</div>
+				<!-- <div class="col offset-xl-1">
+					<div class="sub-title">
+						<div class="footer-title">
+                            <h4>Categories</h4>
+                        </div>
+                        <div class="footer-contant">
+                            <ul>
+                                <li><a href="javascript:void(0)">Womens Fashion</a></li>
+                                <li><a href="javascript:void(0)">Mens Fashion</a></li>
+                                <li><a href="javascript:void(0)">Kids Fashion</a></li>
+                                <li><a href="javascript:void(0)">Featured</a></li>
+                            </ul>
+                        </div>
+					</div>
+				</div> -->
+				<div class="col">
+					<!-- <div class="sub-title">
+						<div class="footer-title">
+                            <h4>why we choose</h4>
+                        </div>
+                        <div class="footer-contant">
+                            <ul>
+                                <li><a href="javascript:void(0)">shipping & return</a></li>
+                                <li><a href="javascript:void(0)">secure shopping</a></li>
+                                <li><a href="javascript:void(0)">gallary</a></li>
+                                <li><a href="javascript:void(0)">affiliates</a></li>
+                                <li><a href="javascript:void(0)">contacts</a></li>
+                            </ul>
+                        </div>
+					</div> -->
+				</div>
+				<div class="col">
+					<div class="sub-title">
+						<div class="footer-title">
+						    <h4>{{'Store information' | translate}}</h4>
+						</div>
+						<div class="footer-contant">
+						    <ul class="contact-list">
+						        <li><i class="fa fa-map-marker"></i>{{'Bangkhuntien Bangkok, THAILAND' | translate}}</li>
+						        <!-- <li><i class="fa fa-phone"></i>Call Us: 123-456-7898</li> -->
+						        <li><i class="fa fa-envelope-o"></i>{{'Email' | translate}}: <span>herbist.th&#64;gmail.com</span></li>
+						        <!-- <li><i class="fa fa-fax"></i>LINE: @herbist</li> -->
+						    </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="sub-footer">
+		<div class="container">
+			<div class="row">
+                <div class="col-xl-6 col-md-6 col-sm-12">
+                  <div class="footer-end">
+                    <p><i class="fa fa-copyright" aria-hidden="true"></i> {{ today | date:'y'}} {{'Herbist All rights reserved' | translate}}</p>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-md-6 col-sm-12" (Lazyimg)="this.showImg=true">
+                  <div class="payment-card-bottom">
+                    <ul>
+						<li>
+							<a href="https://www.trustmarkthai.com/callbackData/popup.php?data=c495e-24-6-ff16efd89f9f9a83d85125613ced973d8e8a09a03&markID=firstmark" aria-label="trustmarkthai" target="_blank">
+								<img [src]="this.dbd" alt="trustmarkthai" width="272" height="57">
+							</a>
+						</li>
+                      <!-- <li>
+                        <a><img src="assets/images/icon/mastercard.png" alt=""></a>
+                      </li>
+                      <li>
+                        <a><img src="assets/images/icon/paypal.png" alt=""></a>
+                      </li>
+                      <li>
+                        <a><img src="assets/images/icon/american-express.png" alt=""></a>
+                      </li>
+                      <li>
+                        <a><img src="assets/images/icon/discover.png" alt=""></a>
+                      </li> -->
+                    </ul>
+                  </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</footer>
+<!--footer section end -->

@@ -1,0 +1,204 @@
+<app-breadcrumb
+  [title]="'Collection'"
+  [breadcrumb]="'Collection'"
+></app-breadcrumb>
+<!-- section start -->
+<section class="section-b-space">
+  <div class="collection-wrapper">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-sm-3 mobileSidenav"
+          [class.openSide]="this.mobileSideBar"
+        >
+          <span
+            href="javascript:void(0)"
+            class="overlay"
+            (click)="toggleMobileSidebar()"
+          ></span>
+          <div
+            class="collection-filter"
+            [class.openFilterbar]="this.mobileSideBar"
+          >
+            <div class="collection-filter-block">
+              <div
+                class="collection-mobile-back"
+                (click)="toggleMobileSidebar()"
+              >
+                <span class="filter-back">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  {{ "Back" | translate }}
+                </span>
+              </div>
+              <app-categories
+                (categoriesFilter)="updateCategories($event)"
+              ></app-categories>
+            </div>
+            <div class="collection-filter-block">
+              <app-brands
+                [allBrands]="allBrands!"
+                [resetBrand]="resetBrand"
+                (brandsFilter)="updateBrand($event)"
+              >
+              </app-brands>
+              <app-tags
+                [allTags]="allTags!"
+                [resetTag]="resetTag"
+                (tagsFilter)="updateTags($event)"
+              >
+              </app-tags>
+            </div>
+            <app-product-box-vertical-slider
+              [title]="'New products'"
+            ></app-product-box-vertical-slider>
+            <div class="collection-sidebar-banner">
+              <a [routerLink]="['/blog/all']">
+                <img
+                  [src]="this.collectionSidebarBannerImg"
+                  [attr.srcset]="this.bannerSrcset"
+                  sizes="{{ this.bannerSizes }}"
+                  width="295"
+                  height="446"
+                  class="img-fluid"
+                  alt="banner"
+                />
+              </a>
+            </div>
+            <!-- side-bar banner end here -->
+          </div>
+        </div>
+        <div class="collection-content col">
+          <div class="page-main-content">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="top-banner-wrapper">
+                  <span
+                    [routerLink]="['/shop/collection/left/sidebar']"
+                    class="spanbtn"
+                  >
+                    <img
+                      [src]="this.collectionBannerImg"
+                      [attr.srcset]="this.collectionBannerSrcset"
+                      sizes="{{ this.collectionBannerSizes }}"
+                      width="1370"
+                      height="385"
+                      class="img-fluid"
+                      alt="banner"
+                      priority
+                    />
+                  </span>
+                  <div class="top-banner-content small-section">
+                    <h4>{{ "Imported Seeds" | translate }}</h4>
+                    <h5>
+                      {{
+                        "The best imported seeds such as herbs, vegetable, and flowers seeds have selected for customers to choose from."
+                          | translate
+                      }}
+                    </h5>
+                    <p>
+                      {{
+                        "Herbist seeds are available in a wide varieties. A ready-made packet from Renee's Garden, which is fresh and high standard. Including the results from the cultivation of excellent herbs and vegetables, Herbist (เฮิบบิสท์) dares to guarantee customer satisfaction."
+                          | translate
+                      }}
+                    </p>
+                  </div>
+                </div>
+                <ul class="product-filter-tags">
+                  <li class="me-1" *ngFor="let brand of brands">
+                    <a href="javascript:void(0)" class="filter_tag">
+                      {{ brand }}
+                      <i class="ti-close" (click)="removeBrand(brand)"></i>
+                    </a>
+                  </li>
+                  <li class="me-1" *ngFor="let tag of tags">
+                    <a href="javascript:void(0)" class="filter_tag">
+                      {{ tag }}
+                      <i class="ti-close" (click)="removeTag(tag)"></i>
+                    </a>
+                  </li>
+
+                  @if(tags.length > 0) {
+                  <li class="clear_filter">
+                    <a
+                      href="javascript:void(0)"
+                      class="clear_filter"
+                      (click)="removeAllTags()"
+                    >
+                      {{ "Clear all" | translate }}
+                    </a>
+                  </li>
+                  }
+                </ul>
+                <div class="collection-product-wrapper" id="products">
+                  <app-grid
+                    [products]="products"
+                    [paginate]="paginate"
+                    [layoutView]="layoutView"
+                    [sortBy]="sortBy"
+                    (setGrid)="updateGridLayout($event)"
+                    (setLayout)="updateLayoutView($event)"
+                    (sortedBy)="sortByFilter($event)"
+                  >
+                  </app-grid>
+                  <div class="product-wrapper-grid" [ngClass]="layoutView">
+                    <div class="row">
+                      <div
+                        class="col-grid-box"
+                        [ngClass]="grid"
+                        *ngFor="let product of products"
+                      >
+                        <div tabindex="0" class="product-box">
+                          <app-product-box-one
+                            [product]="product"
+                            [currency]="productService!.Currency"
+                            [thumbnail]="false"
+                            [cartModal]="false"
+                          >
+                          </app-product-box-one>
+                        </div>
+                      </div>
+                      @if(!products.length) {
+                      <div
+                        class="col-sm-12 text-center section-b-space mt-5 no-found"
+                      >
+                        <img
+                          src="assets/images/empty-search.jpg"
+                          class="img-fluid mb-4"
+                        />
+                        <h3>
+                          {{
+                            "Sorry! Couldn't find the product you were looking For!!!"
+                              | translate
+                          }}
+                        </h3>
+                        <p>
+                          {{
+                            "Please check if you have misspelt something or try searching with other words"
+                              | translate
+                          }}
+                        </p>
+                        <a
+                          (click)="reloadCurrentPage()"
+                          class="btn btn-solid"
+                          >{{ "Continue Shopping" | translate }}</a
+                        >
+                      </div>
+                      }
+                    </div>
+                  </div>
+                  <app-pagination
+                    [products]="products"
+                    [paginate]="paginate"
+                    (setPage)="setPage($event)"
+                  >
+                  </app-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- section End -->

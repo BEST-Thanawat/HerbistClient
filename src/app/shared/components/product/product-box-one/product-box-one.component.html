@@ -1,0 +1,137 @@
+<div (Lazyimg)="this.showImg = true">
+  <div class="img-wrapper">
+    <div class="lable-block">
+      @if(product!.isNew) {
+      <span class="lable3">{{ "New" | translate }}</span>
+      } @if(product!.sale && product!.stock != 0) {
+      <span class="lable4"
+        ><i class="fa fa-tag"></i> {{ "On Sale" | translate }}</span
+      >
+      } @if(product!.stock == 0) {
+      <span class="lable5">{{ "Out of Stock" | translate }}</span>
+      }
+    </div>
+    <div class="front" [ngClass]="product!.stock == 0 ? 'outofstock' : ''">
+      <a
+        [routerLink]="['/shop/product/', product!.id]"
+        [attr.aria-label]="product?.name"
+      >
+        @if(this.showImg) {
+          <img
+            [src]="ImageSrc ? ImageSrc : product!.images[0].src!"
+            width="1280"
+            height="1588"
+            [attr.srcset]="srcset"
+            sizes="{{ this.sizes !== '' ? this.sizes : this.productSizes }}"
+            class="img-fluid lazy-loading"
+            alt="{{ product!.images[0].alt }}"
+          />
+        }
+      </a>
+    </div>
+    <!-- <div class="front" (Lazyimg)="this.showImg=true" [ngClass]="product!.stock == 0 ? 'outofstock' : ''">
+      <a [routerLink]="['/shop/product/', product!.id]"  [attr.aria-label]="product?.name">
+        <img *ngIf="this.showImg"
+          [defaultImage]="ImageSrc ? ImageSrc : 'assets/images/product/placeholder.jpg'"
+          [lazyLoad]="ImageSrc ? ImageSrc : product!.images[0].src!"
+          class="img-fluid lazy-loading" 
+          alt="{{ product!.images[0].alt }}" />
+      </a>
+    </div> -->
+    <!-- <div class="back" *ngIf="onHowerChangeImage">
+      <a [routerLink]="['/shop/product/', product!.id]">
+        <img [src]="ImageSrc ? ImageSrc : product!.images[1].src" class="img-fluid lazy-loading" alt="{{ product!.images[1].alt }}">
+      </a>
+    </div> -->
+    <!-- <ul class="product-thumb-list" *ngIf="thumbnail">
+      <li class="grid_thumb_img" [class.active]="ImageSrc == image.src" *ngFor="let image of product!.images">
+        <a href="javascript:void(0)" (mouseover)="ChangeVariantsImage(image.src)">
+          <img [lazyLoad]="image.src!">
+        </a>
+      </li>
+    </ul> -->
+    <div tabindex="0" class="cart-info cart-wrap">
+      @if(!cartModal) {
+      <span
+        tabindex="0"
+        class="test"
+        title="{{ 'Add to Cart' | translate }}"
+        (click)="addToCart(product)"
+        [class.disabled]="product!.stock == 0"
+      >
+        <i class="ti-shopping-cart"></i>
+      </span>
+      }
+
+      <span
+        tabindex="0"
+        class="test"
+        title="{{ 'Quick View' | translate }}"
+        (click)="QuickView!.openModal()"
+      >
+        <i class="ti-search" aria-hidden="true"></i>
+      </span>
+      <!-- <a tabindex="0" href="javascript:void(0)" title="{{'Add to Cart' | translate}}" (click)="addToCart(product)" [class.disabled]="product!.stock == 0" *ngIf="!cartModal">
+        <i class="ti-shopping-cart"></i>
+      </a>
+      <a tabindex="0" href="javascript:void(0)" title="{{'Quick View' | translate}}" (click)="QuickView!.openModal()">
+        <i class="ti-search" aria-hidden="true"></i>
+      </a> -->
+      <!-- <a href="javascript:void(0)" title="Add to Wishlist" (click)="addToWishlist(product)">
+        <i class="ti-heart" aria-hidden="true"></i>
+      </a> -->
+      <!-- <a href="javascript:void(0)" title="Compare" (click)="addToCompare(product)">
+        <i class="ti-reload" aria-hidden="true"></i>
+      </a> -->
+    </div>
+  </div>
+  <div class="product-detail">
+    <div>
+      <!-- <bar-rating [rate]="this.rating" [readOnly]="true" *ngIf="this.rating !== 0"></bar-rating> -->
+      @if(this.rating !== 0) {
+      <ul class="rating-score" [attr.data-rating]="this.rating">
+        <li class="rating-score-item"></li>
+        <li class="rating-score-item"></li>
+        <li class="rating-score-item"></li>
+        <li class="rating-score-item"></li>
+        <li class="rating-score-item"></li>
+      </ul>
+      }
+
+      <a [routerLink]="['/shop/product/', product!.id]">
+        <h3>{{ product?.name | titlecase }}</h3>
+      </a>
+      <p>{{ product?.description }}</p>
+      <h4>
+        {{
+          product!.price! * currency.price!
+            | discount : product
+            | currency : currency?.currency : "symbol"
+        }}
+        @if(product?.discount) {
+        <del
+          ><span class="money">
+            {{
+              product!.price! * currency!.price!
+                | currency : currency.currency : "symbol"
+            }}</span
+          ></del
+        >
+        }
+      </h4>
+      <!-- <ul class="color-variant" *ngIf="Color(product?.variants).length">
+        <li [class]="color" *ngFor="let color of Color(product?.variants)" [ngStyle]="{'background-color': color}"
+          (click)="ChangeVariants(color, product)">
+        </li>
+      </ul> -->
+    </div>
+  </div>
+</div>
+<!-- <app-skeleton-product-box *ngIf="loader"></app-skeleton-product-box> -->
+<!-- <app-cart-modal #cartModal [product]="product!" [currency]="currency" *ngIf="cartModal"></app-cart-modal> -->
+
+<app-quick-view
+  #quickView
+  [product]="product!"
+  [currency]="currency"
+></app-quick-view>

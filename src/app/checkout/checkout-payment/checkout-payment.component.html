@@ -1,0 +1,97 @@
+<form [formGroup]="checkoutForm" autocomplete="off">
+    <div class="row mt-5">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="checkout-title">
+                <h3>{{'Coupon Code' | translate}}</h3>
+            </div>
+            <div class="mb-3">
+                <app-accordion [collapsing]="collapsing" #couponAccordion>
+                    <accordion-item title="{{'Do you have a coupon code?' | translate}}" [expanded]="false" class="customCoupon">
+                            <ng-template accordionContent>
+                                <div style="padding: 20px;">
+                                    <div class="input-group" formGroupName="paymentForm">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" style="text-transform: uppercase;"
+                                                id="coupon" placeholder="{{'Coupon Code' | translate}}"
+                                                formControlName="couponCode" (input)="onChange($any($event.target).value)"
+                                                (blur)="onBlur()" (keyup)="changes($event)"
+                                                [ngClass]="(checkoutForm.get('paymentForm')?.get('couponCode') && checkoutForm.get('paymentForm')?.get('couponCode')?.touched) ? !isValid ? 'is-invalid' : 'is-valid' : null">
+                                            <label for="coupon">{{'Coupon Code' | translate}}</label>
+                                        </div>
+                                        <button type="button" (click)="applyCoupon()" class="btn btn-solid ml-2 setheight"
+                                            [disabled]="!isValid">{{'Apply' | translate}}</button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <span
+                                            *ngIf="(checkoutForm.get('paymentForm')?.get('couponCode') && !isValid && checkoutForm.get('paymentForm')?.get('couponCode')!.touched)">{{'Coupon code is between 8-12 characters long' | translate}}</span>
+                                        <span *ngIf="couponError">{{couponErrorMessage | translate}}</span>
+                                    </div>
+                                    <div class="valid-feedback" style="text-transform: uppercase;">
+                                        <span *ngIf="usedCoupon">{{'Coupon Applied' | translate}} {{couponDesc |
+                                            translate}}</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                    </accordion-item>
+                </app-accordion>
+            </div>
+            
+
+            <!-- <accordion [isAnimated]="true">
+                <accordion-group #couponAccordion heading="{{'Do you have a coupon code?' | translate}}" class="customCoupon">
+                    <div class="input-group" formGroupName="paymentForm">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" style="text-transform: uppercase;" id="coupon" placeholder="{{'Coupon Code' | translate}}" formControlName="couponCode"
+                            (input)="onChange($any($event.target).value)" (blur)="onBlur()" (keyup)="changes($event)"
+                            [ngClass]="(checkoutForm.get('paymentForm')?.get('couponCode') && checkoutForm.get('paymentForm')?.get('couponCode')?.touched) ? !isValid ? 'is-invalid' : 'is-valid' : null">
+                            <label for="coupon">{{'Coupon Code' | translate}}</label>
+                        </div>
+                        <button type="button" (click)="applyCoupon()" class="btn btn-solid ml-2 setheight" [disabled]="!isValid">{{'Apply' | translate}}</button>
+                    </div>
+                    <div class="invalid-feedback">
+                        <span *ngIf="(checkoutForm.get('paymentForm')?.get('couponCode') && !isValid && checkoutForm.get('paymentForm')?.get('couponCode')!.touched)">{{'Coupon code is between 8-12 characters long' | translate}}</span>
+                        <span *ngIf="couponError">{{couponErrorMessage | translate}}</span>
+                    </div>
+                    <div class="valid-feedback" style="text-transform: uppercase;">
+                        <span *ngIf="usedCoupon">{{'Coupon Applied' | translate}} {{couponDesc | translate}}</span>
+                    </div>      
+                </accordion-group>
+            </accordion> -->
+
+            <div class="checkout-title">
+                <h3>{{'Payment Details' | translate}}</h3>
+            </div>
+            <div class="row" formGroupName="paymentForm">
+                <div *ngFor="let method of this.paymentMethods">
+                    <div class="row paymentmethoditem mb-3">
+                        <div class="radio-option col-8">
+                            <input formControlName="paymentmethodid" style="margin-right: 8px; cursor: pointer;"
+                                (click)="setPaymentMethod(method.id)" type="radio" id="{{method.id}}"
+                                value="{{method.id}}">
+                            <label for="{{method.id}}" style="cursor: pointer;">{{method.shortName | translate}}</label>
+                        </div>
+                        <div><label for="{{method.id}}" style="cursor: pointer;">{{method.description |
+                                translate}}</label></div>
+                        <div class="image"><img [src]="method.pictureUrl"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" [hidden]="paymentMethodsId == 2 ? false: true">
+                <app-text-creditcard [checkoutForm]="checkoutForm" [paymentMethodsId]="paymentMethodsId!"
+                    (stripeInstance)="getStripeInstance($event)" (ccNumber)="getCCNumber($event)"></app-text-creditcard>
+            </div>
+
+            <div class="float-none d-flex justify-content-between flex-column flex-lg-row mt-3">
+                <button class="btn-solid btn mb-2" cdkStepperPrevious (click)="clearPaymentMethod()"><i
+                        class="fa fa-angle-left"></i> {{'Back to Shipping' | translate}}</button>
+                <button type="submit"
+                    [disabled]="this.paymentMethodsId == 1 ? false : this.paymentMethodsId == 0 || this.paymentMethodsId == null ? true : !(shopService.getCardValidated() | async)"
+                    class="btn-solid btn" (click)="submitOrder()" *ngIf="payment == 'direct_transfer'">{{'Place Order' |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- loading || checkoutForm.get('paymentForm')!.invalid || !cardValidated -->

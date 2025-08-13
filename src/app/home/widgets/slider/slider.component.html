@@ -1,0 +1,77 @@
+<owl-carousel-o
+  [options]="HomeSliderConfig"
+  class="home-slider"
+  [ngClass]="class"
+>
+  @for (slider of sliders; track $index) {
+  <ng-container>
+    <ng-template carouselSlide>
+      <!-- <div class="home" [ngClass]="textClass" [ngStyle]="{'background-image': 'url('+slider.image+')'}"> -->
+      <!-- <div class="home" [ngClass]="textClass" [ngStyle]="{'background-image': 'image-set(' + slider.image + ')'}">
+	      <div class="container">
+	        <div class="row">
+	          <div class="col">
+	            <div class="slider-contain">
+	              <div>
+	                <h1>{{slider.subTitle | translate}}</h1>
+	                <h2 [ngClass]="slider.isSale ? 'sale' : ''" class="addtopmargin">{{slider.title | translate}}</h2>
+	                <h2>{{slider.description | translate}}</h2>
+	                <a [routerLink]="slider.link" class="btn btn-solid" [ngClass]="buttonClass">
+	                   {{buttonText! | translate}}
+	                </a>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div> -->
+
+      <div class="home" [ngClass]="textClass">
+        <picture>
+          <!-- <source srcset="{{slider.fullURL}}" type="image/webp"> -->
+          <img
+            priority
+            [src]="slider.fullURL"
+            [attr.secret]="slider.secret"
+            sizes="{{ slider.sizes }}"
+            width="1920"
+            height="718"
+            alt="{{ slider.title }}"
+            style="
+              position: absolute;
+              object-fit: cover;
+              background-repeat: no-repeat;
+              background-position: center;
+            "
+          />
+        </picture>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="slider-contain">
+                <div style="z-index: 99">
+                  <h1>{{ slider.subTitle | translate }}</h1>
+                  <h2
+                    [ngClass]="slider.isSale ? 'sale' : ''"
+                    class="addtopmargin"
+                  >
+                    {{ slider.title | translate }}
+                  </h2>
+                  <h2>{{ slider.description | translate }}</h2>
+                  <a
+                    [routerLink]="slider.link"
+                    class="btn btn-solid"
+                    [ngClass]="buttonClass"
+                  >
+                    {{ buttonText! | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  }
+</owl-carousel-o>

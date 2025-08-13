@@ -1,0 +1,18 @@
+<div class="collection-collapse-block" [class.open]="collapse" *ngIf="allBrands">
+  <h3 class="collapse-block-title" (click)="collapse = !collapse">{{'Brand' | translate}}</h3>
+  <div class="collection-collapse-block-content">
+    <div class="collection-brand-filter">
+      <div class="custom-control custom-checkbox collection-filter-checkbox" 
+        *ngFor="let brand of allBrands; let i = index">
+        <input #brands_checkboxes
+          type="checkbox" 
+          [value]="brand.name" 
+          [id]="brand.id" 
+          (change)="appliedFilter($event)"
+          [checked]="checked(brand.id)"
+          class="custom-control-input" />
+        <label class="custom-control-label" for="{{ brand.id }}">{{ brand.name | translate }}</label>
+      </div>
+    </div>
+  </div>
+</div>

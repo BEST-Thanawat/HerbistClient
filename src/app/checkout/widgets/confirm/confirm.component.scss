@@ -1,0 +1,16 @@
+.modal-footer {
+    border-top: solid #ffffff;
+}
+.modal-header {
+    border-bottom: solid #565264;
+}
+.btn-outline-secondary {
+    --bs-btn-hover-bg: #565264;
+    --bs-btn-hover-border-color: #565264;
+}
+.btn-danger {
+    --bs-btn-bg: #565264;
+    --bs-btn-border-color: #565264;
+    --bs-btn-hover-bg: #ff4c3b;
+    --bs-btn-hover-border-color: #ff4c3b;
+}

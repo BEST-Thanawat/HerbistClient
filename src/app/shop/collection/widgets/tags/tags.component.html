@@ -1,0 +1,18 @@
+<div class="collection-collapse-block" [class.open]="collapse" *ngIf="allTags">
+    <h3 class="collapse-block-title" (click)="collapse = !collapse">{{'Tag' | translate}}</h3>
+    <div class="collection-collapse-block-content">
+      <div class="collection-brand-filter">
+        <div class="custom-control custom-checkbox collection-filter-checkbox" 
+          *ngFor="let tag of allTags; let i = index">
+          <input #tags_checkboxes
+            type="checkbox" 
+            [value]="tag"
+            [checked]="checked(tag)"
+            [id]="tag" 
+            (change)="appliedFilter($event)" 
+            class="custom-control-input" /> <!--[checked]="checked(tag)" -->
+          <label class="custom-control-label" for="{{ tag }}">{{ tag | translate}}</label>
+        </div>
+      </div>
+    </div>
+  </div>

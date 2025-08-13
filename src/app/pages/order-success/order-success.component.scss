@@ -1,0 +1,32 @@
+// .product-order .product-order-detail img {
+//     height: 80px;
+//     width: auto;
+// }
+
+.product-order-detail {
+    h4 {
+        margin-bottom: 5px;
+        text-transform: capitalize;
+        font-weight: 700;
+    }
+}
+
+.summary-sec {
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+
+    h2,
+    h3 {
+        color: #000000;
+        text-transform: capitalize;
+    }
+}
+
+.payment-desc {
+    text-transform: capitalize;
+}
+
+.cfpayment-center {
+    display: flex;
+}

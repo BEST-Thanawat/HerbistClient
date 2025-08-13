@@ -1,0 +1,14 @@
+{
+  "printWidth": 8000,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": true,
+  "bracketSameLine": true,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
+}

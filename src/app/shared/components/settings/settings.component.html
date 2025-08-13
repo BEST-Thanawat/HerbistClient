@@ -1,0 +1,214 @@
+<div class="icon-nav">
+  <ul>
+    <li class="onhover-div mobile-search search-widgets" id="search-widgets">
+      <div (click)="searchToggle()">
+        <img
+          [src]="searchImg"
+          class="img-fluid"
+          alt=""
+          width="23"
+          height="23"
+        />
+        <!-- <img [lazyLoad]="searchImg" class="img-fluid" alt="" width="23px" height="23px"> -->
+        <!-- <img src="assets/images/icon/search.png" class="img-fluid" alt="" width="23px" height="23px"> -->
+        <i class="ti-search"></i>
+      </div>
+      <div
+        id="search-overlay"
+        class="search-overlay"
+        [style]="{ display: search ? 'block' : 'none' }"
+      >
+        <div>
+          <span class="closebtn" title="Close Overlay" (click)="searchToggle()"
+            >×</span
+          >
+          <div class="overlay-content">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-12">
+                  <form [formGroup]="searchForm!" (ngSubmit)="onSubmit()">
+                    <!-- <div class="form-group">
+                      <input type="text" class="form-control" id="exampleInputPassword1" formControlName="search" placeholder="{{'Search a Product' | translate}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button> -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="exampleInputPassword1"
+                          formControlName="search"
+                          placeholder="{{ 'Search a Product' | translate }}"
+                        />
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="onhover-div mobile-setting">
+      <div tabindex="0">
+        <span
+          class="flag:GLOBE img-fluid"
+          style="
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            cursor: pointer;
+          "
+          alt="setting"
+        ></span>
+        <!-- <i class="globe"></i> -->
+        <!-- <i class="flag:GLOBE img-fluid" style="cursor: pointer;" alt="setting" aria-label="setting"></i> -->
+        <!-- <fa-icon [icon]="faGlobe" aria-hidden="true" class="img-fluid theme-default-color fa-xl" style="cursor: pointer;" alt="setting" aria-label="setting"></fa-icon> -->
+        <!-- <img src="assets/images/icon/setting.png" class="img-fluid" alt="setting"> -->
+        <i class="ti-world"></i>
+        <!-- <i><fa-icon [icon]="faLanguage" class="theme-mobile-default-color fa-lg" alt="setting"></fa-icon></i> -->
+      </div>
+      <!-- <div><img src="assets/images/icon/setting.png" class="img-fluid" alt="setting">
+        <i class="ti-settings"></i>
+      </div> -->
+      <div class="show-div setting">
+        <h6>{{ "Language" | translate }}</h6>
+        <ul>
+          @for (language of languages; track $index) {
+          <li>
+            <span
+              style="cursor: pointer; font-size: 16px"
+              (click)="changeLanguage(language.code)"
+            >
+              <span
+                class="{{ language.class }}"
+                style="margin-right: 5px"
+              ></span>
+              {{ language.name | translate }}
+            </span>
+            <!-- <a href="javascript:void(0)" (click)="changeLanguage(language.code)"><span class="{{language.class}}"
+                style="margin-right: 5px;"></span>{{ language.name | translate}}</a> -->
+          </li>
+          }
+        </ul>
+        <!-- <h6>currency</h6>
+        <ul class="list-inline">
+          <li *ngFor="let currency of currencies">
+            <a href="javascript:void(0)" (click)="changeCurrency(currency)">{{ currency.name }}</a>
+          </li>
+        </ul> -->
+      </div>
+    </li>
+    <li class="onhover-div mobile-cart">
+      <div>
+        <a [routerLink]="['/shop/cart']" aria-label="cart">
+          <img
+            [src]="cartImg"
+            class="img-fluid"
+            alt="cart"
+            aria-label="cart"
+            width="23"
+            height="23"
+          />
+          <!-- <img [lazyLoad]="cartImg" class="img-fluid" alt="cart" aria-label="cart" width="23px" height="23px"> -->
+          <i class="ti-shopping-cart"></i>
+          <span class="cart_qty_cls" *ngIf="cart$ | async as cart">{{
+            (cart$ | async)!.items | sum : "quantity"
+          }}</span>
+        </a>
+      </div>
+      <ul class="show-div shopping-cart" *ngIf="cart$ | async as cart">
+        <h5>{{ "Your cart is currently empty" | translate }}</h5>
+      </ul>
+      <ul class="show-div shopping-cart" *ngIf="cart$ | async as cart">
+        <li *ngFor="let product of cart.items">
+          <div class="media">
+            <a [routerLink]="['/shop/product/', product.id]">
+              <!-- width="auto" height="90px"   -->
+              <img
+                class="me-3"
+                [src]="product!.pictureUrl!"
+                [attr.srcset]="this.srcset"
+                alt="{{ product.productName }}"
+                sizes="{{ this.sizes }}"
+                [alt]="product!.productName"
+                width="1280"
+                height="1588"
+              />
+            </a>
+            <div class="media-body">
+              <a [routerLink]="['/shop/product/', product.id]">
+                <h4>{{ product!.productName }}</h4>
+              </a>
+              <h4>
+                <span>
+                  {{ product!.quantity }} x
+                  {{
+                    product.price *
+                      product.quantity *
+                      productService!.Currency.price
+                      | currency : productService!.Currency.currency : "symbol"
+                  }}
+                  <!-- {{ product!.price * productService!.Currency.price | discount:product | currency:productService!.Currency.currency:'symbol' }} -->
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div class="close-circle" (click)="removeItem(product)">
+            <span class="spanbtn"
+              ><i class="fa fa-times" aria-hidden="true"></i
+            ></span>
+          </div>
+        </li>
+        <li>
+          <div class="total" *ngIf="cartTotals$ | async as cartTotal">
+            <h5>
+              {{ "Subtotal" | translate }} :
+              <span>{{
+                cartTotal.subtotal
+                  | currency : productService!.Currency.currency : "symbol"
+              }}</span>
+            </h5>
+            <h5>
+              {{ "Discount" | translate }} :
+              <span>{{
+                -cartTotal.discount!
+                  | currency : productService!.Currency.currency : "symbol"
+              }}</span>
+            </h5>
+            <h5>
+              {{ "Total" | translate }} :
+              <span>{{
+                cartTotal.subtotal! - cartTotal.discount!
+                  | currency : productService!.Currency.currency : "symbol"
+              }}</span>
+            </h5>
+          </div>
+        </li>
+        <li>
+          <div class="buttons">
+            <a [routerLink]="['/shop/cart']" class="view-cart">{{
+              "View cart" | translate
+            }}</a>
+            <a [routerLink]="['/checkout']" class="checkout">{{
+              "Checkout" | translate
+            }}</a>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <!-- <li class="onhover-div mobile-cart">
+      <div>
+        <a [routerLink]="['/shop/cart']">
+          <i class="flag:TH"></i>
+        </a>
+      </div>
+    </li> -->
+  </ul>
+</div>

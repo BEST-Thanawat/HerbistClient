@@ -1,0 +1,98 @@
+<app-breadcrumb [title]="'Confirm Payment'" [breadcrumb]="'Confirm-Payment'"></app-breadcrumb>
+
+<!-- section start -->
+<section class="register-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>{{'Confirm Payment' | translate}}</h3>
+                <h5>{{'Please make sure that the bank, transfer date/time and amount are correct before confirming the payment' | translate}}</h5>
+                <div class="theme-form theme-card">
+                    <form class="confirmpayment-form" [formGroup]="paymentForm!" (ngSubmit)="onSubmit()">
+                        <!-- class="needs-validation" novalidate="" -->                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3 fixapptextinput">
+                                <app-text-input formControlName="ordernumber" [label]="'Order Number'"></app-text-input>
+                            </div>
+                            <div class="col-md-6 mb-3 fixapptextinput">
+                                <app-text-input formControlName="amount" [label]="'Amount'" [type]="'number'" [isDisabled]="true"></app-text-input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 fixapptextinput">
+                                <app-text-input formControlName="firstname" [label]="'First Name'" [isDisabled]="true"></app-text-input>
+                            </div>
+                            <div class="col-md-6 mb-3 fixapptextinput">
+                                <app-text-input formControlName="lastname" [label]="'Last Name'" [isDisabled]="true"></app-text-input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3 fixapptextinput">
+                                <app-text-input formControlName="email" [label]="'Email'" [isDisabled]="true"></app-text-input>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 fixapptextinput">
+                                <div class="mb-3 remove-bottom-margin">
+                                    <label for="formFile" class="form-label">{{'Transfer Slip' | translate}}</label>
+                                    <!-- $any($event.target).value) -->
+                                    <input class="form-control remove-bottom-margin add-fourpx-bottom-margin"
+                                        (change)="onFileChange($event)" type="file" accept="image/*"
+                                        id="formFile" formControlName="formFile"
+                                        [ngClass]="(this.paymentForm!.get('formFile') && this.paymentForm!.get('formFile')!.touched) ? this.paymentForm!.get('formFile')!.status == 'VALID' ? 'is-valid' : 'is-invalid' : null">
+                                    <div
+                                        class="progress sm-progress-bar add-fourpx-bottom-margin add-fourpx-top-margin">
+                                        <div class="progress-bar bg-secondary" role="progressbar"
+                                            [ngStyle]="{ 'width': this.uploadProgress + '%' }"
+                                            [attr.aria-valuenow]="this.uploadProgress" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="invalid-feedback"
+                                        *ngIf="(this.paymentForm!.get('formFile') && this.paymentForm!.get('formFile')!.status != 'VALID' && this.paymentForm!.get('formFile')!.touched)">
+                                        <span>{{'Wrong file type' | translate}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 add-top-margin">
+                                <div class="mb-3 remove-bottom-margin">
+                                    <label for="formFile" class="form-label">{{'Transfer Date' | translate}}</label>
+                                    <div class="input-group input-grp-p">
+                                        <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker placeholder="yyyy-mm-dd" formControlName="transfer_date"
+                                        (bsValueChange)="onValueChange($event)"
+                                        [ngClass]="(this.paymentForm!.get('transfer_date')) ? !isValid ? 'is-invalid' : 'is-valid' : null"
+                                        [bsValue]="bsValue" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', isAnimated: true, showTodayButton: true, todayPosition: 'center', todayButtonLabel: 'Today' | translate }">
+                                        <div class="input-group-append">
+                                            <button class="btn calendar" (click)="dp.toggle()" type="button" [attr.aria-expanded]="dp.isOpen"><i class="fa fa-calendar"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <div class="invalid-feedback"
+                                        *ngIf="(this.paymentForm!.get('transfer_date') && !isValid && this.paymentForm!.get('transfer_date')!.touched)">
+                                        <span *ngIf="!isValid">{{'Transfer date is required' | translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 add-top-margin">
+                                <label for="transfer_time">{{'Transfer Time' | translate}}</label>
+                                <div class="input-group input-grp-p">
+                                    <ng-container>
+                                        <timepicker [formControlName]="'transfer_time'" [showMeridian]="false" [minuteStep]="1"></timepicker>
+                                    </ng-container>
+                                    <!-- <ngb-timepicker class="datepicker" [spinners]="true" formControlName="transfer_time"></ngb-timepicker> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <button [disabled]="paymentForm!.invalid" class="btn btn-solid mb-5">{{'Submit Confirm Payment' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section ends-->

@@ -1,0 +1,187 @@
+<app-header-one></app-header-one>
+<!-- Home slider start-->
+<section class="p-0">
+  <app-slider
+    [sliders]="sliders"
+    [textClass]="'text-center'"
+    [buttonText]="'shop now'"
+  >
+  </app-slider>
+</section>
+<!-- Home slider End -->
+
+<!-- collection banner -->
+<section class="banner-padding banner-furniture">
+  <div class="container-fluid">
+    <div class="row partition3">
+      <div class="col-md-4" *ngFor="let collection of collections">
+        <a
+          [routerLink]="['/shop/collection/left/sidebar']"
+          (contextmenu)="setCatagory(collection.setCat, collection.catId)"
+          (click)="setCatagory(collection.setCat, collection.catId)"
+        >
+          <div class="collection-banner p-right text-end">
+            <img
+              src="{{ collection.image }}"
+              attr.secret="{{ collection.secret }}"
+              sizes="{{ collection.sizes }}"
+              alt="collection"
+              class="img-fluid"
+              width="672"
+              height="310"
+            />
+            <div class="contain-banner banner-3">
+              <div>
+                <h2>{{ collection.title }}</h2>
+                <h3>{{ collection.save }}</h3>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tab product start-->
+<div class="title1 section-t-space">
+  <h2>{{ "Exclusive Products" | translate }}</h2>
+  <h3 class="title-inner1">{{ "Special Products" | translate }}</h3>
+</div>
+<section class="section-b-space p-t-0">
+  <div class="container">
+    <div class="row">
+      @if(productCollections) {
+      <div class="col theme-tab">
+        <ul
+          role="tablist"
+          aria-label="Tabs"
+          class="tabs tab-title justify-content-center nav nav-pills"
+        >
+          @for (collection of productCollections; track $index) {
+          <li role="presentation" style="cursor: pointer; padding: 8px">
+            <a
+              role="tab"
+              class="nav-link"
+              [class]="collection.active ? 'active' : ''"
+              (click)="getCollectionProducts($event)"
+              [id]="collection.id"
+              [attr.aria-controls]="collection.id"
+              [attr.aria-selected]="collection.active"
+              [attr.aria-disabled]="!collection.active"
+              >{{ collection.title | translate }}</a
+            >
+          </li>
+          }
+        </ul>
+        <div class="no-slider row" tabindex="0">
+          @for (product of products | slice : 0 : 16; track $index) {
+          <ng-container>
+            <div tabindex="0" class="product-box">
+              <app-product-box-one
+                [product]="product"
+                [currency]="productService!.Currency"
+              ></app-product-box-one>
+            </div>
+          </ng-container>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>
+<!-- Tab product End -->
+
+<!-- Parallax banner -->
+<section class="p-0" (Lazyimg)="this.showParalax = true">
+  @if(this.showParalax) {
+  <div
+    class="full-banner parallax text-center"
+    [style]="{ 'background-image': 'url(' + this.parallaxUrl + ')' }"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="banner-contain">
+            <h2>{{ "2024" | translate }}</h2>
+            <h3>{{ "All new seed packets" | translate }}</h3>
+            <h4>{{ "Herbist = Always fresh" | translate }}</h4>
+            <a
+              [routerLink]="['/shop/collection/left/sidebar']"
+              class="btn btn-solid black-btn"
+              >{{ "Shop all product" | translate }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</section>
+<!-- Parallax banner end -->
+
+<!-- blog section start-->
+<section class="blog p-t-0 section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="title1 section-t-space">
+          <h2>{{ "Recent Story" | translate }}</h2>
+          <h3 class="title-inner1">
+            {{ "from the Herbist blog" | translate }}
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <owl-carousel-o [options]="BlogSliderConfig" class="no-arrow test">
+          @for (blog of blogs; track $index) {
+          <ng-container>
+            <ng-template carouselSlide [id]="blog.id">
+              <div class="col-md-12" (Lazyimg)="this.showImg = true">
+                <!-- (Lazyimg)="this.showImg=true" -->
+                <a [routerLink]="blog.link" [attr.aria-label]="blog?.title">
+                  <div class="classic-effect">
+                    <!-- *ngIf="this.showImg" -->
+                    <!-- <img [src]="blog.image" class="img-fluid" alt="{{blog.title}}" width="1000" height="591" sizes="50vw"> -->
+                    @if(this.showImg) {
+                    <img
+                      [src]="blog.image"
+                      [attr.srcset]="blog.srcset"
+                      sizes="{{ blog.sizes }}"
+                      class="img-fluid"
+                      alt="{{ blog.title }}"
+                      width="1000"
+                      height="591"
+                    />
+                    }
+
+                    <span></span>
+                  </div>
+                </a>
+                <div class="blog-details">
+                  <h4>{{ blog.date }}</h4>
+                  <a [routerLink]="blog.link">
+                    <p>{{ blog.title }}</p>
+                  </a>
+                  <hr class="style1" />
+                  <h5>{{ "By" | translate }}: {{ blog.by }}</h5>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+          }
+        </owl-carousel-o>
+        <!-- <app-blog [blogs]="blogs" [showImg]="showImg"></app-blog> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- blog section End -->
+
+<!-- Cart Open To Top Side-->
+<!-- <app-cart-variation [direction]="'top'"></app-cart-variation>  -->
+<app-footer-one></app-footer-one>

@@ -1,0 +1,362 @@
+<form [formGroup]="checkoutForm!" autocomplete="off">
+  <div class="row mt-5">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <div class="checkout-title">
+        <h3>{{ "Address Details" | translate }}</h3>
+      </div>
+      <div class="row check-out" formGroupName="addressForm">
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <app-text-input
+            formControlName="company"
+            [label]="'Company Name (Optional)'"
+          ></app-text-input>
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+          <app-text-input
+            formControlName="firstname"
+            [label]="'First Name'"
+          ></app-text-input>
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+          <app-text-input
+            formControlName="lastname"
+            [label]="'Last Name'"
+          ></app-text-input>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <app-text-input
+            formControlName="address"
+            [label]="'Address'"
+          ></app-text-input>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <app-text-input
+            formControlName="town"
+            [label]="'City'"
+          ></app-text-input>
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+          <div class="form-floating">
+            <select
+              class="form-select fixapptextinput"
+              id="province"
+              aria-label="province"
+              formControlName="province"
+              (change)="selectionChanged($event)"
+              [ngClass]="
+                checkoutForm!.get('addressForm')!.get('province')! &&
+                checkoutForm!.get('addressForm')!.get('province')!.touched
+                  ? checkoutForm!.get('addressForm')!.get('province')!.status ==
+                    'VALID'
+                    ? 'is-valid'
+                    : 'is-invalid'
+                  : null
+              "
+            >
+              <option value="" selected>{{ "Province" | translate }}</option>
+              <option value="กรุงเทพมหานคร - Bangkok">
+                กรุงเทพมหานคร - Bangkok
+              </option>
+              <option value="กระบี่ - Krabi">กระบี่ - Krabi</option>
+              <option value="กาญจนบุรี - Kanchanaburi">
+                กาญจนบุรี - Kanchanaburi
+              </option>
+              <option value="กาฬสินธุ์ - Kalasin">กาฬสินธุ์ - Kalasin</option>
+              <option value="กำแพงเพชร - Kamphaeng Phet">
+                กำแพงเพชร - Kamphaeng Phet
+              </option>
+              <option value="ขอนแก่น - Khon Kaen">ขอนแก่น - Khon Kaen</option>
+              <option value="จันทบุรี - Chanthaburi">
+                จันทบุรี - Chanthaburi
+              </option>
+              <option value="ฉะเชิงเทรา - Chachoengsao">
+                ฉะเชิงเทรา - Chachoengsao
+              </option>
+              <option value="ชลบุรี - Chonburi">ชลบุรี - Chonburi</option>
+              <option value="ชัยนาท - Chainat">ชัยนาท - Chainat</option>
+              <option value="ชัยภูมิ - Chaiyaphum">ชัยภูมิ - Chaiyaphum</option>
+              <option value="ชุมพร - Chumphon">ชุมพร - Chumphon</option>
+              <option value="เชียงราย - Chiang Rai">
+                เชียงราย - Chiang Rai
+              </option>
+              <option value="เชียงใหม่ - Chiang Mai">
+                เชียงใหม่ - Chiang Mai
+              </option>
+              <option value="ตรัง - Trang">ตรัง - Trang</option>
+              <option value="ตราด - Trat">ตราด - Trat</option>
+              <option value="ตาก - Tak">ตาก - Tak</option>
+              <option value="นครนายก - Nakhon Nayok">
+                นครนายก - Nakhon Nayok
+              </option>
+              <option value="นครปฐม - Nakhon Pathom">
+                นครปฐม - Nakhon Pathom
+              </option>
+              <option value="นครพนม - Nakhon Phanom">
+                นครพนม - Nakhon Phanom
+              </option>
+              <option value="นครราชสีมา - Nakhon Ratchasima">
+                นครราชสีมา - Nakhon Ratchasima
+              </option>
+              <option value="นครศรีธรรมราช - Nakhon Si Thammarat">
+                นครศรีธรรมราช - Nakhon Si Thammarat
+              </option>
+              <option value="นครสวรรค์ - Nakhon Sawan">
+                นครสวรรค์ - Nakhon Sawan
+              </option>
+              <option value="นนทบุรี - Nonthaburi">นนทบุรี - Nonthaburi</option>
+              <option value="นราธิวาส - Narathiwat">
+                นราธิวาส - Narathiwat
+              </option>
+              <option value="น่าน - Nan">น่าน - Nan</option>
+              <option value="บึงกาฬ - Bueng Kan">บึงกาฬ - Bueng Kan</option>
+              <option value="บุรีรัมย์ - Buriram">บุรีรัมย์ - Buriram</option>
+              <option value="ปทุมธานี - Pathum Thani">
+                ปทุมธานี - Pathum Thani
+              </option>
+              <option value="ประจวบคีรีขันธ์ - Prachuap Khiri Khan">
+                ประจวบคีรีขันธ์ - Prachuap Khiri Khan
+              </option>
+              <option value="ปราจีนบุรี - Prachinburi">
+                ปราจีนบุรี - Prachinburi
+              </option>
+              <option value="ปัตตานี - Pattani">ปัตตานี - Pattani</option>
+              <option value="พระนครศรีอยุธยา - Phra Nakhon Si Ayutthaya">
+                พระนครศรีอยุธยา - Phra Nakhon Si Ayutthaya
+              </option>
+              <option value="พะเยา - Phayao">พะเยา - Phayao</option>
+              <option value="พังงา - Phang Nga">พังงา - Phang Nga</option>
+              <option value="พัทลุง - Phatthalung">พัทลุง - Phatthalung</option>
+              <option value="พิจิตร - Phichit">พิจิตร - Phichit</option>
+              <option value="พิษณุโลก - Phitsanulok">
+                พิษณุโลก - Phitsanulok
+              </option>
+              <option value="เพชรบุรี - Phetchaburi">
+                เพชรบุรี - Phetchaburi
+              </option>
+              <option value="เพชรบูรณ์ - Phetchabun">
+                เพชรบูรณ์ - Phetchabun
+              </option>
+              <option value="แพร่ - Phrae">แพร่ - Phrae</option>
+              <option value="ภูเก็ต - Phuket">ภูเก็ต - Phuket</option>
+              <option value="มหาสารคาม - Maha Sarakham">
+                มหาสารคาม - Maha Sarakham
+              </option>
+              <option value="มุกดาหาร - Mukdahan">มุกดาหาร - Mukdahan</option>
+              <option value="แม่ฮ่องสอน - Mae Hong Son">
+                แม่ฮ่องสอน - Mae Hong Son
+              </option>
+              <option value="ยโสธร - Yasothon">ยโสธร - Yasothon</option>
+              <option value="ยะลา - Yala">ยะลา - Yala</option>
+              <option value="ร้อยเอ็ด - Roi Et">ร้อยเอ็ด - Roi Et</option>
+              <option value="ระนอง - Ranong">ระนอง - Ranong</option>
+              <option value="ระยอง - Rayong">ระยอง - Rayong</option>
+              <option value="ราชบุรี - Ratchaburi">ราชบุรี - Ratchaburi</option>
+              <option value="ลพบุรี - Lopburi">ลพบุรี - Lopburi</option>
+              <option value="ลำปาง - Lampang">ลำปาง - Lampang</option>
+              <option value="ลำพูน - Lamphun">ลำพูน - Lamphun</option>
+              <option value="เลย - Loei">เลย - Loei</option>
+              <option value="ศรีสะเกษ - Sisaket">ศรีสะเกษ - Sisaket</option>
+              <option value="สกลนคร - Sakon Nakhon">
+                สกลนคร - Sakon Nakhon
+              </option>
+              <option value="สงขลา - Songkhla">สงขลา - Songkhla</option>
+              <option value="สตูล - Satun">สตูล - Satun</option>
+              <option value="สมุทรปราการ - Samut Prakan">
+                สมุทรปราการ - Samut Prakan
+              </option>
+              <option value="สมุทรสงคราม - Samut Songkhram">
+                สมุทรสงคราม - Samut Songkhram
+              </option>
+              <option value="สมุทรสาคร - Samut Sakhon">
+                สมุทรสาคร - Samut Sakhon
+              </option>
+              <option value="สระแก้ว - Sa Kaeo">สระแก้ว - Sa Kaeo</option>
+              <option value="สระบุรี - Saraburi">สระบุรี - Saraburi</option>
+              <option value="สิงห์บุรี - Sing Buri">
+                สิงห์บุรี - Sing Buri
+              </option>
+              <option value="สุโขทัย - Sukhothai">สุโขทัย - Sukhothai</option>
+              <option value="สุพรรณบุรี - Suphan Buri">
+                สุพรรณบุรี - Suphan Buri
+              </option>
+              <option value="สุราษฎร์ธานี - Surat Thani">
+                สุราษฎร์ธานี - Surat Thani
+              </option>
+              <option value="สุรินทร์ - Surin">สุรินทร์ - Surin</option>
+              <option value="หนองคาย - Nong Khai">หนองคาย - Nong Khai</option>
+              <option value="หนองบัวลำภู - Nong Bua Lamphu">
+                หนองบัวลำภู - Nong Bua Lamphu
+              </option>
+              <option value="อ่างทอง - Ang Thong">อ่างทอง - Ang Thong</option>
+              <option value="อำนาจเจริญ - Amnat Charoen">
+                อำนาจเจริญ - Amnat Charoen
+              </option>
+              <option value="อุดรธานี - Udon Thani">
+                อุดรธานี - Udon Thani
+              </option>
+              <option value="อุตรดิตถ์ - Uttaradit">
+                อุตรดิตถ์ - Uttaradit
+              </option>
+              <option value="อุทัยธานี - Uthai Thani">
+                อุทัยธานี - Uthai Thani
+              </option>
+              <option value="อุบลราชธานี - Ubon Ratchathani">
+                อุบลราชธานี - Ubon Ratchathani
+              </option>
+            </select>
+            <label for="province">{{ "Province" | translate }}</label>
+          </div>
+          @if(checkoutForm!.get('addressForm')!.get('province')! &&
+          checkoutForm!.get('addressForm')!.get('province')!.status != 'VALID'
+          && checkoutForm!.get('addressForm')!.get('province')!.touched) {
+          <div class="invalid-feedback d-block">
+            <span>{{ "Please select province" | translate }}</span>
+          </div>
+          }
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+          <!-- <app-zipcode zipcode formControlName="postalcode" [label]="'Zip Code'"></app-zipcode> -->
+          <div class="form-floating">
+            <input
+              (blur)="onBlur()"
+              (keyup)="forceValueZipcodeForm($event)"
+              type="number"
+              zipcode
+              formControlName="postalcode"
+              class="form-control fixapptextinput"
+              id="postalcode"
+              placeholder="Zip Code"
+              [ngClass]="
+                checkoutForm!.get('addressForm')!.get('postalcode')! &&
+                checkoutForm!.get('addressForm')!.get('postalcode')!.touched
+                  ? checkoutForm!.get('addressForm')!.get('postalcode')!
+                      .status == 'VALID'
+                    ? 'is-valid'
+                    : 'is-invalid'
+                  : null
+              "
+            />
+            @if(spinnerStatus) {
+            <div class="fa fa-spinner fa-spin loader"></div>
+            }
+
+            <label for="postalcode">{{ "Zip Code" | translate }}</label>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              checkoutForm!.get('addressForm')!.get('postalcode')! &&
+              checkoutForm!.get('addressForm')!.get('postalcode')!.status !=
+                'VALID' &&
+              checkoutForm!.get('addressForm')!.get('postalcode')!.touched
+            "
+          >
+            <span>{{ "Zip code is required" | translate }}</span>
+          </div>
+        </div>
+
+        <!-- <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-floating">
+                        <select class="form-select fixapptextinput" id="country" aria-label="country" formControlName="country"
+                            [ngClass]="(checkoutForm!.get('addressForm')!.get('country')! && checkoutForm!.get('addressForm')!.get('country')!.touched) ? checkoutForm!.get('addressForm')!.get('country')!.status == 'VALID' ? 'is-valid' : 'is-invalid' : null">
+                            <option [selected]="true" value="Thailand">Thailand</option>
+                        </select>
+                        <label for="province">Country</label>
+                    </div>
+                    <div class="invalid-feedback d-block"
+                        *ngIf="(checkoutForm!.get('addressForm')!.get('country')! && checkoutForm!.get('addressForm')!.get('country')!.status != 'VALID' && checkoutForm!.get('addressForm')!.get('country')!.touched)">
+                        <span>Please select country.</span>
+                    </div>
+                </div> -->
+
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <div class="form-floating">
+            <input
+              #fieldName
+              type="text"
+              (keyup)="forceValue($event)"
+              phoneMask
+              formControlName="phone"
+              class="form-control fixapptextinput"
+              id="phone"
+              placeholder="Telephone Number"
+              [ngClass]="
+                checkoutForm!.get('addressForm')!.get('phone')! &&
+                checkoutForm!.get('addressForm')!.get('phone')!.touched
+                  ? checkoutForm!.get('addressForm')!.get('phone')!.status ==
+                    'VALID'
+                    ? 'is-valid'
+                    : 'is-invalid'
+                  : null
+              "
+            />
+            <label for="phone">{{ "Telephone Number" | translate }}</label>
+          </div>
+          @if( checkoutForm!.get('addressForm')!.get('phone')! &&
+          checkoutForm!.get('addressForm')!.get('phone')!.status != 'VALID' &&
+          checkoutForm!.get('addressForm')!.get('phone')!.touched) {
+          <div class="invalid-feedback d-block">
+            <span>{{ "Telephone Number is required" | translate }}</span>
+          </div>
+          }
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              [readonly]="isLoggedIn"
+              formControlName="email"
+              class="form-control"
+              id="email"
+              placeholder="Email Address"
+              [ngClass]="
+                (checkoutForm!.get('addressForm')!.get('email')! &&
+                checkoutForm!.get('addressForm')!.get('email')!.touched
+                  ? checkoutForm!.get('addressForm')!.get('email')!.status ==
+                    'VALID'
+                    ? 'is-valid'
+                    : 'is-invalid'
+                  : null) || (columnWidth$ | async)
+              "
+            />
+            <label for="email">{{ "Email Address" | translate }}</label>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              checkoutForm!.get('addressForm')!.get('email')! &&
+              checkoutForm!.get('addressForm')!.get('email')!.status !=
+                'VALID' &&
+              checkoutForm!.get('addressForm')!.get('email')!.touched
+            "
+          >
+            <span>{{ "Email Address is required" | translate }}</span>
+          </div>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <app-text-input
+            formControlName="additionalMessage"
+            [label]="'Additional Message (Optional)'"
+          ></app-text-input>
+        </div>
+
+        <div
+          class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5"
+        >
+          <button type="button" class="btn-solid btn" routerLink="/shop/cart">
+            <i class="fa fa-angle-left"></i> {{ "Back to Cart" | translate }}
+          </button>
+          <button
+            type="button"
+            [disabled]="checkoutForm!.get('addressForm')!.invalid"
+            class="btn-solid btn"
+            cdkStepperNext
+            (click)="copyAddress()"
+          >
+            {{ "Go to Billing" | translate }} <i class="fa fa-angle-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

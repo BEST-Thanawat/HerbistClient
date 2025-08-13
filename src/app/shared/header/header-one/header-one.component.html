@@ -1,0 +1,185 @@
+<header class="sticky" [ngClass]="class" [class.fixed]="stick && sticky">
+  <div class="mobile-fix-option"></div>
+
+  @if (topbar) {
+  <div class="top-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="header-contact">
+            <ul>
+              <li>{{ "Welcome to Herbist store" | translate }}</li>
+              <li>
+                <span class="flag:LINE" style="width: 16px"></span> &#64;herbist
+              </li>
+              <li>{{ "Free Shipping for Orders Over ฿1,000" | translate }}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 text-end">
+          <ul class="header-dropdown">
+            <!-- <li class="compare">
+              <a [routerLink]="['/shop/compare']"><i class="fa fa-random" aria-hidden="true"></i>Compare</a>
+            </li> -->
+            @if (((this.currentUser$ | async) === null)) {
+            <ng-container>
+              <li class="compare">
+                <a [routerLink]="['/pages/register']"
+                  ><i class="fa fa-user-plus" aria-hidden="true"></i
+                  >{{ "Register" | translate }}</a
+                >
+              </li>
+            </ng-container>
+            }
+
+            <!-- <li class="mobile-wishlist">
+              <a [routerLink]="['/shop/wishlist']"><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a>
+            </li> -->
+            <li class="onhover-dropdown mobile-account">
+              @if (((this.currentUser$ | async) === null)) {
+              <ng-container>
+                <i tabindex="0" class="fa fa-user"></i>
+                {{ "My Account" | translate }}
+                <ul class="onhover-show-div">
+                  <h6>{{ "My Account" | translate }}</h6>
+                  <li class="register">
+                    <a [routerLink]="['/pages/register']"
+                      ><i aria-hidden="true"></i>{{ "Register" | translate }}</a
+                    >
+                  </li>
+                  <li class="login">
+                    <a [routerLink]="['/pages/login']"
+                      ><i class="fa fa-sign-in" aria-hidden="true"></i
+                      >{{ "Login" | translate }}</a
+                    >
+                  </li>
+                </ul>
+              </ng-container>
+              } @if ((this.currentUser$ | async)) {
+              <ng-container>
+                <i tabindex="0" class="fa fa-user"></i
+                ><strong>
+                  {{ "Welcome" | translate }}
+                  {{ (this.currentUser$ | async)!.displayName }}</strong
+                >
+                <ul class="onhover-show-div">
+                  <h6>{{ "My Account" | translate }}</h6>
+                  <!-- <li>
+                    <a data-lng="en">
+                      <a><i class="fa fa-sign-out" aria-hidden="true"></i>Basket</a>
+                    </a>
+                  </li> \f0cb \f08b-->
+
+                  <!-- Change/fix icon on mobile go to _menu.css at line 1431 -->
+                  <!-- <li class="backend" *ngIf="currentUser.role == 'Administrator'">
+                    <a data-lng="en">
+                      <a href="https://localhost:3002/dashboard/{{currentUser.token}}" target="_blank"><i class="fa fa-desktop" aria-hidden="true"></i>{{'Backend' | translate}}</a>
+                    </a>
+                  </li> -->
+                  <div class="dropdown-divider"></div>
+                  <li class="dashboard">
+                    <span
+                      data-lng="en"
+                      style="cursor: pointer; font-size: 16px"
+                    >
+                      <span [routerLink]="['/pages/dashboard']"
+                        ><i class="fa fa-list-ol" aria-hidden="true"></i
+                        >{{ "Dashboard" | translate }}</span
+                      >
+                    </span>
+                    <!-- <a data-lng="en">
+                      <a [routerLink]="['/pages/dashboard']"><i class="fa fa-list-ol" aria-hidden="true"></i>{{'Dashboard' | translate}}</a>
+                    </a> -->
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li class="logout">
+                    <span
+                      data-lng="en"
+                      style="cursor: pointer; font-size: 16px"
+                    >
+                      <span (click)="logout()"
+                        ><i class="fa fa-sign-out" aria-hidden="true"></i
+                        >{{ "Logout" | translate }}</span
+                      >
+                    </span>
+                    <!-- <a data-lng="en">
+                      <a (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i>{{'Logout' | translate}}</a>
+                    </a> -->
+                  </li>
+                </ul>
+              </ng-container>
+              }
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="main-menu">
+          <div class="menu-left">
+            <!-- <app-left-menu></app-left-menu> -->
+            @if (productPage) {
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="filter-main-btn align-middle">
+                  <span class="filter-btn" (click)="toggleMobileSidebar()">
+                    <i
+                      class="fa fa-bars"
+                      aria-hidden="true"
+                      style="color: #ccb7ae"
+                    ></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            }
+            
+            @if (dashboardPage) {
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="filter-main-btn align-middle">
+                  <span
+                    class="filter-btn"
+                    (click)="toggleMobileDashboardSidebar()"
+                  >
+                    <i
+                      class="fa fa-bars"
+                      aria-hidden="true"
+                      style="color: #ccb7ae"
+                    ></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            }
+
+            <div class="brand-logo">
+              <a routerLink="" id="headerlogo">
+                <img
+                  [src]="themeLogo"
+                  class="img-fluid"
+                  alt="logo"
+                  width="167"
+                  height="34"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="menu-right pull-right">
+            <div>
+              <app-menu></app-menu>
+            </div>
+            <div>
+              <app-settings></app-settings>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

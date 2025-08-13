@@ -5,7 +5,9 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [
-      "node"
+      "node",
+      "@angular/localize",
+      "@types/gtag.js"
     ]
   },
   "include": [

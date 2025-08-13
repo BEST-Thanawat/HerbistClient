@@ -1,0 +1,136 @@
+.invalid-feedback {
+    display: block;
+}
+
+.fixline {
+    line-height: inherit;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+.order-box .sub-total .shopping-option label {
+  line-height: unset;
+}
+
+.order-box .qty li {
+  margin-bottom: 10px;
+}
+
+.order-box .sub-total li {
+  margin-bottom: 10px;
+  font-weight: inherit;
+}
+
+.font-weight-bold {
+  font-weight: 600;
+}
+
+.order-box .qty li span {
+  font-size: inherit;
+}
+
+.order-box .newqty {
+  // position: relative;
+  // display: block;
+  font-size: 16px;
+  // color: #444444;
+  // line-height: 15px;
+  margin-bottom: 15px;
+}
+
+.subtotal {
+  position: relative;
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.item {
+  font-size: 16px;
+  //margin-bottom: 15px;
+}
+
+.shippingItem {
+  margin-bottom: 15px;
+}
+
+.shippingmethoditem {
+  font-size: 16px;
+
+  .radio-option label {
+    position: relative;
+    padding-left: 10px;
+    text-transform: capitalize;
+    //color: #6f6f6f;
+    cursor: pointer;
+    //font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+.priceitem {
+  font-size: 16px;
+  //font-weight: 600;
+  //color: #6f6f6f;
+  //cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.itemtotal {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.payment-box .payment-options li {
+  margin-bottom: unset;
+}
+.payment-box .payment-options li .radio-option label {
+  margin-bottom: 8px;
+}
+
+.order-box {
+  margin-bottom: unset;
+}
+
+.loader {
+  position: absolute;
+  width: auto;
+  top: 20px;
+  right: 35px;
+  margin-top: 0;
+}
+
+.delivery {
+  color: red;
+}
+
+.text-desc {
+  font-size: 14px;
+}
+
+.fw-bold {
+  color: #444444;
+}
+
+.table > :not(caption) > * > * {
+  padding: unset;
+}
+
+.zero-padding-total {
+  // padding-right:0px;
+  padding-left:0px;
+  text-align: right;
+}

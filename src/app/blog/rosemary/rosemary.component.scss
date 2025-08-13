@@ -1,0 +1,18 @@
+ol {
+    counter-reset: item;
+
+    li {
+        display: block;
+        color: #565264;
+    }
+
+    li:before {
+        content: counters(item, ".") ". ";
+        counter-increment: item;
+    }
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: 700;
+}

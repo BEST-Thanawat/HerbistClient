@@ -1,0 +1,32 @@
+button.nav-link {
+    background: #e9ecef;
+    border-radius: 0;
+    border: none;
+
+    &:focus {
+        outline: none;
+    }
+    &.active:hover {
+        color: white;
+    }
+    & :active {
+        outline: none;
+    }
+    &.active:focus {
+        outline: none;
+    }
+    &:disabled:not(.active){
+        color: #333;
+        background-color: #e9ecef;
+    }
+}
+
+.nav-link.active {
+    background-color: #565264;
+    letter-spacing: 0.05em;
+    opacity: inherit;
+}
+.nav-link {
+    color: #565264;
+    letter-spacing: 0.05em;
+}

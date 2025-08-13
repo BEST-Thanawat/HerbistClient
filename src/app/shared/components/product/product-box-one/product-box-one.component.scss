@@ -1,0 +1,21 @@
+a.disabled {
+    i {
+        //color: rgb(226, 226, 226)!important;
+        color: rgb(143 143 143) !important
+    }
+    
+    cursor: not-allowed;
+}
+
+.outofstock {
+    filter: brightness(.6);
+}
+
+.product-detail {
+    .rating-score {
+        .rating-score-item {
+            padding-left: 0px;
+            //padding-right: 0px;
+        }
+    }
+}

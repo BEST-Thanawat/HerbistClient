@@ -1,0 +1,40 @@
+<div class="form-floating">
+    <input #input [ngClass]="(controlDir && controlDir.control && controlDir.control.touched) 
+            ? !controlDir.control.valid 
+            ? 'is-invalid' : 'is-valid' : null"
+        [type]="type"
+        (input)="onChange($any($event).target.value)"
+        (blur)="onBlur()"
+        (keyup)="changes($event)"
+        [disabled]="isDisabled"
+        id="{{label}}"
+        class="form-control"
+        placeholder="{{label}}">
+
+    <div *ngIf="controlDir && controlDir.control && controlDir.control.status === 'PENDING'" class="fa fa-spinner fa-spin loader">
+
+    </div>
+    <label for="{{label}}">{{label | translate}}</label>
+    <div class="invalid-feedback"
+        *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.touched)">
+        <span *ngIf="controlDir.control.errors?.['required']">{{label | translate}} {{'is required' | translate}}</span>
+        <span *ngIf="controlDir.control.errors?.['pattern']">{{'Invalid email address' | translate}}</span>
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.dirty)">
+        <span *ngIf="controlDir.control.errors?.['emailExists']">{{'Email address is in use' | translate}}</span>
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.dirty)">
+        <span *ngIf="controlDir.control.errors?.['wrongOrderStatus']">{{'Your order is already paid' | translate}}</span>
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.dirty)">
+        <span *ngIf="controlDir.control.errors?.['orderIsNotExists']">{{'Your order is not exists' | translate}}</span>
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.dirty)">
+        <span *ngIf="controlDir.control.errors?.['subscribeExists']">{{'You have already subscribed. Thank you!' | translate}}</span>
+    </div>
+    
+</div>

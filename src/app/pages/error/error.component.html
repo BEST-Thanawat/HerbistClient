@@ -1,0 +1,45 @@
+<app-breadcrumb [title]="'500'" [breadcrumb]="'500'"></app-breadcrumb>
+<!-- section start -->
+<section class="p-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="error-section">
+          <h1>Server Error</h1>
+          <a [routerLink]="''" class="btn btn-solid">back to home</a>
+          <!-- <h2>page not found</h2> -->
+          @if(this.error) {
+          <ng-container>
+            <h5 class="text-danger">
+              Error: {{ this.error.message }} => {{ this.error }}
+            </h5>
+            <p class="font-weight-bold">
+              Note: if you are seeing this them Angular is probably not
+              responsible
+            </p>
+            <p>What to do next?</p>
+            <ol>
+              <li>Open chrome dev tools</li>
+              <li>Inspect the network tab</li>
+              <li>Check the failing request</li>
+              <li>Examine this request URL - make sure this is correct</li>
+              <li>
+                Reproduce the error in portman - if we see the same response in
+                Postman, then the issue is NOT with Angular
+              </li>
+            </ol>
+            <p>
+              Following is the stack trace - this is where your investigation
+              should start!
+            </p>
+            <code class="mt-5" style="background-color: whitesmoke">{{
+              this.error.details
+            }}</code>
+          </ng-container>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section ends -->

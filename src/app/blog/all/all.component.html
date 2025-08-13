@@ -1,0 +1,286 @@
+<app-breadcrumb [title]="'Blog'" [breadcrumb]="'Blog'"></app-breadcrumb>
+<!-- section start -->
+<section class="section-b-space  blog-page">
+    <div class="container">
+        <div class="row">
+            <!--Blog List start-->
+            <div class="col-12">
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/orangethyme'"><img [src]="this.orangethymeImg" [attr.srcset]="this.srcset" [sizes]="this.sizes" class="img-fluid" alt="เพาะเมล็ด ออเรนจ์ ไทม์" width="1000" height="591" priority/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/orangethyme'"><h3>เพาะเมล็ด ออเรนจ์ ไทม์</h3></a>                                
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog11}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด ออเรนจ์ ไทม์ให้งอกนั้นไม่ได้ยากจนเกินไปหากเรามีเมล็ดพันธุ์ที่ดีและทราบถึงวิธีในการเพาะเมล็ดที่ถูกต้อง เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/savory'"><img [src]="this.savoryImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด ซาโวรี" width="1000" height="591" priority/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/savory'"><h3>เพาะเมล็ด ซาโวรี</h3></a>                                
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog10}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด ซาโวรีนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/oregano'"><img [src]="this.oreganoImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด กรีก ออริกาโน" width="1000" height="591" priority/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/oregano'"><h3>เพาะเมล็ด กรีก ออริกาโน</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog9}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด กรีก ออริกาโนนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/lemonbalm'"><img [src]="this.lemonbalmImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด เลมอนบาล์ม" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/lemonbalm'"><h3>เพาะเมล็ด เลมอนบาล์ม</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog8}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด เลมอนบาล์มนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/peppermint'"><img [src]="this.peppermintImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด เปปเปอร์มินต์" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/peppermint'"><h3>เพาะเมล็ด เปปเปอร์มินต์</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog7}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด เปปเปอร์มินต์นั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/sage'"><img [src]="this.sageImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด บรอดลีฟ เสจ" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/sage'"><h3>เพาะเมล็ด บรอดลีฟ เสจ</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog6}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด บรอดลีฟ เสจนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/marjoram'"><img [src]="this.marjoramImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด สวีท มาร์จอรัม" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/marjoram'"><h3>เพาะเมล็ด สวีท มาร์จอรัม</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog5}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด สวีท มาร์จอรัมนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/rosemary'"><img [src]="this.rosemaryImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด โรสแมรี่" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/rosemary'"><h3>เพาะเมล็ด โรสแมรี่</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog4}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด โรสแมรี่และการเพาะเมล็ด ลาเวนเดอร์ให้งอกนั้นไม่ได้ยากจนเกินไปหากเรามีเมล็ดพันธุ์ที่ดีและทราบถึงวิธีในการเพาะเมล็ดที่ถูกต้อง ก่อนอื่นต้องทราบก่อนว่า โดยธรรมชาติของเมล็ดโรสแมรี่และลาเวนเดอร์นั้นจะมีเปอร์เซ็นต์งอกที่ค่อนข้างต่ำอยู่แล้ว ดังนั้นไม่ควรเก็บเมล็ดโรสแมรี่ไว้นาน (โดยเฉพาะอย่างยิ่งเมล็ดไพร์ม โรสแมรี่ควรเพาะให้หมดในทีเดียว ไม่ควรเก็บไว้นานเกิน 1 เดือน) เมื่อทราบแล้ว เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/thyme'"><img [src]="this.thymeImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด ไทม์" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/thyme'"><h3>เพาะเมล็ด ไทม์</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog3}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด ไทม์ให้งอกนั้นไม่ได้ยากจนเกินไปหากเรามีเมล็ดพันธุ์ที่ดีและทราบถึงวิธีในการเพาะเมล็ดที่ถูกต้อง เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/catnip'"><img [src]="this.catnipImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด แคทนิป" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/catnip'"><h3>เพาะเมล็ด แคทนิป</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog2}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด แคทนิปนั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/chamomile'"><img [src]="this.chamomileImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="เพาะเมล็ด คาโมมายล์" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/chamomile'"><h3>เพาะเมล็ด คาโมมายล์</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog1}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>การเพาะเมล็ด คาโมมายล์นั้นง่ายมาก เรามาเพาะเมล็ดไปพร้อมๆกัน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row blog-media">
+                    <div class="col-xl-6">
+                        <div class="blog-left">
+                            <a [routerLink]="'/blog/storingseeds'"><img [src]="this.storingseedsImg" [attr.srcset]="this.srcset" sizes="{{this.sizes}}" class="img-fluid" alt="วิธีการเก็บเมล็ดพันธุ์ หลังจากเปิดซอง" width="1000" height="591"/></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="blog-right">
+                            <div>
+                                <a [routerLink]="'/blog/storingseeds'"><h3>วิธีการเก็บเมล็ดพันธุ์ หลังจากเปิดซอง</h3></a>
+                                <h4>1 {{'March' | translate }} 2023</h4>
+                                <ul class="post-social">
+                                    <li>{{'Posted By' | translate }} : Herbist Admin </li>
+                                    <li><i class="fa fa-heart"></i>  {{counterBlog12}} Hits  </li>
+                                    <!-- <li><i class="fa fa-comments"></i> 10  Comment</li> -->
+                                </ul>
+                                <p>หลังจากที่เราเพาะเมล็ดแล้วต้องการเก็บเมล็ดพันธุ์ไว้เพาะในครั้งต่อไป การเก็บเมล็ดพันธุ์อย่างถูกวิธีนั้นช่วยยืดระยะเวลาของเมล็ดพันธุ์ได้ระยะหนึ่ง เรามาดูวิธีที่ถูกต้องกันค่ะ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Blog List start-->
+        </div>
+    </div>
+</section>
+<!-- Section ends -->

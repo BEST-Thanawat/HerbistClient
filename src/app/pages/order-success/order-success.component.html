@@ -1,0 +1,457 @@
+<!-- thank-you section start -->
+@if(order) {
+<section class="section-b-space light-layout">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="success-text mb-3">
+          <i class="fa fa-check-circle" aria-hidden="true"></i>
+          <h2>
+            {{ "We've received your order" | translate }},
+            {{ order.shipToAddress.firstName }}
+          </h2>
+          <h3
+            class="badge"
+            [ngClass]="
+              order.status === OrderStatus.Pending
+                ? 'badge-secondary'
+                : order.status === OrderStatus.WaitingPayment
+                ? 'badge-warning'
+                : order.status === OrderStatus.Processing
+                ? 'badge-success'
+                : order.status === OrderStatus.PaymentFailed
+                ? 'badge-danger'
+                : order.status === OrderStatus.Shipped
+                ? 'badge-info'
+                : 'badge-dark'
+            "
+          >
+            {{ "Order Status" | translate }}: {{ order.status | translate }}
+          </h3>
+          <p>
+            {{
+              "Thanks for shopping with us. You will find a summary of your recent purchase below"
+                | translate
+            }}
+          </p>
+          <!-- <p>We sent you a confirmation email as well.</p> -->
+          <p>
+            {{ "Order ID" | translate }}: {{ order.orderNumber }},
+            {{ "Total" | translate }}:
+            {{
+              order.total
+                | currency : productService!.Currency.currency : "symbol"
+            }}
+          </p>
+          <p>
+            {{ "Order Date" | translate }}:
+            {{ order.orderDate | date : "dd/MM/yyyy HH:mm" }}
+          </p>
+        </div>
+        <div class="justify-content-center cfpayment-center">
+          <div class="me-2">
+            <a class="btn btn-solid" (click)="exportInvoicePDF(order)">{{
+              "Invoice" | translate
+            }}</a>
+          </div>
+          @if(order.status === OrderStatus.Processing || order.status ===
+          OrderStatus.Shipped) {
+          <div>
+            <a class="btn btn-solid" (click)="exportReceiptPDF(order)">{{
+              "Receipt" | translate
+            }}</a>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+}
+
+<!-- Section ends -->
+<!-- order-detail section start -->
+<section class="section-b-space">
+  <div class="container">
+    @if(order) {
+    <div class="row">
+      <div class="col-lg-6">
+        @if(order.paymentMethod.id === 1 && order.status ===
+        OrderStatus.WaitingPayment) {
+        <div class="row order-success-sec">
+          <div class="col-md-12 mb-3">
+            <div class="reminded-sec">
+              <h3>
+                {{ "Please make payment a total of" | translate }}
+                {{
+                  order.total
+                    | currency : productService!.Currency.currency : "symbol"
+                }}
+              </h3>
+              <h5>
+                {{
+                  "within 12 hrs otherwise this order will be canceled"
+                    | translate
+                }}
+              </h5>
+              <div class="mt-4" *ngFor="let account of this.bankAccounts">
+                <div class="col-lg-12 col-md-12 col-xs-12 remindedbold">
+                  <h5>
+                    {{ account.bankNameTH + " (" + account.bankName + ")" }}
+                  </h5>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 remindedbold">
+                  <h5>{{ account.accountNumber }}</h5>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 remindedbold">
+                  <h5>
+                    {{
+                      account.accountNameTH + " (" + account.accountName + ")"
+                    }}
+                  </h5>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 mt-4">
+                  <h5>
+                    {{
+                      "After made a payment, please also make a confirm payment here"
+                        | translate
+                    }}
+                  </h5>
+                </div>
+              </div>
+              <div class="justify-content-center cfpayment-center">
+                <div>
+                  <a
+                    [routerLink]="'/pages/confirm-payment'"
+                    class="btn btn-solid"
+                    >{{ "Confirm Payment" | translate }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <div class="product-order">
+          <h3>
+            {{ "Your order details" | translate }} ({{
+              "Order ID" | translate
+            }}: {{ order.orderNumber }})
+          </h3>
+          <div class="row product-order-detail mt-5">
+            <div class="row">
+              <div class="col-3"></div>
+              <div class="col-5">
+                <h4>{{ "Product Name" | translate }}</h4>
+              </div>
+              <div class="col-2">
+                <h4>{{ "Qty" | translate }}</h4>
+              </div>
+              <div class="col-2">
+                <h4>{{ "Price" | translate }}</h4>
+              </div>
+            </div>
+            <div class="row mt-2" *ngFor="let product of order.orderItems">
+              <div class="col-3">
+                <img
+                  [src]="product.pictureUrl"
+                  [attr.srcset]="this.srcset"
+                  alt="{{ product.productName }}"
+                  sizes="{{ this.sizes }}"
+                  width="1280"
+                  height="1588"
+                  class="img-fluid"
+                />
+              </div>
+              <div class="col-5 order_detail">
+                <div>
+                  <h5>{{ product.productName }}</h5>
+                </div>
+              </div>
+              <div class="col-2 order_detail">
+                <div>
+                  <h5>{{ product.quantity }}</h5>
+                </div>
+              </div>
+              <div class="col-2 order_detail">
+                <div>
+                  <!-- <h5>{{ product?.price * productService!.Currency?.price | discount:product | currency:productService!.Currency.currency:'symbol' }}</h5> -->
+                  <!-- <h5>{{ ((product!.price | discount:product) * product!.quantity) * productService!.Currency.price | currency:productService!.Currency.currency:'symbol' }}</h5> -->
+                  <h5>
+                    {{
+                      product!.price *
+                        product!.quantity *
+                        productService!.Currency.price
+                        | currency
+                          : productService!.Currency.currency
+                          : "symbol"
+                    }}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="total-sec">
+            <ul>
+              <li>
+                {{ "Subtotal" | translate }}
+                <span>{{
+                  order.subTotal
+                    | currency : productService!.Currency.currency : "symbol"
+                }}</span>
+              </li>
+              @if(order.discount !== 0) {
+              <ng-container>
+                <li>
+                  {{ "Product Discount" | translate }}
+                  <span>{{
+                    -order.discount
+                      | currency : productService!.Currency.currency : "symbol"
+                  }}</span>
+                </li>
+              </ng-container>
+              } @if(order.couponDiscount !== 0) {
+              <ng-container>
+                <li>
+                  {{ "Coupon Discount" | translate }} ({{ order.coupon.code }})
+                  <span>{{
+                    -order.couponDiscount
+                      | currency : productService!.Currency.currency : "symbol"
+                  }}</span>
+                </li>
+              </ng-container>
+              }
+
+              <li>
+                {{ "Shipping" | translate }} {{ order.deliveryMethod
+                }}<span>{{
+                  order.shippingPrice
+                    | currency : productService!.Currency.currency : "symbol"
+                }}</span>
+              </li>
+              <!-- <li>Tax <span>$00.00</span></li> -->
+            </ul>
+          </div>
+          <div class="final-total">
+            <h3>
+              {{ "Total" | translate }}
+              <span>{{
+                order.total
+                  | currency : productService!.Currency.currency : "symbol"
+              }}</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row order-success-sec">
+          <div class="col-md-12 mb-3">
+            <div class="delivery-sec">
+              <h3>{{ "Expected date of delivery" | translate }}</h3>
+              <h2>
+                {{ currentDate | date : "dd" }}
+                {{ (currentDate | date : "MMMM")! | translate }}
+                {{ currentDate | date : "yyyy" }}
+              </h2>
+            </div>
+          </div>
+          <!-- <div class="col-sm-12 mb-3">
+                        <div class="summary-sec"><h3>summary</h3></div>
+                        <ul class="order-detail">
+                            <li>order ID: {{ order.id }}</li>
+                            <li>Order Date: {{ order.orderDate | date:'dd/MM/yyyy HH:mm a' }}</li>
+                            <li>Order Total: {{ order.total | currency:productService!.Currency.currency:'symbol' }}</li>
+                        </ul>
+                    </div> -->
+          <div class="col-sm-12 mb-3">
+            <div class="summary-sec">
+              <h3>{{ "Shipping Address" | translate }}</h3>
+            </div>
+            <ul class="order-detail">
+              @if(order.shipToAddress.company !== '') {
+              <li>
+                {{ order.shipToAddress.company }}
+              </li>
+              }
+              <li>
+                {{
+                  order.shipToAddress.firstName +
+                    " " +
+                    order.shipToAddress.lastName
+                }}
+              </li>
+              <li>
+                {{
+                  order.shipToAddress.street + " " + order.shipToAddress.city
+                }}
+              </li>
+              <li>
+                {{
+                  order.shipToAddress.province +
+                    " " +
+                    order.shipToAddress.zipCode
+                }}
+              </li>
+              <li>
+                {{ "Telephone" | translate }}:
+                {{ order.shipToAddress.telephone }}
+              </li>
+              @if(order.shipToAddress.additionalMessage !== '') {
+              <li>
+                Additional Message: {{ order.shipToAddress.additionalMessage }}
+              </li>
+              }
+            </ul>
+          </div>
+          <div class="col-sm-12 mb-3">
+            <div class="summary-sec">
+              <h3>{{ "Billing Address" | translate }}</h3>
+            </div>
+            <ul class="order-detail">
+              @if(order.shipToAddress.billing_Company !== '') {
+              <li>
+                {{ order.shipToAddress.billing_Company }}
+              </li>
+              }
+              <li>
+                {{
+                  order.shipToAddress.billing_FirstName +
+                    " " +
+                    order.shipToAddress.billing_LastName
+                }}
+              </li>
+              <li>
+                {{
+                  order.shipToAddress.billing_Street +
+                    " " +
+                    order.shipToAddress.billing_City
+                }}
+              </li>
+              <li>
+                {{
+                  order.shipToAddress.province +
+                    " " +
+                    order.shipToAddress.zipCode
+                }}
+              </li>
+              <li>
+                {{ "Telephone" | translate }}:
+                {{ order.shipToAddress.telephone }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-sm-12 payment-mode mb-3">
+            <div class="summary-sec">
+              <h3>{{ "Payment Method" | translate }}</h3>
+            </div>
+            <ul class="order-detail mb-3">
+              <li>{{ this.order.paymentMethod.shortName | translate }}</li>
+            </ul>
+            <!-- <ul class="order-detail mb-3">
+                            <li>{{ this.order.paymentMethod.description | translate }}</li>
+                        </ul> -->
+            @if(order.paymentMethod.id === 1) {
+            <div>
+              <div
+                class="row order-detail"
+                *ngFor="let account of this.bankAccounts"
+              >
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                  <ul>
+                    <li>
+                      {{ "Bank Name" | translate }}:
+                      {{ account.bankNameTH + " (" + account.bankName + ")" }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                  <ul>
+                    <li>
+                      {{ "Acc Number" | translate }}:
+                      {{ account.accountNumber }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-xs-12 mb-3">
+                  <ul>
+                    <li>
+                      {{ "Acc Name" | translate }}:
+                      {{
+                        account.accountNameTH + " (" + account.accountName + ")"
+                      }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            } @if(order.paymentMethod.id === 1) {
+            <div class="row order-detail">
+              <ul>
+                <li>{{ this.description! | translate }}</li>
+              </ul>
+            </div>
+            }
+          </div>
+
+          <!-- <div class="col-sm-12 payment-mode mb-3">
+                        <div class="summary-sec"><h3>Confirm Payment</h3></div>
+                        <ul class="order-detail mb-3">
+                            <li>After made a payment, please also make a confirm payment here.</li>
+                        </ul>
+                        <div class="justify-content-center cfpayment-center">
+                            <div>
+                                <a [routerLink]="'/pages/confirm-payment'" class="btn btn-solid">Confirm Payment</a>
+                            </div>
+                        </div>
+                    </div> -->
+
+          <div class="col-sm-12 payment-mode">
+            <div class="summary-sec">
+              <h3>{{ "Date of Shipping" | translate }}</h3>
+            </div>
+            <div class="row mb-3">
+              <ul class="order-detail">
+                <li>
+                  <b>{{ "Monday-Friday" | translate }}</b>
+                </li>
+                <li>
+                  {{
+                    "Made payment before 1:00 PM, delivery same day, after 1:00 PM, your order will be processed next day"
+                      | translate
+                  }}
+                </li>
+              </ul>
+            </div>
+            <div class="row mb-3">
+              <ul class="order-detail">
+                <li>
+                  <b>{{ "Saturday" | translate }}</b>
+                </li>
+                <li>
+                  {{
+                    "Made payment before 11.00 AM. delivery same day, after 11.00 AM. your order will be processed Monday"
+                      | translate
+                  }}
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+              <ul class="order-detail">
+                <li>
+                  <b>{{ "Sunday" | translate }}</b>
+                </li>
+                <li>
+                  {{ "No order will be processed on Sunday" | translate }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>
+<!-- Section ends -->

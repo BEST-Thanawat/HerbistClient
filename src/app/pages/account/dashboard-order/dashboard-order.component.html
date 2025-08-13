@@ -1,0 +1,80 @@
+<app-breadcrumb [title]="'Dashboard'" [breadcrumb]="'Dashboard'"></app-breadcrumb>
+<!-- section start -->
+<section class="section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mobileSidenav" [class.openSide]="this.openDashboard">
+                <a href="javascript:void(0)" class="overlay" (click)="ToggleDashboard()"></a>
+                <div class="dashboard-left" [class.open]="this.openDashboard">
+                    <div class="collection-mobile-back" (click)="ToggleDashboard()">
+                        <span class="filter-back">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i> {{'Back' | translate}}
+                        </span>
+                    </div>
+                    <div class="block-content">
+                        <ul>
+                            <li><a [routerLink]="['/pages/dashboard']">{{'Account Info' | translate}}</a></li>
+                            <li><a [routerLink]="['/pages/dashboard/addressbook']">{{'Address Book' | translate}}</a></li>
+                            <li class="active"><a [routerLink]="['/pages/dashboard/order']">{{'My Orders' | translate}}</a></li>
+                            <li><a [routerLink]="['/pages/dashboard/changepassword']">{{'Change Password' | translate}}</a></li>
+                            <li class="last"><a (click)="logout()" href="javascript:void(0)">{{'Logout' | translate}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="dashboard-right">
+                    <div class="dashboard">
+                        <div class="page-title">
+                            <h2>{{'My Orders' | translate}}</h2>
+                        </div>
+                        <div class="welcome-msg">
+                            <p>{{'You can see your orders here' | translate}}</p>
+                        </div>
+                        <!-- <div class="row" *ngFor="let order of this.orders">
+                            <div class="col-12">
+                                <p>{{order.id}}</p>
+                            </div>
+                        </div> -->
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" sortable="order_id">{{'Id2' | translate}}</th>
+                                            <!-- <th scope="col" sortable="product">Payment</th>-->
+                                            <!-- <th scope="col" sortable="payment_status">Payment Status</th> -->
+                                            <!-- <th scope="col" sortable="paymeny_method">Payment Mehod</th> -->
+                                            <th scope="col" sortable="order_status">{{'Order Status' | translate}}</th>
+                                            <th scope="col" sortable="date">{{'Date' | translate}}</th>
+                                            <th scope="col" sortable="total">{{'Total' | translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let order of this.orders">
+                                            <th scope="row"><a [routerLink]="['/pages/order/success/' + order.id]">{{ order.orderNumber }}</a></th>
+                                            <!-- <td>
+                                                <span *ngFor="let image of item.product">
+                                                    <img [src]="image" class="img-30 me-2">
+                                                </span>
+                                            </td> -->
+                                            <!-- <td><span class='badge {{order.paymentMethod.shortName}}'>{{ order.paymentMethod.shortName }}</span> -->
+                                            <!-- </td> -->
+                                            <!-- <td>{{ order.paymentMethod.shortName }}</td> -->
+                                            <td><span class="badge" [ngClass]="order.status === OrderStatus.Pending ? 'badge-secondary' : order.status === OrderStatus.WaitingPayment ? 'badge-warning' : order.status === OrderStatus.Processing ? 'badge-success' : order.status === OrderStatus.PaymentFailed ? 'badge-danger' : order.status === OrderStatus.Shipped ? 'badge-info' : 'badge-dark'">{{order.status | translate}}</span></td>
+                                            <td>{{order.orderDate | date:'dd/MM/yy'}}</td>  <!--HH:mm-->
+                                            <td>{{order.total | currency:productService!.Currency.currency:'symbol'}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- section end -->

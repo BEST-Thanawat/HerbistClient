@@ -1,0 +1,28 @@
+<form [formGroup]="checkoutForm" autocomplete="off">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-12 addpadding test" formGroupName="paymentForm">
+        <app-text-input
+          [label]="'Name on card'"
+          formControlName="nameOnCard"
+        ></app-text-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-6 addpadding">
+        <div #cardNumber class="form-control"></div>
+        @if(cardErrors) {
+        <ng-container>
+          <span class="text-danger">{{ this.cardErrors }}</span>
+        </ng-container>
+        }
+      </div>
+      <div class="col-6 col-sm-3 addpadding">
+        <div #cardExpiry class="form-control"></div>
+      </div>
+      <div class="col-6 col-sm-3 addpadding">
+        <div #cardCvc class="form-control"></div>
+      </div>
+    </div>
+  </div>
+</form>
