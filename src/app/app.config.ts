@@ -90,7 +90,7 @@ export const appConfig: ApplicationConfig = {
     // provideHttpClient(withFetch(), withInterceptors([progressInterceptor])),
     provideHttpClient(
       withFetch(),
-      withInterceptors([progressInterceptor, errorInterceptor]),
+      withInterceptors([progressInterceptor]),
       withInterceptorsFromDi() // 👈 tells Angular to load DI-provided interceptors
     ),
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

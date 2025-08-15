@@ -357,5 +357,7 @@
   "We have received payment from invoice": "เฮิบบิสท์ได้รับชำระเงินเรียบร้อยจากใบเสนอราคาเลขที่",
   "Thank you for shopping with us": "ขอบคุณลูกค้าที่สั่งซื้อสินค้าของเรา",
   "Coupon Code2" : "คูปองส่วนลด",
-  "Price2": "ราคาต่อหน่วย"
+  "Price2": "ราคาต่อหน่วย",
+  "Email not found": "อีเมลไม่ถูกต้อง",
+  "Login failed": "ล็อกอินไม่สำเร็จ"
 }

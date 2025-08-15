@@ -21,17 +21,17 @@ import { AppService } from '../../shared/services/app.service';
 import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { BreadcrumbComponent } from "../../shared/components/breadcrumb/breadcrumb.component";
-import { CategoriesComponent } from "../../shared/components/categories/categories.component";
-import { ServicesComponent } from "./widgets/services/services.component";
-import { ProductBoxVerticalSliderComponent } from "../../shared/components/product/product-box-vertical-slider/product-box-vertical-slider.component";
-import { CarouselModule } from "ngx-owl-carousel-o";
-import { DiscountPipe } from "../../shared/pipes/discount.pipe";
-import { StockInventoryComponent } from "./widgets/stock-inventory/stock-inventory.component";
-import { SocialComponent } from "./widgets/social/social.component";
-import { AccordionComponent } from "../../shared/components/accordion/accordion.component";
-import { AccordionItemDirective } from "../../shared/components/accordion/directives/accordion-item.directive";
-import { RelatedProductComponent } from "./widgets/related-product/related-product.component";
+import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { CategoriesComponent } from '../../shared/components/categories/categories.component';
+import { ServicesComponent } from './widgets/services/services.component';
+import { ProductBoxVerticalSliderComponent } from '../../shared/components/product/product-box-vertical-slider/product-box-vertical-slider.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { DiscountPipe } from '../../shared/pipes/discount.pipe';
+import { StockInventoryComponent } from './widgets/stock-inventory/stock-inventory.component';
+import { SocialComponent } from './widgets/social/social.component';
+import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
+import { AccordionItemDirective } from '../../shared/components/accordion/directives/accordion-item.directive';
+import { RelatedProductComponent } from './widgets/related-product/related-product.component';
 import { TextInputComponent } from '../../shared/components/text-input/text-input.component';
 import { AccordionContentDirective } from '../../shared/components/accordion/directives/accordion-content.directive';
 
@@ -87,25 +87,29 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private shopService: ShopService
   ) {
-    if (this.appService.isBrowser()) {
-      this.subscriptionParamMap = this.route.paramMap.subscribe((paramMap) => {
-        //console.log();
-        this.loadProduct(paramMap.get('id')!);
-      });
+    // if (this.appService.isBrowser()) {
+    this.subscriptionParamMap = this.route.paramMap.subscribe((paramMap) => {
+      //console.log();
+      this.loadProduct(paramMap.get('id')!);
+    });
 
-      this.navigationSubs = this.shopService.getMobileSidebar().subscribe({
-        next: (value: boolean) => {
-          //console.log(value);
-          this.mobileSideBar = value;
-        },
-      });
+    this.navigationSubs = this.shopService.getMobileSidebar().subscribe({
+      next: (value: boolean) => {
+        //console.log(value);
+        this.mobileSideBar = value;
+      },
+    });
 
-      this.createReviewForm();
-      this.shopService.setShowFooter(false);
-    }
+    this.createReviewForm();
+    this.shopService.setShowFooter(false);
+    // }
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.product = this.route.snapshot.data['product'];
+  }
+
+  // ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.navigationSubs.unsubscribe();
@@ -113,88 +117,144 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     this.subscriptionParamMap.unsubscribe();
   }
 
-  loadProduct(id: string) {
-    //this.productService.getProductDetail(Number(this.route.snapshot.paramMap.get('id'))).subscribe({
-    this.productService
-      .getProductDetail(Number(id))
-      .pipe(
-        map((product) => {
-          if (environment.cloudinary === true) {
-            let imageUrl = environment.apiUrl.replace('api/', '');
-            if (imageUrl.includes('https')) {
-              imageUrl = imageUrl.replace('https', 'http');
-            }
-            let apiImageUrl = imageUrl + 'Content/images/products/';
-            let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
-            // console.log(apiImageUrl);
-            console.log(product);
+  async loadProduct(id: string) {
+    const product = await this.productService.getProductDetail(Number(id));
 
-            product.images.forEach((item, index, array) => {
-              // console.log(array[index].src);
-              let temp = array[index].src?.includes('https')
-                ? array[index]
-                    .src!.replace('https', 'http')
-                    .replace(apiImageUrl, cloudinaryUrl)
-                : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
-              array[index].src = temp;
-              console.log(array[index].src);
-            });
-          }
+    if (environment.cloudinary === true) {
+      let imageUrl = environment.apiUrl.replace('api/', '');
+      if (imageUrl.includes('https')) {
+        imageUrl = imageUrl.replace('https', 'http');
+      }
+      let apiImageUrl = imageUrl + 'Content/images/products/';
+      let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
+      // console.log(apiImageUrl);
+      // console.log(product);
 
-          return product;
-        })
-      )
-      .subscribe({
-        next: (product: IProduct) => {
-          // Get current user
-          this.currentUser$ = this.accountService.currentUser$;
-          this.currentUser$.subscribe({
-            next: (user: any) => {
-              if (user) {
-                let isCommented = product.reviews.find(
-                  (email) => email.buyerEmail === user.email
-                );
-                if (isCommented) this.isAlreadyCommented = true;
-
-                this.getOrders();
-                this.reviewForm!.get('rating')!.patchValue('5');
-                this.reviewForm!.get('rating')!.markAsTouched();
-                this.reviewForm!.get('name')!.patchValue(user.displayName);
-                this.reviewForm!.get('email')!.patchValue(user.email);
-                this.reviewForm!.get('name')!.markAsTouched();
-                this.reviewForm!.get('email')!.markAsTouched();
-              }
-            },
-            error: (e: any) => {
-              console.log(e);
-            },
-          });
-
-          //console.log(product.images)
-          this.product = product;
-          const params = this.productService.getShopParams();
-          params.typeId = this.product.productTypeId;
-          this.productService.setShopParams(params);
-
-          //Cannot use Image on Angular Universal SSR side
-          //let productImage = new Image();
-          //productImage.src = product.images[0].src!;
-          //console.log(product.images[0].src);
-          this.seoService.setProductPageTags(product, product.images[0].src!);
-          //console.log(product.reviews);
-
-          this.CalculateRatingAndAddProductSnippets();
-        },
-        error: (e) => {
-          console.error(e);
-        },
-        complete: () => {
-          //console.info('load a product complete');
-          this.shopService.scrollToTop();
-          this.shopService.setShowFooter(true);
-        },
+      product.images.forEach((item, index, array) => {
+        // console.log(array[index].src);
+        let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
+        array[index].src = temp;
+        // console.log(array[index].src);
       });
+    }
+
+    // Get current user
+    this.currentUser$ = this.accountService.currentUser$;
+    this.currentUser$.subscribe({
+      next: (user: any) => {
+        if (user) {
+          let isCommented = product.reviews.find((email) => email.buyerEmail === user.email);
+          if (isCommented) this.isAlreadyCommented = true;
+
+          this.getOrders();
+          this.reviewForm!.get('rating')!.patchValue('5');
+          this.reviewForm!.get('rating')!.markAsTouched();
+          this.reviewForm!.get('name')!.patchValue(user.displayName);
+          this.reviewForm!.get('email')!.patchValue(user.email);
+          this.reviewForm!.get('name')!.markAsTouched();
+          this.reviewForm!.get('email')!.markAsTouched();
+        }
+      },
+      error: (e: any) => {
+        console.log(e);
+      },
+    });
+
+    //console.log(product.images)
+    this.product = product;
+    const params = this.productService.getShopParams();
+    params.typeId = this.product.productTypeId;
+    this.productService.setShopParams(params);
+
+    //Cannot use Image on Angular Universal SSR side
+    //let productImage = new Image();
+    //productImage.src = product.images[0].src!;
+    //console.log(product.images[0].src);
+    this.seoService.setProductPageTags(product, product.images[0].src!);
+    //console.log(product.reviews);
+
+    this.CalculateRatingAndAddProductSnippets();
+
+    this.shopService.scrollToTop();
+    this.shopService.setShowFooter(true);
   }
+
+  // loadProduct(id: string) {
+  //   //this.productService.getProductDetail(Number(this.route.snapshot.paramMap.get('id'))).subscribe({
+  //   this.productService
+  //     .getProductDetail(Number(id))
+  //     .pipe(
+  //       map((product) => {
+  //         if (environment.cloudinary === true) {
+  //           let imageUrl = environment.apiUrl.replace('api/', '');
+  //           if (imageUrl.includes('https')) {
+  //             imageUrl = imageUrl.replace('https', 'http');
+  //           }
+  //           let apiImageUrl = imageUrl + 'Content/images/products/';
+  //           let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
+  //           // console.log(apiImageUrl);
+  //           // console.log(product);
+
+  //           product.images.forEach((item, index, array) => {
+  //             // console.log(array[index].src);
+  //             let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
+  //             array[index].src = temp;
+  //             // console.log(array[index].src);
+  //           });
+  //         }
+
+  //         return product;
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (product: IProduct) => {
+  //         // Get current user
+  //         this.currentUser$ = this.accountService.currentUser$;
+  //         this.currentUser$.subscribe({
+  //           next: (user: any) => {
+  //             if (user) {
+  //               let isCommented = product.reviews.find((email) => email.buyerEmail === user.email);
+  //               if (isCommented) this.isAlreadyCommented = true;
+
+  //               this.getOrders();
+  //               this.reviewForm!.get('rating')!.patchValue('5');
+  //               this.reviewForm!.get('rating')!.markAsTouched();
+  //               this.reviewForm!.get('name')!.patchValue(user.displayName);
+  //               this.reviewForm!.get('email')!.patchValue(user.email);
+  //               this.reviewForm!.get('name')!.markAsTouched();
+  //               this.reviewForm!.get('email')!.markAsTouched();
+  //             }
+  //           },
+  //           error: (e: any) => {
+  //             console.log(e);
+  //           },
+  //         });
+
+  //         //console.log(product.images)
+  //         this.product = product;
+  //         const params = this.productService.getShopParams();
+  //         params.typeId = this.product.productTypeId;
+  //         this.productService.setShopParams(params);
+
+  //         //Cannot use Image on Angular Universal SSR side
+  //         //let productImage = new Image();
+  //         //productImage.src = product.images[0].src!;
+  //         //console.log(product.images[0].src);
+  //         this.seoService.setProductPageTags(product, product.images[0].src!);
+  //         //console.log(product.reviews);
+
+  //         this.CalculateRatingAndAddProductSnippets();
+  //       },
+  //       error: (e) => {
+  //         console.error(e);
+  //       },
+  //       complete: () => {
+  //         //console.info('load a product complete');
+  //         this.shopService.scrollToTop();
+  //         this.shopService.setShowFooter(true);
+  //       },
+  //     });
+  // }
 
   private GenerateProductSnippets(product: IProduct) {
     let reviewArray: {
@@ -224,22 +284,14 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
       reviewArray.push(tempReview);
       //console.log(reviewArray);
     });
-    this.AddProductSnippet(
-      product,
-      product.images[0].src!,
-      reviewArray,
-      this.aggregateRatingValue,
-      this.aggregateRatingCount
-    );
+    this.AddProductSnippet(product, product.images[0].src!, reviewArray, this.aggregateRatingValue, this.aggregateRatingCount);
   }
 
   private CalculateRatingAndAddProductSnippets() {
     this.aggregateRatingValue = 0;
     this.aggregateRatingCount = 0;
 
-    const sumRating =
-      this.product.reviews.reduce((a, b) => b.rating + a, 0) /
-      this.product.reviews.length;
+    const sumRating = this.product.reviews.reduce((a, b) => b.rating + a, 0) / this.product.reviews.length;
     if (sumRating) {
       const ratingAvg = this.round(sumRating, 0.5);
       this.rating = ratingAvg;
@@ -316,13 +368,7 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     this.shopService.setMobileSidebar(!this.mobileSideBar);
   }
 
-  AddProductSnippet(
-    product: IProduct,
-    productImageURL: string,
-    reviewsArray: any,
-    aggregateRatingValue: number,
-    aggregateRatingCount: number
-  ) {
+  AddProductSnippet(product: IProduct, productImageURL: string, reviewsArray: any, aggregateRatingValue: number, aggregateRatingCount: number) {
     //console.log(productImage.src);
     this.seoService.emptyJsonSnippet();
     this.seoService.updateJsonSnippet({
@@ -341,10 +387,7 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
         '@type': 'Offer',
         url: 'https://herbist.shop/shop/product/' + product.id,
         itemCondition: 'https://schema.org/NewCondition',
-        availability:
-          product.stock > 0
-            ? 'https://schema.org/InStock'
-            : 'https://schema.org/OutOfStock',
+        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
         price: product.price,
         priceCurrency: 'THB',
         //priceValidUntil: "2020-11-20",
@@ -429,11 +472,7 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
 
   blindEmail(email: string) {
     let addIndex = email.indexOf('@');
-    return (
-      email.substring(0, addIndex - 5) +
-      '...' +
-      email.substring(addIndex, email.length)
-    );
+    return email.substring(0, addIndex - 5) + '...' + email.substring(addIndex, email.length);
   }
 
   getOrders() {

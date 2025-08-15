@@ -357,5 +357,8 @@
   "We have received payment from invoice": "We have received payment from invoice",
   "Thank you for shopping with us": "Thank you for shopping with us",
   "Coupon Code2" : "Coupon Code",
-  "Price2": "Price/Item"
+  "Price2": "Price/Item",
+  "Email not found": "Email not found",
+  "Login failed": "Login failed"
+
 }

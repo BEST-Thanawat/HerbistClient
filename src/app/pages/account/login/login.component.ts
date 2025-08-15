@@ -11,17 +11,24 @@ import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/bread
 import { TextInputComponent } from '../../../shared/components/text-input/text-input.component';
 
 @Component({
-  selector: 'app-login', 
+  selector: 'app-login',
   imports: [BreadcrumbComponent, ReactiveFormsModule, CommonModule, TranslateModule, RouterModule, TextInputComponent],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   returnUrl!: string;
   loading = false;
 
-  constructor(private tts: ToastrTranslateService, private seoService: SeoService, private accountService: AccountService, private router: Router, private activatedRoute: ActivatedRoute, private shopService: ShopService) { }
+  constructor(
+    private tts: ToastrTranslateService,
+    private seoService: SeoService,
+    private accountService: AccountService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private shopService: ShopService
+  ) {}
 
   ngOnInit(): void {
     this.seoService.setMainPageTags('Login(ล็อกอิน) | Herbist(เฮิบบิสท์) | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า');
@@ -34,7 +41,7 @@ export class LoginComponent implements OnInit {
   createLoginForm() {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
     });
   }
 
@@ -44,14 +51,20 @@ export class LoginComponent implements OnInit {
       next: () => {
         this.router.navigateByUrl(this.returnUrl);
       },
-      error: (e) => { 
+      error: (e) => {
         this.loading = false;
-        console.error(e) 
-       },
+        console.error(e);
+
+        if (e.statusCode === 401) {
+          this.tts.error(e.message);
+        } else {
+          this.tts.error(e.message + ' (' + e.statusCode + ')');
+        }
+      },
       complete: () => {
         this.loading = false;
         this.tts.success('Successfully logged in');
-      }
+      },
     });
   }
 }

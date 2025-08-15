@@ -1,6 +1,7 @@
 /*=====================
 24.Responsive CSS start
 ==========================*/
+@use "variables" as v;
 
 @media(min-width: 1430px) {
     .container {
@@ -83,22 +84,22 @@
             .product-filter-content {
                 .search-count {
                     width: 100%;
-                    border-left: 1px solid $round-border;
-                    border-bottom: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
+                    border-bottom: 1px solid v.$round-border;
                     text-align: center;
                 }
 
                 .collection-view {
                     width: 20%;
                     padding-right: 0 !important;
-                    border-left: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
                 }
 
                 .collection-grid-view {
                     padding: 20px !important;
                     padding-left: 0 !important;
                     width: 20%;
-                    border-left: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
 
                     ul {
                         li {
@@ -110,7 +111,7 @@
                 }
 
                 .product-page-filter {
-                    border-right: 1px solid $round-border;
+                    border-right: 1px solid v.$round-border;
                     width: 30%;
                 }
 
@@ -203,11 +204,11 @@
             .product-filter-content {
                 .collection-view {
                     border-left: none;
-                    border-right: 1px solid $round-border;
+                    border-right: 1px solid v.$round-border;
                 }
 
                 .product-page-filter {
-                    border-left: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
                     border-right: none;
                 }
             }
@@ -215,7 +216,7 @@
             .product-top-filter {
                 .product-filter-content {
                     .search-count {
-                        border-right: 1px solid $round-border;
+                        border-right: 1px solid v.$round-border;
                         padding-right: 20px;
 
                         h5 {
@@ -243,11 +244,11 @@
             .product-top-filter {
                 .product-filter-content {
                     .collection-view {
-                        border-color: $dark-border;
+                        border-color: v.$dark-border;
                     }
 
                     .product-page-filter {
-                        border-color: $dark-border;
+                        border-color: v.$dark-border;
                     }
                 }
             }
@@ -1282,7 +1283,7 @@
     .layout7-product {
         .product-box {
             .details-product {
-                background-color: rgba($white, 0.5);
+                background-color: rgba(v.$white, 0.5);
                 padding: 5px;
             }
         }
@@ -1311,14 +1312,14 @@
             .product-filter-content {
                 .search-count {
                     width: 100%;
-                    border-left: 1px solid $round-border;
-                    border-bottom: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
+                    border-bottom: 1px solid v.$round-border;
                 }
 
                 .collection-view {
                     width: 20%;
                     padding-right: 0 !important;
-                    border-left: 1px solid $round-border;
+                    border-left: 1px solid v.$round-border;
                 }
 
                 .collection-grid-view {
@@ -1516,7 +1517,7 @@
 
         .nav-material {
             .nav-tabs {
-                border-bottom: 1px solid $round-border;
+                border-bottom: 1px solid v.$round-border;
                 border-right: 0;
 
                 .nav-item {
@@ -1569,7 +1570,7 @@
             .cart_media {
                 display: block;
                 width: 100%;
-                background-color: $white;
+                background-color: v.$white;
 
                 .cart_product {
                     width: 100%;
@@ -1668,17 +1669,17 @@
     // dark //
     .dark {
         .sm-horizontal {
-            background-color: $dark-body;
-            border-color: $dark-border;
+            background-color: v.$dark-body;
+            border-color: v.$dark-border;
 
             .mobile-back {
-                border-color: $dark-border;
-                color: $white-3;
+                border-color: v.$dark-border;
+                color: v.$white-3;
             }
 
             &.pixelstrap {
                 ul {
-                    background-color: $dark-body;
+                    background-color: v.$dark-body;
                 }
             }
         }
@@ -1686,7 +1687,7 @@
         .tab-product {
             .nav-material {
                 &.nav-tabs {
-                    background-color: $dark-body;
+                    background-color: v.$dark-body;
                 }
             }
         }
@@ -1695,7 +1696,7 @@
             &.left-header {
                 .pixelstrap {
                     ul {
-                        background-color: $dark-top;
+                        background-color: v.$dark-top;
                     }
                 }
             }
@@ -1703,7 +1704,7 @@
             &.header-gym {
                 .main-navbar {
                     .nav-menu {
-                        background-color: $dark-body;
+                        background-color: v.$dark-body;
 
                         >li {
                             >a {
@@ -1906,7 +1907,7 @@
         background-color: white;
 
         .top-header {
-            background-color: $theme-default;
+            background-color: v.$theme-default;
 
             .container {
                 background-color: transparent;
@@ -2260,7 +2261,7 @@
             h4 {
                 font-size: 20px;
                 /*padding: 7px 25px;
-background-color: $black;*/
+background-color: v.$black;*/
             }
         }
     }
@@ -2503,7 +2504,7 @@ background-color: $black;*/
 
     .parallax-cls {
         .banner-contain {
-            background-color: rgba($white, .5);
+            background-color: rgba(v.$white, .5);
             padding: 35px;
         }
 
@@ -2599,7 +2600,7 @@ background-color: $black;*/
 
             .product-filter-content {
                 .search-count {
-                    border-top: 1px solid $round-border;
+                    border-top: 1px solid v.$round-border;
                     text-align: left;
                 }
 
@@ -2620,7 +2621,7 @@ background-color: $black;*/
                     }
 
                     select {
-                        border-left: 1px solid $round-border;
+                        border-left: 1px solid v.$round-border;
                         padding: 21px 21px 21px 21px;
                         border-top: none;
                         border-bottom: none;
@@ -2640,7 +2641,7 @@ background-color: $black;*/
 
                 .product-page-per-view,
                 .product-page-filter {
-                    border-top: 1px solid $round-border;
+                    border-top: 1px solid v.$round-border;
                 }
             }
         }
@@ -2734,7 +2735,7 @@ background-color: $black;*/
             ul {
                 li {
                     padding-left: 0;
-                    border-bottom: 1px solid $round-border;
+                    border-bottom: 1px solid v.$round-border;
                     text-align: center;
                     padding-bottom: 10px;
                     margin-top: 15px;
@@ -2812,14 +2813,14 @@ background-color: $black;*/
                     padding-bottom: 10px;
                     text-align: center;
                     margin-bottom: 20px;
-                    background: none $theme-default;
+                    background: none v.$theme-default;
 
                     .open-popup {
                         text-align: left;
                     }
 
                     >a {
-                        color: $white;
+                        color: v.$white;
                     }
 
                     .collection-filter {
@@ -2933,7 +2934,7 @@ background-color: $black;*/
         padding: 0;
         width: 250px;
         transition: all 0.5s ease;
-        box-shadow: 0 0 8px 0 $round-border;
+        box-shadow: 0 0 8px 0 v.$round-border;
 
         .collection-mobile-back {
             padding: 15px;
@@ -3070,7 +3071,7 @@ background-color: $black;*/
                     }
 
                     .product-page-per-view {
-                        border-right: 1px solid $round-border;
+                        border-right: 1px solid v.$round-border;
                     }
                 }
 
@@ -3093,7 +3094,7 @@ background-color: $black;*/
                     }
 
                     .sidebar-popup {
-                        background: none $theme-default;
+                        background: none v.$theme-default;
                     }
                 }
             }
@@ -3156,7 +3157,7 @@ background-color: $black;*/
     // dark //
     .dark {
         .collection-filter {
-            background-color: $dark-body;
+            background-color: v.$dark-body;
         }
 
         .collection-product-wrapper {
@@ -3166,7 +3167,7 @@ background-color: $black;*/
                     .product-page-per-view,
                     .product-page-filter {
                         select {
-                            border-color: $dark-border;
+                            border-color: v.$dark-border;
                         }
                     }
                 }
@@ -3174,15 +3175,15 @@ background-color: $black;*/
         }
 
         .collection-mobile-back {
-            border-color: $dark-border;
+            border-color: v.$dark-border;
 
             span {
-                color: $dark-span;
+                color: v.$dark-span;
             }
         }
 
         .collection-collapse-block {
-            border-color: $dark-border !important;
+            border-color: v.$dark-border !important;
         }
 
         .collection-filter {
@@ -3193,21 +3194,21 @@ background-color: $black;*/
             .contact-right {
                 ul {
                     li {
-                        border-color: $dark-border;
+                        border-color: v.$dark-border;
                     }
                 }
             }
         }
 
         .dashboard-left {
-            background-color: $dark-top;
+            background-color: v.$dark-top;
             box-shadow: none;
         }
 
         header {
             &.header-tools {
                 .logo-menu-part {
-                    background-color: $dark-body;
+                    background-color: v.$dark-body;
                 }
             }
         }
@@ -3247,7 +3248,7 @@ background-color: $black;*/
 
                     a,
                     button {
-                        background-color: $white;
+                        background-color: v.$white;
                     }
                 }
             }
@@ -3281,7 +3282,7 @@ background-color: $black;*/
 
             .dark-layout {
                 .footer-title {
-                    border-bottom: 1px solid $white;
+                    border-bottom: 1px solid v.$white;
                 }
             }
         }
@@ -3366,7 +3367,7 @@ background-color: $black;*/
                     @media(hover: hover) and (pointer: fine) {
                         &:hover {
                             i {
-                                color: $white;
+                                color: v.$white;
                             }
                         }
                     }
@@ -3426,7 +3427,7 @@ background-color: $black;*/
 
                     i {
                         background: none;
-                        color: $grey6;
+                        color: v.$grey6;
                     }
 
                     button,
@@ -3434,7 +3435,7 @@ background-color: $black;*/
                         @media(hover: hover) and (pointer: fine) {
                             &:hover {
                                 i {
-                                    color: $theme-default;
+                                    color: v.$theme-default;
                                 }
                             }
                         }
@@ -3549,10 +3550,10 @@ background-color: $black;*/
                 .product-detail {
                     opacity: 1;
                     bottom: 15px;
-                    background-color: rgba($white, 0.5);
+                    background-color: rgba(v.$white, 0.5);
 
                     h6 {
-                        color: $black;
+                        color: v.$black;
                     }
                 }
 
@@ -3622,7 +3623,7 @@ background-color: $black;*/
     .darken-layout,
     .dark-layout {
         .footer-title {
-            border-bottom: 1px solid $border-bottom-g;
+            border-bottom: 1px solid v.$border-bottom-g;
         }
 
         .subscribe-wrapper {
@@ -3756,7 +3757,7 @@ background-color: $black;*/
         .footer-theme {
             .footer-mobile-title {
                 h4 {
-                    color: $white;
+                    color: v.$white;
                 }
             }
         }
@@ -3981,7 +3982,7 @@ background-color: $black;*/
     .footer-title {
         margin-top: 10px;
         text-align: left;
-        border-bottom: 1px solid $round-border;
+        border-bottom: 1px solid v.$round-border;
         position: relative;
 
         &.footer-mobile-title {
@@ -4588,12 +4589,12 @@ background-color: $black;*/
     .product-pagination {
         .pagination {
             justify-content: center;
-            border-left: 1px solid $round-border;
+            border-left: 1px solid v.$round-border;
         }
     }
 
     .testimonial {
-        background-color: $grey-about;
+        background-color: v.$grey-about;
 
         .testimonial-slider {
             .media {
@@ -4859,7 +4860,7 @@ background-color: $black;*/
                 .theme-paggination-block {
                     nav {
                         border-right: none;
-                        border-left: 1px solid $round-border;
+                        border-left: 1px solid v.$round-border;
                     }
                 }
 
@@ -4977,7 +4978,7 @@ background-color: $black;*/
                         .product-box2 {
                             +.product-box2 {
                                 border-left: none;
-                                border-right: 1px solid $border-grey;
+                                border-right: 1px solid v.$border-grey;
                             }
                         }
                     }
@@ -5025,7 +5026,7 @@ background-color: $black;*/
             .product-pagination {
                 .theme-paggination-block {
                     nav {
-                        border-color: $dark-border;
+                        border-color: v.$dark-border;
                     }
                 }
             }
@@ -5033,7 +5034,7 @@ background-color: $black;*/
 
         .product-pagination {
             .pagination {
-                border-color: $dark-border;
+                border-color: v.$dark-border;
             }
         }
     }
@@ -5153,7 +5154,7 @@ background-color: $black;*/
 
     .header-gym {
         position: relative;
-        background-color: $black;
+        background-color: v.$black;
 
         .mobile-fix-option {
             z-index: 1;
@@ -5752,7 +5753,7 @@ background-color: $black;*/
         }
 
         .banner-contain {
-            background-color: rgba($white, 0.2);
+            background-color: rgba(v.$white, 0.2);
             padding: 25px;
 
             .btn-solid,
@@ -5843,7 +5844,7 @@ background-color: $black;*/
 
                     h1,
                     p {
-                        color: $white;
+                        color: v.$white;
                     }
 
                     h1 {
@@ -6104,8 +6105,8 @@ background-color: $black;*/
                 }
 
                 .product-page-per-view {
-                    border-right: 1px solid $round-border !important;
-                    border-bottom: 1px solid $round-border;
+                    border-right: 1px solid v.$round-border !important;
+                    border-bottom: 1px solid v.$round-border;
                 }
             }
 
@@ -6116,7 +6117,7 @@ background-color: $black;*/
                 }
 
                 .product-page-per-view {
-                    border-bottom: 1px solid $round-border;
+                    border-bottom: 1px solid v.$round-border;
                     width: 100%;
 
                     select {
@@ -6412,7 +6413,7 @@ background-color: $black;*/
             .product-top-filter {
                 .product-filter-content {
                     .product-page-filter {
-                        border-right: 1px solid $round-border;
+                        border-right: 1px solid v.$round-border;
                     }
 
                     .product-page-per-view,
@@ -6544,7 +6545,7 @@ background-color: $black;*/
             .product-top-filter {
                 .product-filter-content {
                     .product-page-per-view {
-                        border-color: $dark-border !important;
+                        border-color: v.$dark-border !important;
                     }
                 }
             }
@@ -7702,8 +7703,8 @@ background-color: $black;*/
             .offer-slider {
                 .product-box {
                     display: flex;
-                    border-bottom: 1px solid $border-grey;
-                    border-top: 1px solid $border-grey;
+                    border-bottom: 1px solid v.$border-grey;
+                    border-top: 1px solid v.$border-grey;
 
                     app-product-box-two {
                         display: flex;
@@ -7788,7 +7789,7 @@ background-color: $black;*/
                     display: inline;
 
                     .product-box2 {
-                        border-bottom: 1px solid $border-grey;
+                        border-bottom: 1px solid v.$border-grey;
                         padding-bottom: 15px;
 
                         &:last-child {

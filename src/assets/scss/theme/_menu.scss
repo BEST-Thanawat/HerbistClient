@@ -1,6 +1,7 @@
 /*=====================
     27.Menu css start
 ==========================*/
+@use "variables" as v;
 
 header {
     .main-navbar {
@@ -46,7 +47,7 @@ header {
                         border-radius: 4px;
                         &:before {
                             content: "\f107";
-                            font-family: $font-awesome;
+                            font-family: v.$font-awesome;
                             position: absolute;
                         }
                     }
@@ -54,7 +55,7 @@ header {
                         position: absolute;
                         background-color: var(--theme-default);
                         padding: 2px 7px;
-                        color: $white;
+                        color: v.$white;
                         top: 20px;
                         text-transform: uppercase;
                         font-size: 9px;
@@ -72,9 +73,9 @@ header {
                             left: 5px;
                         }
                         &.lable-red {
-                            background-color: $color-red;
+                            background-color: v.$color-red;
                             &:before {
-                                border-top: 5px solid $color-red;
+                                border-top: 5px solid v.$color-red;
                             }
                         }
                     }
@@ -128,7 +129,7 @@ header {
                                 border-radius: 4px;
                                 &:before {
                                     content: "\f105";
-                                    font-family: $font-awesome;
+                                    font-family: v.$font-awesome;
                                     position: absolute;
                                 }
                             }
@@ -244,7 +245,7 @@ header {
                         border-radius: 4px;
                         &:before {
                             content: "\f107";
-                            font-family: $font-awesome;
+                            font-family: v.$font-awesome;
                             position: absolute;
                         }
                     }
@@ -252,7 +253,7 @@ header {
                         position: absolute;
                         background-color: var(--theme-default);
                         padding: 2px 7px;
-                        color: $white;
+                        color: v.$white;
                         top: 20px;
                         text-transform: uppercase;
                         font-size: 9px;
@@ -270,9 +271,9 @@ header {
                             left: 5px;
                         }
                         &.lable-red {
-                            background-color: $color-red;
+                            background-color: v.$color-red;
                             &:before {
-                                border-top: 5px solid $color-red;
+                                border-top: 5px solid v.$color-red;
                             }
                         }
                     }
@@ -292,20 +293,20 @@ header {
         z-index: 9999;
         top: 0;
         left: -300px;
-        background-color: $white;
+        background-color: v.$white;
         transition: all 0.5s ease;
         .sidebar-back {
             padding: 20px;
             font-size: 18px;
-            color: $dark-font;
+            color: v.$dark-font;
             font-weight: 700;
             text-transform: uppercase;
-            border-bottom: 1px solid $grey3;
+            border-bottom: 1px solid v.$grey3;
             margin-bottom: 20px;
             cursor: pointer;
         }
         nav {
-            background-color: $white;
+            background-color: v.$white;
             z-index: 9;
             position: relative;
             height: 100vh;
@@ -340,7 +341,7 @@ header {
             font-size: 36px;
             margin-left: 50px;
             margin-top: 50px;
-            color: $grey-font;
+            color: v.$grey-font;
         }
         .sidebar-menu {
             background-color: #ffffff;
@@ -1468,7 +1469,7 @@ header {
         bottom: 0;
         left: 0;
         height: 60px;
-        background-color: $font-color;
+        background-color: v.$font-color;
         width: 100vw;
         z-index: 9;
         box-shadow: 0 2px 5px 0 rgba(168, 168, 168, 1);
@@ -1508,7 +1509,7 @@ header {
                         i {
                             font-size: 22px;
                             font: normal normal normal 14px/1 FontAwesome;
-                            color: $header-font;
+                            color: v.$header-font;
                             &:before {
                                 content: "\f234"; //\f090
                             }
@@ -1520,7 +1521,7 @@ header {
                         i {
                             font-size: 22px;
                             font: normal normal normal 14px/1 FontAwesome;
-                            color: $header-font;
+                            color: v.$header-font;
                             &:before {
                                 content: "\f090"; //\f090
                             }
@@ -1532,7 +1533,7 @@ header {
                         i {
                             font-size: 22px;
                             font: normal normal normal 14px/1 FontAwesome;
-                            color: $header-font;
+                            color: v.$header-font;
                             &:before {
                                 content: "\f08b"; //\f090
                             }
@@ -1544,7 +1545,7 @@ header {
                         i {
                             font-size: 22px;
                             font: normal normal normal 14px/1 FontAwesome;
-                            color: $header-font;
+                            color: v.$header-font;
                             &:before {
                                 content: "\f0cb";
                             }
@@ -1556,7 +1557,7 @@ header {
                         i {
                             font-size: 22px;
                             font: normal normal normal 14px/1 FontAwesome;
-                            color: $header-font;
+                            color: v.$header-font;
                             &:before {
                                 content: "\f108";
                             }
@@ -1567,8 +1568,8 @@ header {
 
                 i {
                     font-size: 22px;
-                    font-family: $font-themify;
-                    color: $white-dark;
+                    font-family: v.$font-themify;
+                    color: v.$white-dark;
                     &:before {
                         content: "\e602";
                     }
@@ -1581,15 +1582,15 @@ header {
                 }
                 &:hover {
                     i {
-                        color: $white-dark;//$header-font;
+                        color: v.$white-dark;//v.$header-font;
                     }
                 }
             }
             .mobile-wishlist {
                 right: 64%;
                 i {
-                    font-family: $font-themify;
-                    color: $header-font !important;
+                    font-family: v.$font-themify;
+                    color: v.$header-font !important;
                     &:before {
                         content: "\e634";
                     }
@@ -1635,7 +1636,7 @@ header {
                     i {
                         display: inline-block;
                         font-size: 22px;
-                        color: $white-dark;                        
+                        color: v.$white-dark;                        
                         margin-top: -20px;
                     }
                     >div {
@@ -1659,7 +1660,7 @@ header {
                     i {
                         display: inline-block;
                         font-size: 22px;
-                        color: $white-dark;
+                        color: v.$white-dark;
                     }
                     >div {
                         img {
@@ -1673,7 +1674,7 @@ header {
                     i {
                         display: inline-block;
                         font-size: 22px;
-                        color: $white-dark;
+                        color: v.$white-dark;
                     }
                     img {
                         display: none;

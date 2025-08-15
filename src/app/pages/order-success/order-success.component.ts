@@ -51,7 +51,7 @@ export class OrderSuccessComponent implements OnInit {
           imageUrl = imageUrl.replace('https', 'http');
         }
         let apiImageUrl = imageUrl + 'Content/images/products/';
-        let cloudinaryUrl = environment.cloudinaryId + '/Products/';
+        let cloudinaryUrl =  environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
 
         order.orderItems.forEach((product: IOrderItem, index: number, array: IOrderItem[]) => {
           let temp = array[index].pictureUrl?.includes('https') ? array[index].pictureUrl!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].pictureUrl!.replace(apiImageUrl, cloudinaryUrl);

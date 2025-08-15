@@ -1,4 +1,4 @@
-import { Component, OnInit, PipeTransform, Pipe, forwardRef } from '@angular/core';
+import { Component, OnInit, PipeTransform, Pipe, forwardRef, AfterViewInit, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppService } from '../../services/app.service';
@@ -19,14 +19,13 @@ import { NavService } from '../../services/nav.service';
   selector: 'app-settings',
   imports: [CommonModule, TranslateModule, RouterModule, ReactiveFormsModule, forwardRef(() => SumPipe)],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
-
 export class SettingsComponent implements OnInit {
-  searchImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/search.png' : "assets/images/icon/search.png";
-  cartImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/cart.png' : "assets/images/icon/cart.png";
+  searchImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/search.png' : 'assets/images/icon/search.png';
+  cartImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/cart.png' : 'assets/images/icon/cart.png';
   sizes = '10vw';
-  srcset = '';//'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
+  srcset = ''; //'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   cart$!: Observable<ICart | null>;
   cartTotals$!: Observable<ICartTotals | null>;
@@ -35,62 +34,81 @@ export class SettingsComponent implements OnInit {
   public products: Product[] = [];
   public search: boolean = false;
 
-  public languages = [{
-    class: 'flag:US',
-    name: 'English',
-    code: 'en'
-  }, {
-    class: 'flag:TH',
-    name: 'Thai',
-    code: 'th'
-  }];
+  public languages = [
+    {
+      class: 'flag:US',
+      name: 'English',
+      code: 'en',
+    },
+    {
+      class: 'flag:TH',
+      name: 'Thai',
+      code: 'th',
+    },
+  ];
 
-  public currencies = [{
-    name: 'Euro',
-    currency: 'EUR',
-    price: 0.90 // price of euro
-  }, {
-    name: 'Rupees',
-    currency: 'INR',
-    price: 70.93 // price of inr
-  }, {
-    name: 'Pound',
-    currency: 'GBP',
-    price: 0.78 // price of euro
-  }, {
-    name: 'Dollar',
-    currency: 'USD',
-    price: 1 // price of usd
-  }]
+  public currencies = [
+    {
+      name: 'Euro',
+      currency: 'EUR',
+      price: 0.9, // price of euro
+    },
+    {
+      name: 'Rupees',
+      currency: 'INR',
+      price: 70.93, // price of inr
+    },
+    {
+      name: 'Pound',
+      currency: 'GBP',
+      price: 0.78, // price of euro
+    },
+    {
+      name: 'Dollar',
+      currency: 'USD',
+      price: 1, // price of usd
+    },
+  ];
 
   public searchForm: FormGroup | undefined;
 
-  constructor(private formBuilder: UntypedFormBuilder, private navService: NavService, private translate: TranslateService, public productService: ProductService, private cartService: CartService, private router: Router, private appService: AppService) {
+  constructor(
+    private renderer: Renderer2,
+    private formBuilder: UntypedFormBuilder,
+    private navService: NavService,
+    private translate: TranslateService,
+    public productService: ProductService,
+    private cartService: CartService,
+    private router: Router,
+    private appService: AppService
+  ) {
     //this.cartService.getCart().subscribe(response => this.products = response);
 
     this.createSearchForm();
   }
 
   ngOnInit(): void {
-    this.cart$ = this.cartService.cart$.pipe(map((cart: ICart | any) => {
-      if (environment.cloudinary === true) {
-        let imageUrl = environment.apiUrl.replace('api/', '')
-        if (imageUrl.includes('https')) { 
-          imageUrl = imageUrl.replace('https', 'http');
-        }
-        let apiImageUrl = imageUrl + 'Content/images/products/';
-        let cloudinaryUrl = environment.cloudinaryId + '/Products/';
+    this.cart$ = this.cartService.cart$.pipe(
+      map((cart: ICart | any) => {
+        if (environment.cloudinary === true) {
+          let imageUrl = environment.apiUrl.replace('api/', '');
+          if (imageUrl.includes('https')) {
+            imageUrl = imageUrl.replace('https', 'http');
+          }
+          let apiImageUrl = imageUrl + 'Content/images/products/';
+          let cloudinaryUrl = environment.cloudinaryId + '/Products/';
 
-        if (cart !== null) {
-          cart.items.forEach((product: ICartItem, index: number, array: ICartItem[]) => {
-            let temp = array[index].pictureUrl?.includes('https') ? array[index].pictureUrl!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].pictureUrl!.replace(apiImageUrl, cloudinaryUrl);
-            array[index].pictureUrl = temp; 
-          });
+          if (cart !== null) {
+            cart.items.forEach((product: ICartItem, index: number, array: ICartItem[]) => {
+              let temp = array[index].pictureUrl?.includes('https') ? array[index].pictureUrl!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].pictureUrl!.replace(apiImageUrl, cloudinaryUrl);
+              array[index].pictureUrl = temp;
+            });
+          }
         }
-      }
 
-      return cart;
-    }));
+        return cart;
+      })
+    );
     this.cartTotals$ = this.cartService.cartTotals$;
     //??? this.cart$.subscribe({
     //   next: (cartTotal: any) => {
@@ -108,7 +126,7 @@ export class SettingsComponent implements OnInit {
 
   changeLanguage(code: any) {
     if (this.appService.isBrowser()) {
-      this.translate.use(code)
+      this.translate.use(code);
 
       this.navService.setLanguage();
     }
@@ -123,12 +141,12 @@ export class SettingsComponent implements OnInit {
   }
 
   changeCurrency(currency: any) {
-    this.productService.Currency = currency
+    this.productService.Currency = currency;
   }
 
   createSearchForm() {
     this.searchForm = this.formBuilder.group({
-      search: [null, [Validators.required]]
+      search: [null, [Validators.required]],
     });
   }
 
@@ -137,15 +155,17 @@ export class SettingsComponent implements OnInit {
     params.search = this.searchForm!.controls['search'].value;
     //console.log(params.search);
     this.productService.setShopParams(params);
-    
-    this.router.navigate(['/shop/collection/left/sidebar']);
-    
+
+    this.router.navigateByUrl('/', { onSameUrlNavigation: 'reload' }).then(() => {
+      this.router.navigate(['/shop/collection/left/sidebar']);
+    });
+
     this.searchToggle();
   }
 }
 
 @Pipe({
-  name: "sum"
+  name: 'sum',
 })
 export class SumPipe implements PipeTransform {
   transform(items: ICartItem[], attr: string): number {

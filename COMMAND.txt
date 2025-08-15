@@ -20,3 +20,26 @@
       }
     ]
   },
+
+
+
+///////////////////To test ssr
+When build this will replace environment.development.ts with environment.ts
+//1.Build ssr
+ng Build
+//2.Run test on client with ssr *go to change apiUrl: to access local api
+npm run serve:ssr:HerbistClient
+
+
+
+////////////////////Mkcert for build ssr
+1.Install chocolate
+2.open PowelShell with run as administration
+3.choco install mkcert
+4.mkcert -install
+5.(cd.. 2 times to go to c: then run cmd below)
+6.mkcert localhost 127.0.0.1 ::1
+This will generate two files in your current directory:
+localhost+2.pem (certificate)
+localhost+2-key.pem (private key)
+7.update server.ts code
