@@ -9,9 +9,10 @@ import { IDeliveryMethod } from '../classes/deliveryMethod';
 import { IPaymentMethod } from '../classes/paymentMethod';
 import { IReview } from '../classes/review';
 import { environment } from '../../../environments/environment';
+import { IYear } from '../classes/year';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShopService {
   baseUrl = environment.apiUrl;
@@ -32,11 +33,15 @@ export class ShopService {
   paymentMethods: IPaymentMethod[] | undefined = [];
   bankAccounts: IBankAccount[] | undefined = [];
   deliveryMethods: IDeliveryMethod[] | undefined = [];
+  years: IYear[] | undefined = [];
 
   private showFooterSource: BehaviorSubject<boolean | null> = new BehaviorSubject<boolean | null>(null);
   showFooter$ = this.showFooterSource.asObservable();
 
-  constructor(private http: HttpClient, private viewScroller: ViewportScroller) {
+  constructor(
+    private http: HttpClient,
+    private viewScroller: ViewportScroller
+  ) {
     //this.getPaymentMethods();
     this.getBankAccounts();
     this.stepperIndexSource.next(0);
@@ -49,9 +54,9 @@ export class ShopService {
       payment_method: {
         card: cardNumber,
         billing_details: {
-          name: nameOnCard
-        }
-      }
+          name: nameOnCard,
+        },
+      },
     });
   }
 
@@ -105,6 +110,20 @@ export class ShopService {
     );
   }
 
+  getYears() {
+    //Get from cache
+    if (this.years !== undefined && this.years.length > 0) {
+      return of(this.years);
+    }
+
+    return this.http.get<IYear[]>(this.baseUrl + 'shop/getYears').pipe(
+      map((response: any) => {
+        this.years = response[0];
+        return response[0];
+      })
+    );
+  }
+
   getBankAccounts() {
     //Get from cache
     if (this.bankAccounts !== undefined && this.bankAccounts.length > 0) {
@@ -150,7 +169,7 @@ export class ShopService {
         //'ngsw-bypass': ''
         //'Content-Type': 'multipart/form-data'
         //'Authorization': `Bearer ${token}`
-      })
+      }),
     };
 
     const formData = new FormData();
@@ -192,15 +211,15 @@ export class ShopService {
     }, 400);
   }
 
-  submitNewReview(review: IReview) {    
+  submitNewReview(review: IReview) {
     return this.http.post(this.baseUrl + 'products/addreview', review);
   }
 
-  getShowFooter() :Observable<any> {
+  getShowFooter(): Observable<any> {
     return this.showFooter$;
   }
 
-  setShowFooter(value: boolean) {    
+  setShowFooter(value: boolean) {
     this.showFooterSource.next(value);
   }
 }

@@ -1,9 +1,20 @@
-//To run
+/////////////////////////////////////////////////////////To run
 1.cd HerbistClient
 2.ng serve -c development -o
 
+///////////////////////////////////////////////////////// To test ssr
+*When build this will replace environment.development.ts with environment.ts
+*And will use real api on the server
+*And when build this will use environment.ts (real config)
+*And if we build by using localhost for api the server.ts will not be able to access docker server and it will not work
+1.Build ssr
+ng Build
+2.Run test on client with ssr(but real api data)
+npm run serve:ssr:HerbistClient
 
-//prettier add this into package.json file and install "npm install prettier@latest" into the project
+/////////////////////////////////////////////////////////Prettier 
+*Add this into package.json file and install "npm install prettier@latest" into the project
+1.Add this to package.json
 "prettier": {
     "singleAttributePerLine": false,
     "printWidth": 900,
@@ -20,19 +31,11 @@
       }
     ]
   },
+2.Install "prettier": "^3.6.2" to fix the indent problem (This is not the vscode extension)
 
 
-
-///////////////////To test ssr
-When build this will replace environment.development.ts with environment.ts
-//1.Build ssr
-ng Build
-//2.Run test on client with ssr *go to change apiUrl: to access local api
-npm run serve:ssr:HerbistClient
-
-
-
-////////////////////Mkcert for build ssr
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Reference 
+No need this one; Just for reference ////////////////////Mkcert for build ssr
 1.Install chocolate
 2.open PowelShell with run as administration
 3.choco install mkcert

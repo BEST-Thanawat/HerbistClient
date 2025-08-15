@@ -10,7 +10,7 @@ import { IProduct } from '../shared/classes/product';
 import { ProductService } from '../shared/services/product.service';
 import { BlogSlider } from '../shared/data/slider';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { SliderComponent } from './widgets/slider/slider.component';
 import { HeaderOneComponent } from '../shared/header/header-one/header-one.component';
 import { RouterModule } from '@angular/router';
@@ -18,6 +18,8 @@ import { ProductBoxOneComponent } from '../shared/components/product/product-box
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { FooterOneComponent } from '../shared/footer/footer-one/footer-one.component';
 import { CommonModule } from '@angular/common';
+import { NavService } from '../shared/services/nav.service';
+import { IYear } from '../shared/classes/year';
 
 export interface ITab {
   id: string;
@@ -29,18 +31,12 @@ export interface ITab {
   selector: 'app-herbist',
   templateUrl: './herbist.component.html',
   styleUrls: ['./herbist.component.scss'],
-  imports: [
-    SliderComponent,
-    CommonModule,
-    HeaderOneComponent,
-    RouterModule,
-    TranslateModule,
-    ProductBoxOneComponent,
-    CarouselModule,
-    FooterOneComponent,
-  ],
+  imports: [SliderComponent, CommonModule, HeaderOneComponent, RouterModule, TranslateModule, ProductBoxOneComponent, CarouselModule, FooterOneComponent],
 })
 export class HerbistComponent implements OnInit, OnDestroy {
+  currentIsEnglish$!: Observable<boolean>;
+  public year: IYear = { id: 1, year1: 2025, year2: 2568 };
+
   public showImg = true;
   //public products: Product[] = [];
   public productCollections: ITab[] = [];
@@ -65,20 +61,28 @@ export class HerbistComponent implements OnInit, OnDestroy {
 
   // parallaxSrcset = '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w, 1920w';
   // parallaxImgUrl = environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp';
-  parallaxUrl = environment.cloudinary
-    ? environment.cloudinaryURL +
-      ',w_1200/' +
-      environment.cloudinaryId +
-      '/assets/images/parallax/parallax_seedling.webp'
-    : '/assets/images/parallax/parallax_seedling.webp';
+  // parallaxUrl = 'parallax_seedling.webp'; //environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp' : '/assets/images/parallax/parallax_seedling.webp';
+  parallaxUrl = environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp' : '/assets/images/parallax/parallax_seedling.webp';
 
   constructor(
     private shopService: ShopService,
     private seoService: SeoService,
     public productService: ProductService,
     private translate: TranslateService,
-    private appService: AppService
-  ) {}
+    private appService: AppService,
+    private navServices: NavService
+  ) {
+    this.currentIsEnglish$ = this.navServices.currentIsEnglish$;
+    // this.currentIsEnglish$.subscribe();
+    this.shopService.getYears().subscribe({
+      next: (year: IYear) => {
+        this.year = year;
+      },
+      error: (e) => {
+        console.error(e);
+      },
+    });
+  }
 
   ngOnInit(): void {
     if (this.appService.isBrowser()) {
@@ -86,17 +90,11 @@ export class HerbistComponent implements OnInit, OnDestroy {
       this.getCollection();
     }
 
-    this.seoService.setMainPageTags(
-      'Herbist(เฮิบบิสท์) | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า'
-    );
+    this.seoService.setMainPageTags('Herbist(เฮิบบิสท์) | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า');
 
     this.translate.get(['March']).subscribe((translations) => {
       // console.log(translations['March']);
-      let prepUrl =
-        environment.cloudinaryURL +
-        '/' +
-        environment.cloudinaryId +
-        '/assets/images/blog/';
+      let prepUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/blog/';
 
       // console.log(environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp');
       // console.log(environment.production);
@@ -105,9 +103,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
       this.blogs = [
         {
           id: '1',
-          image: environment.cloudinary
-            ? prepUrl + 'orangethyme.webp'
-            : 'assets/images/blog/orangethyme.webp',
+          image: environment.cloudinary ? prepUrl + 'orangethyme.webp' : 'assets/images/blog/orangethyme.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด ออเรนจ์ ไทม์,',
           by: 'Admin Herbist',
@@ -117,9 +113,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '2',
-          image: environment.cloudinary
-            ? prepUrl + 'savory.webp'
-            : 'assets/images/blog/savory.webp',
+          image: environment.cloudinary ? prepUrl + 'savory.webp' : 'assets/images/blog/savory.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด ซาโวรี,',
           by: 'Admin Herbist',
@@ -129,9 +123,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '3',
-          image: environment.cloudinary
-            ? prepUrl + 'oregano.webp'
-            : 'assets/images/blog/oregano.webp',
+          image: environment.cloudinary ? prepUrl + 'oregano.webp' : 'assets/images/blog/oregano.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด ออริกาโน,',
           by: 'Admin Herbist',
@@ -141,9 +133,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '4',
-          image: environment.cloudinary
-            ? prepUrl + 'lemonbalm.webp'
-            : 'assets/images/blog/lemonbalm.webp',
+          image: environment.cloudinary ? prepUrl + 'lemonbalm.webp' : 'assets/images/blog/lemonbalm.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด เลมอนนบาล์ม,',
           by: 'Admin Herbist',
@@ -153,9 +143,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '5',
-          image: environment.cloudinary
-            ? prepUrl + 'peppermint.webp'
-            : 'assets/images/blog/peppermint.webp',
+          image: environment.cloudinary ? prepUrl + 'peppermint.webp' : 'assets/images/blog/peppermint.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด เปปเปอร์มินต์,',
           by: 'Admin Herbist',
@@ -165,9 +153,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '6',
-          image: environment.cloudinary
-            ? prepUrl + 'sage.webp'
-            : 'assets/images/blog/sage.webp',
+          image: environment.cloudinary ? prepUrl + 'sage.webp' : 'assets/images/blog/sage.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด เสจ,',
           by: 'Admin Herbist',
@@ -177,9 +163,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '7',
-          image: environment.cloudinary
-            ? prepUrl + 'marjoram.webp'
-            : 'assets/images/blog/marjoram.webp',
+          image: environment.cloudinary ? prepUrl + 'marjoram.webp' : 'assets/images/blog/marjoram.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด มาร์จอรัม,',
           by: 'Admin Herbist',
@@ -189,9 +173,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '8',
-          image: environment.cloudinary
-            ? prepUrl + 'rosemary.webp'
-            : 'assets/images/blog/rosemary.webp',
+          image: environment.cloudinary ? prepUrl + 'rosemary.webp' : 'assets/images/blog/rosemary.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด โรสแมรี่,',
           by: 'Admin Herbist',
@@ -201,9 +183,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '9',
-          image: environment.cloudinary
-            ? prepUrl + 'thyme.webp'
-            : 'assets/images/blog/thyme.webp',
+          image: environment.cloudinary ? prepUrl + 'thyme.webp' : 'assets/images/blog/thyme.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด ไทม์,',
           by: 'Admin Herbist',
@@ -213,9 +193,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '10',
-          image: environment.cloudinary
-            ? prepUrl + 'catnip.webp'
-            : 'assets/images/blog/catnip.webp',
+          image: environment.cloudinary ? prepUrl + 'catnip.webp' : 'assets/images/blog/catnip.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด แคทนิป,',
           by: 'Admin Herbist',
@@ -225,9 +203,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '11',
-          image: environment.cloudinary
-            ? prepUrl + 'chamomile.webp'
-            : 'assets/images/blog/chamomile.webp',
+          image: environment.cloudinary ? prepUrl + 'chamomile.webp' : 'assets/images/blog/chamomile.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'เพาะเมล็ด คาโมมายล์,',
           by: 'Admin Herbist',
@@ -237,9 +213,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
         {
           id: '12',
-          image: environment.cloudinary
-            ? prepUrl + 'storingseeds.webp'
-            : 'assets/images/blog/storingseeds.webp',
+          image: environment.cloudinary ? prepUrl + 'storingseeds.webp' : 'assets/images/blog/storingseeds.webp',
           date: '31 ' + translations['March'] + ' 2023',
           title: 'วิธีการเก็บเมล็ดพันธุ์ หลังจากเปิดซอง,',
           by: 'Admin Herbist',
@@ -283,11 +257,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
             products.data.forEach((product, index, array) => {
               product.images.forEach((item, index, array) => {
                 // console.log(array[index].src);
-                let temp = array[index].src?.includes('https')
-                  ? array[index]
-                      .src!.replace('https', 'http')
-                      .replace(apiImageUrl, cloudinaryUrl)
-                  : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
+                let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
                 array[index].src = temp;
                 // console.log(temp);
                 // console.log(array[index].src);
@@ -380,12 +350,8 @@ export class HerbistComponent implements OnInit, OnDestroy {
         //console.log(response);
         this.productCollections = response;
 
-        if (
-          Array.isArray(this.productCollections) &&
-          this.productCollections.length != 0
-        ) {
-          let currectSelectedCollection =
-            this.productService.getMainPageProdCollection();
+        if (Array.isArray(this.productCollections) && this.productCollections.length != 0) {
+          let currectSelectedCollection = this.productService.getMainPageProdCollection();
           if (currectSelectedCollection !== '') {
             this.active = currectSelectedCollection;
           } else {
@@ -418,15 +384,8 @@ export class HerbistComponent implements OnInit, OnDestroy {
       title: 'Ultra high quality trays',
       subTitle: '6-Cell Trays',
       description: 'Made in USA',
-      fullURL: environment.cloudinary
-        ? environment.cloudinaryURL +
-          '/' +
-          environment.cloudinaryId +
-          '/assets/images/trays.webp'
-        : 'assets/images/trays.webp',
-      image: environment.cloudinary
-        ? environment.cloudinaryId + '/assets/images/trays.webp'
-        : 'assets/images/trays.webp',
+      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp',
+      image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp',
       secret: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
       sizes: '100vw',
       link: '/shop/product/1',
@@ -436,15 +395,8 @@ export class HerbistComponent implements OnInit, OnDestroy {
       title: '20% Off',
       subTitle: 'Combo Set2',
       description: 'Imported from USA',
-      fullURL: environment.cloudinary
-        ? environment.cloudinaryURL +
-          '/' +
-          environment.cloudinaryId +
-          '/assets/images/settwo.webp'
-        : 'assets/images/settwo.webp',
-      image: environment.cloudinary
-        ? environment.cloudinaryId + '/assets/images/settwo.webp'
-        : 'assets/images/settwo.webp',
+      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
+      image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
       secret: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
       sizes: '100vw',
       link: '/shop/product/191',
@@ -455,12 +407,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
   // Collection banner
   public collections = [
     {
-      image: environment.cloudinary
-        ? environment.cloudinaryURL +
-          '/' +
-          environment.cloudinaryId +
-          '/assets/images/collection/herbs.webp'
-        : 'assets/images/collection/herbs.webp',
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/herbs.webp' : 'assets/images/collection/herbs.webp',
       secret: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'สมุนไพรฝรั่ง',
@@ -470,12 +417,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
       catId: 1,
     },
     {
-      image: environment.cloudinary
-        ? environment.cloudinaryURL +
-          '/' +
-          environment.cloudinaryId +
-          '/assets/images/collection/vegetable.webp'
-        : 'assets/images/collection/vegetable.webp',
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/vegetable.webp' : 'assets/images/collection/vegetable.webp',
       secret: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'ผักสวนครัว',
@@ -485,12 +427,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
       catId: 2,
     },
     {
-      image: environment.cloudinary
-        ? environment.cloudinaryURL +
-          '/' +
-          environment.cloudinaryId +
-          '/assets/images/collection/flowers.webp'
-        : 'assets/images/collection/flowers.webp',
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/flowers.webp' : 'assets/images/collection/flowers.webp',
       secret: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'ดอกไม้',

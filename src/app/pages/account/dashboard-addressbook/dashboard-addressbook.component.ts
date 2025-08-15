@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { IUser } from '../../../shared/classes/user';
 import { AccountService } from '../../../shared/services/account.service';
@@ -21,7 +21,7 @@ import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directi
   selector: 'app-dashboard-addressbook',
   imports: [BreadcrumbComponent, ReactiveFormsModule, CommonModule, TranslateModule, RouterModule, TextInputComponent, PhoneMaskDirective],
   templateUrl: './dashboard-addressbook.component.html',
-  styleUrls: ['./dashboard-addressbook.component.scss']
+  styleUrls: ['./dashboard-addressbook.component.scss'],
 })
 export class DashboardAddressbookComponent implements OnInit, OnDestroy {
   active = 'active';
@@ -35,15 +35,22 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
   disabledBillingAddress: boolean = true;
   tempAddress: IAddress | undefined;
   navigationSubs = new Subscription();
-  
+
   modalLoadingRef?: BsModalRef;
-  
-  constructor(private modalService: BsModalService, private tts: ToastrTranslateService, private seoService: SeoService, private fb: FormBuilder, private accountService: AccountService, private shopService: ShopService) { 
+
+  constructor(
+    private modalService: BsModalService,
+    private tts: ToastrTranslateService,
+    private seoService: SeoService,
+    private fb: FormBuilder,
+    private accountService: AccountService,
+    private shopService: ShopService
+  ) {
     this.navigationSubs = this.shopService.getMobileDashboardSidebar().subscribe({
       next: (value: boolean) => {
         //console.log(value);
         this.openDashboard = value;
-      }
+      },
     });
   }
 
@@ -57,7 +64,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
 
     this.getCurrentUser();
   }
-  
+
   ngOnDestroy(): void {
     this.navigationSubs.unsubscribe();
     this.shopService.setMobileDashboardSidebar(false);
@@ -72,7 +79,9 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
           this.createTempAddressForm(user.email);
         }
       },
-      error: (e: any) => { console.log(e); }
+      error: (e: any) => {
+        console.log(e);
+      },
     });
   }
 
@@ -95,7 +104,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
         province: [null, [Validators.required]],
         zipcode: [null, [Validators.required, Validators.pattern('[0-9]{5}')]],
         email: [null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
-        tel: [null, [Validators.required, Validators.pattern("^[0]\\d{2}-\\d{3}-\\d{4}$")]]
+        tel: [null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]],
       }),
       billingAddressForm: this.fb.group({
         b_company_name: [null],
@@ -106,44 +115,69 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
         b_province: [null, [Validators.required]],
         b_zipcode: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
         b_email: [null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
-        b_tel: [null, [Validators.required, Validators.pattern("^[0]\\d{2}-\\d{3}-\\d{4}$")]]
-      })
+        b_tel: [null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]],
+      }),
     });
+
+    // this.addressBook = new FormGroup({
+    //   defaultAddressForm: new FormGroup({
+    //     company_name: new FormControl(null),
+    //     firstname: new FormControl(null, [Validators.required]),
+    //     lastname: new FormControl(null, [Validators.required]),
+    //     street: new FormControl(null, [Validators.required]),
+    //     city: new FormControl(null, [Validators.required]),
+    //     province: new FormControl(null, [Validators.required]),
+    //     zipcode: new FormControl(null, [Validators.required, Validators.pattern('[0-9]{5}')]),
+    //     email: new FormControl(null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
+    //     tel: new FormControl(null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]),
+    //   }),
+    //   billingAddressForm: new FormGroup({
+    //     b_company_name: new FormControl(null),
+    //     b_firstname: new FormControl(null, [Validators.required]),
+    //     b_lastname: new FormControl(null, [Validators.required]),
+    //     b_street: new FormControl(null, [Validators.required]),
+    //     b_city: new FormControl(null, [Validators.required]),
+    //     b_province: new FormControl(null, [Validators.required]),
+    //     b_zipcode: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
+    //     b_email: new FormControl(null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
+    //     b_tel: new FormControl(null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]),
+    //   }),
+    // });
   }
 
   createTempAddressForm(email: string) {
     this.tempAddress = {
-      company: "",
-      firstName: "",
-      lastName: "",
-      street: "",
-      city: "",
-      province: "",
-      zipCode: "",
-      telephone: "",
+      company: '',
+      firstName: '',
+      lastName: '',
+      street: '',
+      city: '',
+      province: '',
+      zipCode: '',
+      telephone: '',
       email: email,
-      additionalMessage: "",
+      additionalMessage: '',
       isBillingAddress: false,
-      billing_Company: "",
-      billing_FirstName: "",
-      billing_LastName: "",
-      billing_Street: "",
-      billing_City: "",
-      billing_Province: "",
-      billing_ZipCode: "",
-      billing_Telephone: "",
-      billing_Email: email
-    }
+      billing_Company: '',
+      billing_FirstName: '',
+      billing_LastName: '',
+      billing_Street: '',
+      billing_City: '',
+      billing_Province: '',
+      billing_ZipCode: '',
+      billing_Telephone: '',
+      billing_Email: email,
+    };
   }
 
   onSubmit() {
     //var spinnerRef = this.dialogService.start(this.tts.getTranslate('Processing Order...'));
-    this.modalLoadingRef = this.modalService.show(LoadingComponent, {class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true});
+    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true });
 
     const addressBook: IAddress = {
       company: this.addressBook!.get('defaultAddressForm.company_name')?.value === null ? '' : this.addressBook!.get('defaultAddressForm.company_name')?.value,
-      firstName:  this.addressBook!.get('defaultAddressForm.firstname')?.value,
-      lastName:  this.addressBook!.get('defaultAddressForm.lastname')?.value,
+      firstName: this.addressBook!.get('defaultAddressForm.firstname')?.value,
+      lastName: this.addressBook!.get('defaultAddressForm.lastname')?.value,
       street: this.addressBook!.get('defaultAddressForm.street')?.value,
       city: this.addressBook!.get('defaultAddressForm.city')?.value,
       province: this.addressBook!.get('defaultAddressForm.province')?.value,
@@ -159,8 +193,8 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
       billing_City: this.tempAddress!.billing_City,
       billing_Province: this.tempAddress!.billing_Province,
       billing_ZipCode: this.tempAddress!.billing_ZipCode,
-      billing_Telephone: this.tempAddress!.billing_Telephone,      
-      billing_Email: this.tempAddress!.billing_Email
+      billing_Telephone: this.tempAddress!.billing_Telephone,
+      billing_Email: this.tempAddress!.billing_Email,
     };
 
     this.accountService.updateUserAddress(addressBook).subscribe({
@@ -171,23 +205,23 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
       },
       error: (e) => {
         this.errors = e.errors;
-        console.error(e)
+        console.error(e);
         this.modalLoadingRef!.hide();
       },
       complete: () => {
-        this.tts.success('Save Default Address Successfully');        
+        this.tts.success('Save Default Address Successfully');
         this.modalLoadingRef!.hide();
         // this.translate.get(['Save Default Address Successfully']).subscribe(translations => {
         //   this.toastr.success(translations['Save Default Address Successfully']);
         // });
-      }
+      },
     });
   }
 
   onSubmitBillingAddress() {
     //var spinnerRef = this.dialogService.start(this.tts.getTranslate('Processing Order...'));
-    this.modalLoadingRef = this.modalService.show(LoadingComponent, {class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true});
-    
+    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true });
+
     const addressBook: IAddress = {
       company: this.tempAddress!.company,
       firstName: this.tempAddress!.firstName,
@@ -197,10 +231,10 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
       province: this.tempAddress!.province,
       zipCode: this.tempAddress!.zipCode,
       telephone: this.tempAddress!.telephone,
-      email: this.tempAddress!.email,      
+      email: this.tempAddress!.email,
       additionalMessage: '',
       isBillingAddress: this.isUsedBillingAddress,
-      billing_Company: this.isUsedBillingAddress ? this.addressBook!.get('billingAddressForm.b_company_name')?.value === null ? '' : this.addressBook!.get('billingAddressForm.b_company_name')?.value : '',
+      billing_Company: this.isUsedBillingAddress ? (this.addressBook!.get('billingAddressForm.b_company_name')?.value === null ? '' : this.addressBook!.get('billingAddressForm.b_company_name')?.value) : '',
       billing_FirstName: this.isUsedBillingAddress ? this.addressBook!.get('billingAddressForm.b_firstname')?.value : '',
       billing_LastName: this.isUsedBillingAddress ? this.addressBook!.get('billingAddressForm.b_lastname')?.value : '',
       billing_Street: this.isUsedBillingAddress ? this.addressBook!.get('billingAddressForm.b_street')?.value : '',
@@ -219,14 +253,14 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
         this.errorsBillingAddress = e.errors;
         console.error(e);
         this.modalLoadingRef!.hide();
-      },      
-      complete: () => {        
+      },
+      complete: () => {
         this.tts.success('Save Billing Address Successfully');
         this.modalLoadingRef!.hide();
         // this.translate.get(['Save Billing Address Successfully']).subscribe(translations => {
         //   this.toastr.success(translations['Save Billing Address Successfully']);
         // });
-      }
+      },
     });
   }
 
@@ -236,9 +270,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
     this.addressBook!.get('defaultAddressForm.province')!.clearValidators();
 
     if (idx == '') {
-      this.addressBook!.get('defaultAddressForm.province')!.setValidators([
-        Validators.required
-      ]);
+      this.addressBook!.get('defaultAddressForm.province')!.setValidators([Validators.required]);
 
       this.addressBook!.get('defaultAddressForm.province')!.setValue('');
     }
@@ -251,9 +283,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
     this.addressBook!.get('billingAddressForm.b_province')!.clearValidators();
 
     if (idx == '') {
-      this.addressBook!.get('billingAddressForm.b_province')!.setValidators([
-        Validators.required
-      ]);
+      this.addressBook!.get('billingAddressForm.b_province')!.setValidators([Validators.required]);
 
       this.addressBook!.get('billingAddressForm.b_province')!.setValue('');
     }
@@ -266,6 +296,11 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
     if (!this.isUsedBillingAddress) {
       this.onSubmitBillingAddress();
     }
+  }
+
+  check() {
+    console.log(this.addressBook!.get('billingAddressForm'));
+    console.log(this.addressBook!.get('billingAddressForm')!.valid);
   }
 
   getAddressFormValue(email: string) {
@@ -286,7 +321,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
             province: address.province,
             zipcode: address.zipCode,
             email: address.email === '' ? email : address.email,
-            tel: address.telephone
+            tel: address.telephone,
           });
 
           this.addressBook!.get('billingAddressForm')!.patchValue({
@@ -298,7 +333,7 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
             b_province: address.billing_Province,
             b_zipcode: address.billing_ZipCode,
             b_email: address.billing_Email === '' ? email : address.billing_Email,
-            b_tel: address.billing_Telephone
+            b_tel: address.billing_Telephone,
           });
 
           this.addressBook!.get('billingAddressForm')!.get('b_firstname')?.patchValue(address.billing_FirstName);
@@ -318,16 +353,15 @@ export class DashboardAddressbookComponent implements OnInit, OnDestroy {
           // if (address.billing_Company !== '') {
           //   this.addressBook!.get('billingAddressForm.b_company_name').markAsTouched();
           // }
-        }
-        else {
+        } else {
           this.isUsedBillingAddress = false;
-          this.addressBook!.get('defaultAddressForm.email')!.setValue(email);          
-          this.addressBook!.get('defaultAddressForm.email')!.value === "" ? this.addressBook!.get('defaultAddressForm.email')!.markAsUntouched : this.addressBook!.get('defaultAddressForm.email')!.markAsTouched();
-          this.addressBook!.get('billingAddressForm.b_email')!.setValue(email);          
-          this.addressBook!.get('billingAddressForm.b_email')!.value === "" ? this.addressBook!.get('billingAddressForm.b_email')!.markAsUntouched : this.addressBook!.get('billingAddressForm.b_email')!.markAsTouched();
+          this.addressBook!.get('defaultAddressForm.email')!.setValue(email);
+          this.addressBook!.get('defaultAddressForm.email')!.value === '' ? this.addressBook!.get('defaultAddressForm.email')!.markAsUntouched : this.addressBook!.get('defaultAddressForm.email')!.markAsTouched();
+          this.addressBook!.get('billingAddressForm.b_email')!.setValue(email);
+          this.addressBook!.get('billingAddressForm.b_email')!.value === '' ? this.addressBook!.get('billingAddressForm.b_email')!.markAsUntouched : this.addressBook!.get('billingAddressForm.b_email')!.markAsTouched();
         }
       },
-      error: (e) => console.log(e)
+      error: (e) => console.log(e),
     });
   }
 

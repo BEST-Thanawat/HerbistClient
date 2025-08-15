@@ -33,6 +33,7 @@
           </div>
         </div>
       </div>
+      <!-- <div class="col-lg-9"> -->
       <div class="col-lg-9" [formGroup]="addressBook">
         <div class="dashboard-right">
           <div class="dashboard">
@@ -54,7 +55,8 @@
                     <h3>{{ "Default Address" | translate }}</h3>
                     <!-- <a href="javascript:void(0)">Manage Addresses</a> -->
                   </div>
-                  <form class="theme-form theme-card" formGroupName="defaultAddressForm" (ngSubmit)="onSubmit()">
+                  <form class="theme-form theme-card" formGroupName="defaultAddressForm">
+                    <!-- <form class="theme-form theme-card" [formGroup]="addressBook" (ngSubmit)="onSubmit()"> -->
                     <div class="row mb-1">
                       <div class="col-md-12">
                         <div class="form-floating">
@@ -218,7 +220,7 @@
                         </ul>
                       }
                     </div>
-                    <button class="btn btn-solid mb-3" [disabled]="this.addressBook.get('defaultAddressForm')!.invalid">
+                    <button class="btn btn-solid mb-3" (click)="onSubmit()" [disabled]="this.addressBook.get('defaultAddressForm')!.invalid">
                       {{ "Save Default Address" | translate }}
                     </button>
                   </form>
@@ -242,7 +244,7 @@
                     </div>
                   </div>
                   @if (isUsedBillingAddress) {
-                    <form class="theme-form theme-card" formGroupName="billingAddressForm" (ngSubmit)="onSubmitBillingAddress()">
+                    <form class="theme-form theme-card" formGroupName="billingAddressForm">
                       <div class="row">
                         <div class="col-md-12 mb-1">
                           <div class="form-floating">
@@ -407,7 +409,7 @@
                           </ul>
                         }
                       </div>
-                      <button class="btn btn-solid mb-3" [disabled]="this.addressBook.get('billingAddressForm')!.invalid">
+                      <button class="btn btn-solid mb-3" (click)="onSubmitBillingAddress()" [disabled]="this.addressBook.get('billingAddressForm')!.invalid">
                         {{ "Save Billing Address" | translate }}
                       </button>
                     </form>

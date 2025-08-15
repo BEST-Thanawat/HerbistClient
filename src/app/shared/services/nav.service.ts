@@ -26,9 +26,11 @@ export class NavService {
   public MENUITEMS: Menu[] | undefined;
   public ITEMS: BehaviorSubject<Menu[]> | undefined;
 
-  private currentItemsSource: BehaviorSubject<Menu[] | null> =
-    new BehaviorSubject<Menu[] | null>(null);
+  private currentItemsSource: BehaviorSubject<Menu[] | null> = new BehaviorSubject<Menu[] | null>(null);
   currentItems$ = this.currentItemsSource.asObservable();
+
+  private currentIsEnglishSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentIsEnglish$ = this.currentIsEnglishSource.asObservable();
 
   constructor(private translate: TranslateService) {
     this.setLanguage();
@@ -45,6 +47,8 @@ export class NavService {
   }
 
   setLanguage() {
+    var lang = this.translate.getCurrentLang();
+
     this.MENUITEMS = [
       {
         title: this.translate.instant('Seeds'),
@@ -121,6 +125,7 @@ export class NavService {
     ];
     this.ITEMS = new BehaviorSubject<Menu[]>(this.MENUITEMS);
 
+    this.currentIsEnglishSource.next(lang == 'th' ? false : true);
     this.currentItemsSource.next(this.MENUITEMS);
   }
 }
