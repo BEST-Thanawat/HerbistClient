@@ -16,18 +16,18 @@ import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { LangChangeEvent, TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbComponent } from "../../shared/components/breadcrumb/breadcrumb.component";
-import { StepperComponent } from "../widgets/stepper/stepper.component";
-import { CheckoutPaymentComponent } from "../checkout-payment/checkout-payment.component";
-import { CheckoutDeliveryComponent } from "../checkout-delivery/checkout-delivery.component";
-import { CheckoutAddressComponent } from "../checkout-address/checkout-address.component";
-import { CheckoutBillingAddressComponent } from "../checkout-billing-address/checkout-billing-address.component";
+import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { StepperComponent } from '../widgets/stepper/stepper.component';
+import { CheckoutPaymentComponent } from '../checkout-payment/checkout-payment.component';
+import { CheckoutDeliveryComponent } from '../checkout-delivery/checkout-delivery.component';
+import { CheckoutAddressComponent } from '../checkout-address/checkout-address.component';
+import { CheckoutBillingAddressComponent } from '../checkout-billing-address/checkout-billing-address.component';
 
 @Component({
   selector: 'app-checkout-start',
   imports: [ReactiveFormsModule, CdkStepperModule, RouterModule, TranslateModule, CommonModule, BreadcrumbComponent, StepperComponent, CheckoutPaymentComponent, CheckoutDeliveryComponent, CheckoutAddressComponent, CheckoutBillingAddressComponent],
   templateUrl: './checkout-start.component.html',
-  styleUrls: ['./checkout-start.component.scss']
+  styleUrls: ['./checkout-start.component.scss'],
 })
 export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('appStepper') stepper: CdkStepper | undefined;
@@ -54,18 +54,29 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
   currentUser$!: Observable<IUser | null>;
 
   isUsedBillingAddress: boolean = false;
-  address: string = "1 Address";
-  billing: string = "2 Billing";
-  shipping: string = "3 Shipping";
-  payment: string = "4 Payment";
+  address: string = '1 Address';
+  billing: string = '2 Billing';
+  shipping: string = '3 Shipping';
+  payment: string = '4 Payment';
 
   cartTotalDiscount$!: Observable<number>;
   finalShippingPrice$!: Observable<string>;
   public stepperIndex: number = 0;
   sentGA: boolean = false;
 
-  constructor(private tts: ToastrTranslateService, private seoService: SeoService, public cdRef: ChangeDetectorRef, private fb: UntypedFormBuilder, public productService: ProductService, private cartService: CartService,
-    private accountService: AccountService, private shopService: ShopService, private analyticsService: AnalyticsService) { 
+  public email = '';
+
+  constructor(
+    private tts: ToastrTranslateService,
+    private seoService: SeoService,
+    public cdRef: ChangeDetectorRef,
+    private fb: UntypedFormBuilder,
+    public productService: ProductService,
+    private cartService: CartService,
+    private accountService: AccountService,
+    private shopService: ShopService,
+    private analyticsService: AnalyticsService
+  ) {
     this.shopService.setShowFooter(true);
   }
 
@@ -157,7 +168,7 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
         company: [null],
         firstname: [null, [Validators.required]],
         lastname: [null, [Validators.required]],
-        phone: [null, [Validators.required, Validators.pattern("^[0]\\d{2}-\\d{3}-\\d{4}$")]],
+        phone: [null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]],
         email: [null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
         address: [null, [Validators.required]],
         country: ['disabled: true', Validators.required],
@@ -170,7 +181,7 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
         b_company: [null],
         b_firstname: [null, [Validators.required]],
         b_lastname: [null, [Validators.required]],
-        b_phone: [null, [Validators.required, Validators.pattern("^[0]\\d{2}-\\d{3}-\\d{4}$")]],
+        b_phone: [null, [Validators.required, Validators.pattern('^[0]\\d{2}-\\d{3}-\\d{4}$')]],
         b_email: [null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
         b_address: [null, [Validators.required]],
         b_country: ['disabled: true', Validators.required],
@@ -184,15 +195,20 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
       paymentForm: this.fb.group({
         paymentmethodid: [null, Validators.required],
         nameOnCard: [null],
-        couponCode: [null]
-      })
+        couponCode: [null],
+      }),
     });
   }
 
   createPaymentForm() {
     this.paymentForm = this.fb.group({
-      nameOnCard: [null, Validators.required]
+      nameOnCard: [null, Validators.required],
     });
+  }
+
+  setEmail(email: string) {
+    // console.log(email);
+    this.email = email;
   }
 
   private getCartAndTotal() {
@@ -205,10 +221,10 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
       if (cart) {
         this.cartId = cart.id;
 
-        if (this.cartService.deliveryMethods!.find(x => x.id == cart.deliveryMethodId)!) {
-          this.deliveryMethodName = this.cartService.deliveryMethods!.find(x => x.id == cart.deliveryMethodId)!.shortName;
+        if (this.cartService.deliveryMethods!.find((x) => x.id == cart.deliveryMethodId)!) {
+          this.deliveryMethodName = this.cartService.deliveryMethods!.find((x) => x.id == cart.deliveryMethodId)!.shortName;
         } else {
-          this.deliveryMethodName = "";
+          this.deliveryMethodName = '';
         }
 
         // Send event to GA
@@ -242,7 +258,7 @@ export class CheckoutStartComponent implements OnInit, AfterViewInit, OnDestroy 
     //       //   })
     //       //   //this.analyticsService.eventBeginCheckout(getCart, total!);
     //       // });
-          
+
     //     }
     //   },
     //   error: (e: any) => { console.log(e); }

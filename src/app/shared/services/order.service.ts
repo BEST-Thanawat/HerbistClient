@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, map } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Cart } from '../classes/cart';
 import { IOrder, IOrderItem, IOrderToCreate, IOrderToUpdate } from '../classes/order';
 import { environment } from '../../../environments/environment';
@@ -38,8 +38,14 @@ export class OrderService {
     return this.http.post(this.baseUrl + 'orders', order);
   }
 
-  checkingPaymentStatus(paymentIntentId: string) {
-    return this.http.get(this.baseUrl + 'orders/checkingPaymentStatus?paymentIntentId=' + paymentIntentId);
+  checkingPaymentStatus(paymentIntentId: string): Observable<IOrder> {
+    //return this.http.get(this.baseUrl + 'orders/checkingPaymentStatus?paymentIntentId=' + paymentIntentId);
+
+    return this.http.get(this.baseUrl + 'orders/checkingPaymentStatus?paymentIntentId=' + paymentIntentId).pipe(
+      map((user: IOrder | any) => {
+        return user;
+      })
+    );
   }
 
   getOrderForUser() {

@@ -49,7 +49,7 @@ export class ShopService {
     this.mobileDashboardSidebarSource.next(false);
   }
 
-  async confirmPaymentWithStripe(cart: ICart | null, stripe: any, cardNumber: any, nameOnCard: string) {
+  async confirmPaymentWithStripe(cart: ICart | null, email: string, stripe: any, cardNumber: any, nameOnCard: string) {
     return stripe.confirmCardPayment(cart?.clientSecret, {
       payment_method: {
         card: cardNumber,
@@ -57,6 +57,7 @@ export class ShopService {
           name: nameOnCard,
         },
       },
+      receipt_email: email,
     });
   }
 

@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    stripe_token: 'pk_test_51LwHlgHamEijywh4Mqp2ISXV9YC7BehLbhKkIfHLwPvfBVbRwvcmEYmlf7yWqCqlyR1fB9GD9wVWMJJTkZadI4Jo00jV8xcCGC',
+    stripe_token: 'pk_test_51RwI6THMeucuMw0t5ZUnzuo8nHO3TrrkGgJymY5Uh6vdFVLmtXZTdusjX42WopjwM5Vade53BdjpX4bxtjlDbQYj00qA5kfbaH',
 
     apiUrl: 'https://localhost:8089/api/',
     freeShippingCondition: 1000,

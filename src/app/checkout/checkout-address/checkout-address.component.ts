@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, switchMap } from 'rxjs';
@@ -20,6 +20,8 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 })
 export class CheckoutAddressComponent implements OnInit {
   @Input() checkoutForm: FormGroup | undefined;
+  @Output() emailOutput: EventEmitter<string> = new EventEmitter<string>();
+  
   spinnerStatus: boolean = false;
   isUsedBillingAddress: boolean = false;
   isLoggedIn = false;
@@ -180,5 +182,8 @@ export class CheckoutAddressComponent implements OnInit {
         this.checkoutForm!.get('billingForm')?.markAllAsTouched();
       }
     }
+
+    var emailStr = this.checkoutForm!.get('addressForm')?.get('email')?.value;
+    this.emailOutput.emit(emailStr);
   }
 }

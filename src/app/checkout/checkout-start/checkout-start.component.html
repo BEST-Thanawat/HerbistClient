@@ -1,40 +1,39 @@
 <app-breadcrumb [title]="'Checkout'" [breadcrumb]="'Checkout'"></app-breadcrumb>
 <section class="section-b-space">
-    <div class="container">
-        <div class="checkout-page">
-            <div class="checkout-form">
-                <form [formGroup]="checkoutForm!" autocomplete="off">
+  <div class="container">
+    <div class="checkout-page">
+      <div class="checkout-form">
+        <form [formGroup]="checkoutForm!" autocomplete="off">
+          <div class="row">
+            <div #focus class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="checkout-details mb-3">
+                <div class="order-box">
+                  <div class="title-box">
                     <div class="row">
-                        <div #focus class="col-lg-6 col-sm-12 col-xs-12">
-                            <div class="checkout-details mb-3">
-                                <div class="order-box">
-                                    <div class="title-box">
-                                        <div class="row">
-                                            <div class="col-8">
-                                                {{'Product' | translate}}
-                                            </div>
-                                            <div class="col-4 zero-padding-total">
-                                                {{'Total' | translate}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="(cart$ | async) as cart">
-                                        <table class="table table-borderless table-condensed table-hover">
-                                            <!-- <thead>
+                      <div class="col-8">
+                        {{ "Product" | translate }}
+                      </div>
+                      <div class="col-4 zero-padding-total">
+                        {{ "Total" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="cart$ | async as cart">
+                    <table class="table table-borderless table-condensed table-hover">
+                      <!-- <thead>
                                               <tr>
                                                 <th scope="col">{{'Product' | translate}}</th>
                                                 <th scope="col">{{'Total' | translate}}</th>
                                               </tr>
                                             </thead> -->
-                                            <tbody>
-                                                <tr *ngFor="let product of cart.items">
-                                                    <td class="col-9 newqty" style="padding-bottom: 1rem; padding-right: 1.25rem;">{{ product?.productName }} × {{
-                                                        product.quantity }}</td>
-                                                    <td  class="col-3 newqty zero-padding-total" style="padding-bottom: 1rem;">{{ (product.price * product.quantity) *  productService!.Currency.price | currency:productService!.Currency.currency:'symbol' }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>                                          
-                                        <!-- <div class="row newqty" *ngFor="let product of cart.items">
+                      <tbody>
+                        <tr *ngFor="let product of cart.items">
+                          <td class="col-9 newqty" style="padding-bottom: 1rem; padding-right: 1.25rem">{{ product?.productName }} × {{ product.quantity }}</td>
+                          <td class="col-3 newqty zero-padding-total" style="padding-bottom: 1rem">{{ product.price * product.quantity * productService!.Currency.price | currency: productService!.Currency.currency : "symbol" }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- <div class="row newqty" *ngFor="let product of cart.items">
                                             <div class="col-lg-8 col-sm-12 col-xs-12">
                                                 {{ product?.productName }} {{ (product.price | discount:product)*
                                                 productService!.Currency.price |
@@ -47,26 +46,25 @@
                                                 currency:productService!.Currency.currency:'symbol' }}
                                             </div>
                                         </div> -->
-                                    </div>
+                  </div>
 
-                                    <div *ngIf="!(cart$ | async) as cart">
-                                        <div class="row">
-                                            <p>{{'There are no products in cart' | translate}}</p>
-                                        </div>
-                                    </div>
+                  <div *ngIf="!(cart$ | async) as cart">
+                    <div class="row">
+                      <p>{{ "There are no products in cart" | translate }}</p>
+                    </div>
+                  </div>
 
-                                    <div class="subtotal" *ngIf="(cart$ | async) as cart"></div>
-                                    <div>
-                                        <div class="row" *ngIf="(cartTotals$ | async) as cartTotal">
-                                            <div class="item itemtotal col-8">
-                                                {{'Subtotal' | translate}}
-                                            </div>
-                                            <div class="item itemtotal col-4 zero-padding-total">
-                                                {{ cartTotal.subtotal |
-                                                currency:productService!.Currency.currency:'symbol' }}
-                                            </div>
-                                        </div>
-                                        <!-- <div class="row" *ngIf="(cartTotals$ | async) as cartTotal">
+                  <div class="subtotal" *ngIf="cart$ | async as cart"></div>
+                  <div>
+                    <div class="row" *ngIf="cartTotals$ | async as cartTotal">
+                      <div class="item itemtotal col-8">
+                        {{ "Subtotal" | translate }}
+                      </div>
+                      <div class="item itemtotal col-4 zero-padding-total">
+                        {{ cartTotal.subtotal | currency: productService!.Currency.currency : "symbol" }}
+                      </div>
+                    </div>
+                    <!-- <div class="row" *ngIf="(cartTotals$ | async) as cartTotal">
                                             <div class="item col-8" *ngIf="cartTotal.couponDiscount !== 0">
                                                 {{'Coupon Discount' | translate}}
                                             </div>
@@ -75,45 +73,45 @@
                                                 currency:productService!.Currency.currency:'symbol' }}
                                             </div>
                                         </div> -->
-                                    </div>
+                  </div>
 
-                                    <!-- <div class="subtotal" *ngIf="(isHaveDiscount$ | async) as haveDiscount"></div> -->
-                                    <ng-container *ngIf="{ cartTotalDiscount: cartTotalDiscount$  | async, couponDiscount: couponDiscount$ | async } as data;">
-                                        <ng-container *ngIf="data.cartTotalDiscount !== 0 || data.couponDiscount !== 0">
-                                            <div class="subtotal"></div>
-                                            <div class="row">
-                                                <div class="item itemtotal col-8">
-                                                    {{'Discount' | translate}}
-                                                </div>
-                                            </div>
-                                            <table class="table table-borderless table-condensed table-hover">
-                                                <!-- <thead>
+                  <!-- <div class="subtotal" *ngIf="(isHaveDiscount$ | async) as haveDiscount"></div> -->
+                  <ng-container *ngIf="{ cartTotalDiscount: cartTotalDiscount$ | async, couponDiscount: couponDiscount$ | async } as data">
+                    <ng-container *ngIf="data.cartTotalDiscount !== 0 || data.couponDiscount !== 0">
+                      <div class="subtotal"></div>
+                      <div class="row">
+                        <div class="item itemtotal col-8">
+                          {{ "Discount" | translate }}
+                        </div>
+                      </div>
+                      <table class="table table-borderless table-condensed table-hover">
+                        <!-- <thead>
                                                   <tr>
                                                     <th scope="col">{{'Product' | translate}}</th>
                                                     <th scope="col">{{'Total' | translate}}</th>
                                                   </tr>
                                                 </thead> -->
-                                                <tbody>
-                                                    <ng-container *ngIf="data.cartTotalDiscount !== 0">
-                                                        <tr>
-                                                            <td class="col-9 newqty" style="padding-right: 1.25rem;">{{'Product Discount' | translate}}</td>
-                                                            <td  class="col-3 newqty zero-padding-total">-{{ data.cartTotalDiscount | currency:productService!.Currency.currency:'symbol' }}</td>
-                                                        </tr>
-                                                    </ng-container>
-                                                    <!-- <tr *ngIf="(cartTotals$ | async) as cartTotal">
+                        <tbody>
+                          <ng-container *ngIf="data.cartTotalDiscount !== 0">
+                            <tr>
+                              <td class="col-9 newqty" style="padding-right: 1.25rem">{{ "Product Discount" | translate }}</td>
+                              <td class="col-3 newqty zero-padding-total">-{{ data.cartTotalDiscount | currency: productService!.Currency.currency : "symbol" }}</td>
+                            </tr>
+                          </ng-container>
+                          <!-- <tr *ngIf="(cartTotals$ | async) as cartTotal">
                                                         <td class="col-9 newqty" style="padding-right: 1.25rem;">{{'Product Discount' | translate}}</td>
                                                         <td  class="col-3 newqty" style="padding-right: 1.25rem;">-{{ cartTotal.discount | currency:productService!.Currency.currency:'symbol' }}</td>
                                                     </tr> -->
-                                                    <tr *ngIf="(couponDiscount$ | async) as couponDiscount">
-                                                        <td class="col-9 newqty" style="padding-right: 1.25rem; text-transform: uppercase;">{{'Coupon Discount' | translate}} ({{checkoutForm!.get('paymentForm')?.get('couponCode')!.value}})</td>
-                                                        <td  class="col-3 newqty zero-padding-total">-{{ couponDiscount | currency:productService!.Currency.currency:'symbol' }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>    
-                                        </ng-container>
-                                    </ng-container>                                    
-                                    <div>                            
-                                        <!-- <div class="row" *ngIf="(cartTotals$ | async) as cartTotal">
+                          <tr *ngIf="couponDiscount$ | async as couponDiscount">
+                            <td class="col-9 newqty" style="padding-right: 1.25rem; text-transform: uppercase">{{ "Coupon Discount" | translate }} ({{ (checkoutForm!.get("paymentForm")?.get("couponCode"))!.value }})</td>
+                            <td class="col-3 newqty zero-padding-total">-{{ couponDiscount | currency: productService!.Currency.currency : "symbol" }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
+                  </ng-container>
+                  <div>
+                    <!-- <div class="row" *ngIf="(cartTotals$ | async) as cartTotal">
                                             <div class="item col-8" *ngIf="cartTotal.discount !== 0">
                                                 {{'Product Discount' | translate}}
                                             </div>
@@ -131,34 +129,34 @@
                                                 currency:productService!.Currency.currency:'symbol' }}
                                             </div>
                                         </div> -->
-                                    </div>
-                                    
-                                    <!-- Convert to promise to display free shipping value -->
-                                    <!-- <div class="subtotal" *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div> -->
-                                    <!-- <div *ngIf="(finalShippingPrice$ | async) as shippingPrice"> -->
-                                    <div class="subtotal" *ngIf="stepperIndex === 3"></div>
-                                    <ng-container *ngIf="stepperIndex === 3 && {value: finalShippingPrice$ | async} as shippingPrice">  
-                                        <!-- <div *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div> -->
-                                        <div class="row">
-                                            <div class="item itemtotal col-8">
-                                                {{'Shipping' | translate}}
-                                            </div>
-                                        </div>
-                                        <table class="table table-borderless table-condensed table-hover">
-                                            <!-- <thead>
+                  </div>
+
+                  <!-- Convert to promise to display free shipping value -->
+                  <!-- <div class="subtotal" *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div> -->
+                  <!-- <div *ngIf="(finalShippingPrice$ | async) as shippingPrice"> -->
+                  <div class="subtotal" *ngIf="stepperIndex === 3"></div>
+                  <ng-container *ngIf="stepperIndex === 3 && { value: finalShippingPrice$ | async } as shippingPrice">
+                    <!-- <div *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div> -->
+                    <div class="row">
+                      <div class="item itemtotal col-8">
+                        {{ "Shipping" | translate }}
+                      </div>
+                    </div>
+                    <table class="table table-borderless table-condensed table-hover">
+                      <!-- <thead>
                                               <tr>
                                                 <th scope="col">{{'Product' | translate}}</th>
                                                 <th scope="col">{{'Total' | translate}}</th>
                                               </tr>
                                             </thead> -->
-                                            <tbody>
-                                                <tr *ngIf="(cartTotals$ | async) as cartTotal">
-                                                    <td class="col-9 newqty" style="padding-right: 1.25rem;">{{deliveryMethodName}}</td>
-                                                    <td  class="col-3 newqty zero-padding-total">{{ shippingPrice.value | currency:productService!.Currency.currency:'symbol' }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>    
-                                        <!-- <div class="row">
+                      <tbody>
+                        <tr *ngIf="cartTotals$ | async as cartTotal">
+                          <td class="col-9 newqty" style="padding-right: 1.25rem">{{ deliveryMethodName }}</td>
+                          <td class="col-3 newqty zero-padding-total">{{ shippingPrice.value | currency: productService!.Currency.currency : "symbol" }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- <div class="row">
                                             <div class="item col-8">
                                                 {{deliveryMethodName}}
                                             </div>
@@ -166,8 +164,8 @@
                                                 {{ shippingPrice.value | currency:productService!.Currency.currency:'symbol' }}
                                             </div>
                                         </div> -->
-                                    </ng-container>
-                                    <!-- <div *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div>
+                  </ng-container>
+                  <!-- <div *ngIf="{value: finalShippingPrice$ | async} as shippingPrice"></div>
                                         <div class="row">
                                             <div class="item itemtotal col-8">
                                                 {{'Shipping' | translate}}
@@ -183,39 +181,38 @@
                                         </div>
                                     </div> -->
 
-                                    <div class="subtotal" *ngIf="(cart$ | async) as cart"></div>
-                                    <div class="row priceitem" *ngIf="(cartTotals$ | async) as cartTotal">
-                                        <div class="itemtotal col-8">
-                                            {{'Total' | translate}}
-                                        </div>
-                                        <div class="itemtotal col-4 zero-padding-total">
-                                            {{ cartTotal.total! + (shippingPrice$! | async)! - (couponDiscount$! | async)! |
-                                            currency:productService!.Currency.currency:'symbol' }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-6 col-sm-12 col-xs-12">
-                            <app-stepper [linearModeSelected]="true" #appStepper (selectionChange)="onStepChange($event)">
-                                <cdk-step [label]="address" [innerHTML]="'address' | translate" [completed]="(checkoutForm!.get('addressForm'))?.valid">
-                                    <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
-                                </cdk-step>
-                                <cdk-step [label]="billing" [completed]="(checkoutForm!.get('billingForm'))?.valid">
-                                    <app-checkout-billing-address [checkoutForm]="checkoutForm"></app-checkout-billing-address>
-                                </cdk-step>
-                                <cdk-step [label]="shipping" [completed]="(checkoutForm!.get('deliveryForm'))?.valid">
-                                    <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
-                                </cdk-step>
-                                <cdk-step [label]="payment" [completed]="(checkoutForm!.get('paymentForm'))?.valid">
-                                    <app-checkout-payment [checkoutForm]="checkoutForm!" [cartId]="cartId!"></app-checkout-payment>
-                                </cdk-step>
-                            </app-stepper>
-                        </div>
+                  <div class="subtotal" *ngIf="cart$ | async as cart"></div>
+                  <div class="row priceitem" *ngIf="cartTotals$ | async as cartTotal">
+                    <div class="itemtotal col-8">
+                      {{ "Total" | translate }}
                     </div>
-                </form>
+                    <div class="itemtotal col-4 zero-padding-total">
+                      {{ cartTotal.total! + (shippingPrice$! | async)! - (couponDiscount$! | async)! | currency: productService!.Currency.currency : "symbol" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <app-stepper [linearModeSelected]="true" #appStepper (selectionChange)="onStepChange($event)">
+                <cdk-step [label]="address" [innerHTML]="'address' | translate" [completed]="checkoutForm!.get('addressForm')?.valid">
+                  <app-checkout-address [checkoutForm]="checkoutForm" (emailOutput)="setEmail($event)"></app-checkout-address>
+                </cdk-step>
+                <cdk-step [label]="billing" [completed]="checkoutForm!.get('billingForm')?.valid">
+                  <app-checkout-billing-address [checkoutForm]="checkoutForm"></app-checkout-billing-address>
+                </cdk-step>
+                <cdk-step [label]="shipping" [completed]="checkoutForm!.get('deliveryForm')?.valid">
+                  <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
+                </cdk-step>
+                <cdk-step [label]="payment" [completed]="checkoutForm!.get('paymentForm')?.valid">
+                  <app-checkout-payment [checkoutForm]="checkoutForm!" [cartId]="cartId!" [email]="email"></app-checkout-payment>
+                </cdk-step>
+              </app-stepper>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </section>

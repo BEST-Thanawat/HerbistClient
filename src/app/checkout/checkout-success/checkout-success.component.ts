@@ -12,6 +12,8 @@ import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcru
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { from } from 'rxjs';
+import { OrderService } from '../../shared/services/order.service';
 
 @Component({
   selector: 'app-checkout-success',
@@ -35,7 +37,8 @@ export class CheckoutSuccessComponent implements OnInit, AfterViewInit {
     private router: Router,
     public productService: ProductService,
     private shopService: ShopService,
-    private appService: AppService
+    private appService: AppService,
+    private orderService: OrderService
   ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation && navigation.extras && navigation.extras.state;
@@ -100,5 +103,13 @@ export class CheckoutSuccessComponent implements OnInit, AfterViewInit {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  async exportInvoicePDF(order: IOrder) {
+    const observablePDF = from(this.orderService.exportInvoicePDF(order)).subscribe();
+  }
+
+  async exportReceiptPDF(order: IOrder) {
+    const observablePDF = from(this.orderService.exportReceiptPDF(order)).subscribe();
   }
 }
