@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production --stats-json",
+    "postbuild": "node postbuild.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:ssr": "ng build --configuration=development --stats-json && ng run HerbistClient:server",
+    "build:ssr": "ng build --configuration production --stats-json && ng run HerbistClient:server",
     "serve:ssr:HerbistClient": "node dist/HerbistClient/server/server.mjs"
   },
   "prettier": {
@@ -55,6 +56,7 @@
     "ngx-toastr": "^19.0.0",
     "prettier": "^3.6.2",
     "rxjs": "~7.8.0",
+    "source-map-explorer": "^2.5.3",
     "tslib": "^2.3.0",
     "uuid": "^11.1.0",
     "zone.js": "~0.15.0"
@@ -73,6 +75,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "purgecss": "^7.0.2",
     "typescript": "~5.8.2"
   }
 }

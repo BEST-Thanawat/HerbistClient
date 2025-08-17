@@ -4,9 +4,9 @@ import { IProduct } from '../../../classes/product';
 import { ProductService } from '../../../services/product.service';
 import { CartService } from '../../../services/cart.service';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { DiscountPipe } from "../../../pipes/discount.pipe";
+import { DiscountPipe } from '../../../pipes/discount.pipe';
 
 @Component({
   selector: 'app-product-box-one',
@@ -34,21 +34,21 @@ export class ProductBoxOneComponent implements OnInit {
   srcset: string = ''; //'160w, 200w, 320w, 481w, 672w, 800w, 1000w, 1200w';
 
   productSizes = '60vw';
+  public lang = '';
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private translateService: TranslateService
   ) {
     const userAgent = navigator.userAgent;
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        userAgent
-      )
-    ) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
       this.productSizes = '60vw';
     } else {
       this.productSizes = '20vw';
     }
+    
+    this.lang = this.translateService.getCurrentLang();
   }
 
   ngOnInit(): void {
@@ -59,9 +59,7 @@ export class ProductBoxOneComponent implements OnInit {
 
     //console.log(this.product);
     //Set rating
-    const sumRating =
-      this.product!.reviews.reduce((a, b) => b.rating + a, 0) /
-      this.product!.reviews.length;
+    const sumRating = this.product!.reviews.reduce((a, b) => b.rating + a, 0) / this.product!.reviews.length;
     //console.log('sum:' + sumRating);
     if (sumRating) {
       const ratingAvg = this.round(sumRating, 0.5);

@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { from } from 'rxjs';
-import { OrderService } from '../../shared/services/order.service';
+import { PDFService } from '../../shared/services/pdf.service';
 
 @Component({
   selector: 'app-checkout-success',
@@ -38,7 +38,7 @@ export class CheckoutSuccessComponent implements OnInit, AfterViewInit {
     public productService: ProductService,
     private shopService: ShopService,
     private appService: AppService,
-    private orderService: OrderService
+    private pdfService: PDFService
   ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation && navigation.extras && navigation.extras.state;
@@ -106,10 +106,10 @@ export class CheckoutSuccessComponent implements OnInit, AfterViewInit {
   }
 
   async exportInvoicePDF(order: IOrder) {
-    const observablePDF = from(this.orderService.exportInvoicePDF(order)).subscribe();
+    const observablePDF = from(this.pdfService.exportInvoicePDF(order)).subscribe();
   }
 
   async exportReceiptPDF(order: IOrder) {
-    const observablePDF = from(this.orderService.exportReceiptPDF(order)).subscribe();
+    const observablePDF = from(this.pdfService.exportReceiptPDF(order)).subscribe();
   }
 }

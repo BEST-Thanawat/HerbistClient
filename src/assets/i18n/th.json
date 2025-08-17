@@ -358,5 +358,7 @@
   "Coupon Code2" : "คูปองส่วนลด",
   "Price2": "ราคาต่อหน่วย",
   "Email not found": "อีเมลไม่ถูกต้อง",
-  "Login failed": "ล็อกอินไม่สำเร็จ"
+  "Login failed": "ล็อกอินไม่สำเร็จ",
+  "Subscribed Successfully": "ติดตามข่าวสารสำเร็จแล้ว",
+  "You have already subscribed. Thank you!": "คุณได้ติดตามข่าวสารของเราแล้ว ขอบคุณค่ะ"
 }

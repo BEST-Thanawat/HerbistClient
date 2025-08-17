@@ -5,7 +5,7 @@ import { progressInterceptor } from 'ngx-progressbar/http';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNgProgressRouter } from 'ngx-progressbar/router';
 import { provideToastr } from 'ngx-toastr';
 import { InitialService } from './shared/services/initial.service';
@@ -17,9 +17,8 @@ import { errorInterceptor } from './shared/core/interceptors/error.interceptor';
 import { LoadingInterceptor } from './shared/core/interceptors/loading.interceptor';
 import { JwtInterceptor } from './shared/core/interceptors/jwt.interceptor';
 
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideNgProgressOptions } from 'ngx-progressbar';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
@@ -72,9 +71,9 @@ const cookieConfig: NgcCookieConsentConfig = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(BrowserModule, CarouselModule, ModalModule.forRoot(), NgcCookieConsentModule.forRoot(cookieConfig)),
+    importProvidersFrom(ModalModule.forRoot(), NoopAnimationsModule, BrowserModule, NgcCookieConsentModule.forRoot(cookieConfig)),
     { provide: APP_ID, useValue: 'serverApp' },
-    provideAnimations(),
+    // provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
@@ -90,7 +89,7 @@ export const appConfig: ApplicationConfig = {
     // provideHttpClient(withFetch(), withInterceptors([progressInterceptor])),
     provideHttpClient(
       withFetch(),
-      withInterceptors([progressInterceptor]),
+      withInterceptors([progressInterceptor, errorInterceptor]),
       withInterceptorsFromDi() // 👈 tells Angular to load DI-provided interceptors
     ),
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

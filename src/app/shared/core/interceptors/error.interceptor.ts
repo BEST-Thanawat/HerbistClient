@@ -1,7 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { inject, PLATFORM_ID } from '@angular/core'; // Important!
-import { ToastrTranslateService } from '../../services/toastr-translate.service';
 import { NavigationExtras, Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 

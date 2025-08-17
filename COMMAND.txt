@@ -2,6 +2,10 @@
 1.cd HerbistClient
 2.ng serve -c development -o
 
+/////////////////////////////////////////////////////////To Build
+1.npm run build
+2.npm run serve:ssr:HerbistClient
+
 ///////////////////////////////////////////////////////// To test ssr
 *When build this will replace environment.development.ts with environment.ts
 *And will use real api on the server
@@ -12,7 +16,58 @@ ng Build
 2.Run test on client with ssr(but real api data)
 npm run serve:ssr:HerbistClient
 
-/////////////////////////////////////////////////////////Prettier 
+///////////////////////////////////////////////////////// Purgecss
+1.npm i -D purgecss
+2.Create postbuild.js in the root of your project
+3.add code from other project in postbuild.js into the file
+4.update package.json
+"build": "ng build --configuration production --stats-json",
+"postbuild": "node postbuild.js",
+5.build project using npm run build
+7.npm run purgecss (to clear unused css)
+
+///////////////////////////////////////////////////////// Source-map-explorer 
+*To see details of chunk
+1.npm i source-map-explorer
+2.npm run build
+3.npx source-map-explorer dist/HerbistClient/browser/chunk-KS2IGI4O.js  
+
+
+///////////////////////////////////////////////////////// For Production
+*First public to https://hub.docker.com/
+1.npm install touch-cli -g
+2.run "touch Dockerfile" and copy config from other project into this file
+3.add "outputPath": "dist/herbistclient", into angular.json
+4.docker build --no-cache . -t herbist-client -f Dockerfile
+5.docker login -u sukwibul -p Best0015!@#
+6.docker image list (get the latest IMAGE ID and set to 4.)
+7.docker tag 4b1e07a5414b sukwibul/herbistclient:production-2.0
+8.docker push sukwibul/herbistclient:production-2.0
+9. open putty
+    156.67.216.24
+    C:\Users\thana\Desktop\New Herbist\Keys
+    Alvin@2021925
+10. nano docker-compose.yml
+11. change to image: sukwibul/herbistapi:production-1.7 then save
+12. docker-compose up -d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////// Prettier 
 *Add this into package.json file and install "npm install prettier@latest" into the project
 1.Add this to package.json
 "prettier": {

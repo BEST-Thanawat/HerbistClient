@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, importProvidersFrom, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -287,7 +287,7 @@ export class CheckoutPaymentComponent implements OnInit, OnDestroy, AfterViewIni
 
         // ✅ Success
         if (status === 2) {
-          order.status = OrderStatus.Processing
+          order.status = OrderStatus.Processing;
           return order;
         }
 

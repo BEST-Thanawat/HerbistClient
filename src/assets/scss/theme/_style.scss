@@ -3070,7 +3070,7 @@ header {
 
       .lable5 {
         position: absolute;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 700;
         text-transform: uppercase;
 
@@ -3086,6 +3086,25 @@ header {
         z-index: 1;
         color: #ffffff; //var(--theme-default);
       }
+
+      // .lable6 {
+      //   position: absolute;
+      //   font-size: 14px;
+      //   font-weight: 700;
+      //   text-transform: uppercase;
+
+      //   top: 50%;
+      //   left: 50%;
+      //   transform: translate(-50%, -50%);
+
+      //   //writing-mode: vertical-rl;
+      //   //transform: rotate(-180deg);
+      //   // top: 7px;
+      //   // right: 7px;
+      //   letter-spacing: 0.1em;
+      //   z-index: 1;
+      //   color: #ffffff; //var(--theme-default);
+      // }
     }
   }
 

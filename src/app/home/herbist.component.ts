@@ -62,7 +62,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
   // parallaxSrcset = '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w, 1920w';
   // parallaxImgUrl = environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp';
   // parallaxUrl = 'parallax_seedling.webp'; //environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp' : '/assets/images/parallax/parallax_seedling.webp';
-  parallaxUrl = environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp' : '/assets/images/parallax/parallax_seedling.webp';
+  parallaxUrl = environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/pot.webp' : '/assets/images/parallax/pot.webp';
 
   constructor(
     private shopService: ShopService,
