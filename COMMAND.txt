@@ -41,7 +41,7 @@ npm run serve:ssr:HerbistClient
 4.docker build --no-cache . -t herbist-client -f Dockerfile
 5.docker login -u sukwibul -p Best0015!@#
 6.docker image list (get the latest IMAGE ID and set to 4.)
-7.docker tag 4b1e07a5414b sukwibul/herbistclient:production-2.0
+7.docker tag b0db906cbd10 sukwibul/herbistclient:production-2.0
 8.docker push sukwibul/herbistclient:production-2.0
 9. open putty
     156.67.216.24
@@ -51,6 +51,21 @@ npm run serve:ssr:HerbistClient
 11. change to image: sukwibul/herbistapi:production-1.7 then save
 12. docker-compose up -d
 
+///////////////////////////////////////////////////////// Make Dump file for Postgresql
+*start with all container running
+1.mkdir dump
+2.docker-compose exec app_db pg_dumpall -U herbist > dump/dump2025_aug_final.sql
+3.then use FileZilla to download that file into pc
+4.docker container stop app_db
+5.docker container rm app_db
+6.docker volume rm root_app_data
+7.nano docker-compose.yml //change to latest version
+8.nano docker-compose.yml //to add new map folder - ./dump:/dump
+9.delete postgres in https://156.67.216.24:8090/docker/manageImages
+10.docker-compose up -d //to create new container and new volume
+11.sudo docker exec -it app_db bash //login into bash of app_db(posegresql container)
+12.psql -U herbist -d HerbistDbDriver < dump/dump2025_aug_final.sql //import old data
+13.exit
 
 
 

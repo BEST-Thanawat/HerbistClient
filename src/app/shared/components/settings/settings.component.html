@@ -17,7 +17,7 @@
                   <form [formGroup]="searchForm!" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                       <div class="input-group">
-                        <input type="text" class="form-control" formControlName="search" placeholder="{{ 'Search a Product' | translate }}" #searchProduct/>
+                        <input type="text" id="searchProduct" class="form-control" formControlName="search" placeholder="{{ 'Search a Product' | translate }}" #searchProduct/>
                         <div class="input-group-append">
                           <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i>

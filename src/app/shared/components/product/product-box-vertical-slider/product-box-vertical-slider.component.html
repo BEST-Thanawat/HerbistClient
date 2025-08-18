@@ -2,26 +2,12 @@
 <div class="theme-card">
   <h4 class="title-border">{{ title | translate }}</h4>
   <owl-carousel-o [options]="NewProductSliderConfig" class="offer-slider">
-    <ng-container *ngFor="let product of products | slice : 0 : 3">
+    <ng-container *ngFor="let product of products | slice: 0 : 3">
       <ng-template carouselSlide [width]="512">
         <div>
-          <div
-            class="d-flex align-items-center"
-            *ngFor="let product of products | slice : 0 : 3"
-          >
-            <a
-              [routerLink]="['/shop/product/', product.id]"
-              attr.aria-label="{{ product.name }}"
-            >
-              <img
-                class="img-fluid w-auto"
-                [src]="product.images[0].src!"
-                [attr.srcset]="this.productSrcset"
-                sizes="{{ this.productSizes }}"
-                width="1280"
-                height="1588"
-                alt="{{ product.name }}"
-              />
+          <div class="d-flex align-items-center" *ngFor="let product of products | slice: 0 : 3">
+            <a [routerLink]="['/shop/product/', product.id]" attr.aria-label="{{ product.name }}">
+              <img loading="lazy" class="img-fluid w-auto" [src]="product.images[0].src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" width="1280" height="1588" alt="{{ product.name }}" />
               <!-- <img class="img-fluid w-auto" [defaultImage]="'assets/images/product/placeholder.jpg'" [lazyLoad]="product.images[0].src" alt=""> -->
             </a>
             <div class="media-body align-self-center">
@@ -30,20 +16,13 @@
                 <h5>{{ product.name.substring(0, 16) + "..." | titlecase }}</h5>
               </a>
               <h4>
-                {{
-                  product!.price * productService.Currency!.price
-                    | discount : product
-                    | currency : productService.Currency.currency : "symbol"
-                }}
-                @if(product?.discount) {
-                <del>
-                  <span class="money">
-                    {{
-                      product!.price * productService.Currency!.price
-                        | currency : productService.Currency.currency : "symbol"
-                    }}
-                  </span>
-                </del>
+                {{ product!.price * productService.Currency!.price | discount: product | currency: productService.Currency.currency : "symbol" }}
+                @if (product?.discount) {
+                  <del>
+                    <span class="money">
+                      {{ product!.price * productService.Currency!.price | currency: productService.Currency.currency : "symbol" }}
+                    </span>
+                  </del>
                 }
               </h4>
             </div>
@@ -52,23 +31,9 @@
       </ng-template>
       <ng-template carouselSlide [width]="512">
         <div>
-          <div
-            class="d-flex align-items-center"
-            *ngFor="let product of products | slice : 3 : 6"
-          >
-            <a
-              [routerLink]="['/shop/product/', product.id]"
-              attr.aria-label="{{ product.name }}"
-            >
-              <img
-                class="img-fluid w-auto"
-                [src]="product.images[0].src!"
-                [attr.srcset]="this.productSrcset"
-                sizes="{{ this.productSizes }}"
-                width="1280"
-                height="1588"
-                alt="{{ product.name }}"
-              />
+          <div class="d-flex align-items-center" *ngFor="let product of products | slice: 3 : 6">
+            <a [routerLink]="['/shop/product/', product.id]" attr.aria-label="{{ product.name }}">
+              <img loading="lazy" class="img-fluid w-auto" [src]="product.images[0].src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" width="1280" height="1588" alt="{{ product.name }}" />
               <!-- <img class="img-fluid w-auto" [defaultImage]="'assets/images/product/placeholder.jpg'" [ngSrc]="product.images[0].src!" alt=""> -->
             </a>
             <div class="media-body align-self-center">
@@ -76,20 +41,13 @@
                 <h5>{{ product.name.substring(0, 16) + "..." | titlecase }}</h5>
               </a>
               <h4>
-                {{
-                  product?.price! * productService.Currency.price!
-                    | discount : product
-                    | currency : productService.Currency.currency : "symbol"
-                }}
-                @if(product?.discount) {
-                <del>
-                  <span class="money">
-                    {{
-                      product.price! * productService.Currency.price!
-                        | currency : productService.Currency.currency : "symbol"
-                    }}
-                  </span>
-                </del>
+                {{ product?.price! * productService.Currency.price! | discount: product | currency: productService.Currency.currency : "symbol" }}
+                @if (product?.discount) {
+                  <del>
+                    <span class="money">
+                      {{ product.price! * productService.Currency.price! | currency: productService.Currency.currency : "symbol" }}
+                    </span>
+                  </del>
                 }
               </h4>
             </div>

@@ -54,4 +54,4 @@ COPY src/sitemap.xml ./browser/
 COPY src/robots.txt ./browser/
 
 EXPOSE 4000
-CMD ["node", "./server/main.server.mjs"]
+CMD ["node", "./server/server.mjs"]

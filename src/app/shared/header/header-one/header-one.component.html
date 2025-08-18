@@ -23,7 +23,7 @@
             </li> -->
             @if (((this.currentUser$ | async) === null)) {
             <ng-container>
-              <li class="compare">
+              <li class="compare menu-min-width ">
                 <a [routerLink]="['/pages/register']"
                   ><i class="fa fa-user-plus" aria-hidden="true"></i
                   >{{ "Register" | translate }}</a
@@ -35,7 +35,7 @@
             <!-- <li class="mobile-wishlist">
               <a [routerLink]="['/shop/wishlist']"><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a>
             </li> -->
-            <li class="onhover-dropdown mobile-account">
+            <li class="onhover-dropdown mobile-account menu-min-width">
               @if (((this.currentUser$ | async) === null)) {
               <ng-container>
                 <i tabindex="0" class="fa fa-user"></i>

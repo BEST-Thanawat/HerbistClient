@@ -1,2 +1,11 @@
 // @import "./assets/scss/app.scss";
 @use "./assets/scss/app" as *;
+
+.cc-window.cc-floating {
+  max-width: unset !important;
+}
+
+/* styles.css */
+body {
+  font-family: "Noto Sans Thai", Tahoma, Arial, sans-serif;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppService } from '../shared/services/app.service';
 import { IBrand } from '../shared/classes/brand';
@@ -34,6 +34,7 @@ export interface ITab {
   imports: [SliderComponent, CommonModule, HeaderOneComponent, RouterModule, TranslateModule, ProductBoxOneComponent, CarouselModule, FooterOneComponent],
 })
 export class HerbistComponent implements OnInit, OnDestroy {
+  @ViewChild('bannerDiv') bannerDiv!: ElementRef<HTMLDivElement>;
   currentIsEnglish$!: Observable<boolean>;
   public year: IYear = { id: 1, year1: 2025, year2: 2568 };
 
@@ -225,6 +226,21 @@ export class HerbistComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+    const div = this.bannerDiv.nativeElement;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          div.style.backgroundImage = `url(${this.parallaxUrl})`;
+          observer.unobserve(div); // stop observing once loaded
+        }
+      });
+    });
+
+    observer.observe(div);
+  }
+
   getProductsByCollection(useCache = false, collection: string) {
     const params = new ShopParams();
     params.pageSize = this.pageSize;
@@ -379,17 +395,29 @@ export class HerbistComponent implements OnInit, OnDestroy {
     }
   }
 
+  getResponsiveSrcSet(publicId: string): string {
+    return `
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_480/v1684193376/${publicId} 480w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_768/v1684193376/${publicId} 768w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_1200/v1684193376/${publicId} 1200w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_2000/v1684193376/${publicId} 2000w
+  `;
+  }
+
   public sliders = [
     {
       title: 'Ultra high quality trays',
       subTitle: '6-Cell Trays',
       description: 'Made in USA',
-      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp',
-      image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp',
-      secret: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
+      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp 1600w, ' + environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/medium/trays.webp 800w,' : 'assets/images/trays.webp',
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp' : 'assets/images/trays.webp',
+      srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
       sizes: '100vw',
       link: '/shop/product/1',
       isSale: false,
+
+      responsiveSrcSet: this.getResponsiveSrcSet('/assets/images/trays.webp'),
+      defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp',
     },
     {
       title: '20% Off',
@@ -397,10 +425,13 @@ export class HerbistComponent implements OnInit, OnDestroy {
       description: 'Imported from USA',
       fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
       image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
-      secret: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
+      srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
       sizes: '100vw',
       link: '/shop/product/191',
       isSale: false,
+
+      responsiveSrcSet: this.getResponsiveSrcSet('/assets/images/settwo.webp'),
+      defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp',
     },
   ];
 
@@ -408,7 +439,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
   public collections = [
     {
       image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/herbs.webp' : 'assets/images/collection/herbs.webp',
-      secret: '320w, 481w, 672w',
+      srcset: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'สมุนไพรฝรั่ง',
       title: 'Herbs',
@@ -418,7 +449,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
     },
     {
       image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/vegetable.webp' : 'assets/images/collection/vegetable.webp',
-      secret: '320w, 481w, 672w',
+      srcset: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'ผักสวนครัว',
       title: 'Veggies',
@@ -428,7 +459,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
     },
     {
       image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/flowers.webp' : 'assets/images/collection/flowers.webp',
-      secret: '320w, 481w, 672w',
+      srcset: '320w, 481w, 672w',
       sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
       save: 'ดอกไม้',
       title: 'Flowers',

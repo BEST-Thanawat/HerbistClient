@@ -112,7 +112,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideTranslateService({
       lang: 'th',
-      fallbackLang: 'en',
+      fallbackLang: 'th',
       loader: provideTranslateHttpLoader({
         prefix: '/assets/i18n/',
         suffix: '.json',

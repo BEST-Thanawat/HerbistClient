@@ -1,0 +1,28 @@
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;   /* spacing stays stable */
+  min-height: 40px; /* reserve vertical space */
+  min-width: 132px;   /* reserve width even before badge text loads */
+}
+
+// .lable-nav {
+//   display: inline-block;
+//   text-align: center;
+// }
+
+// .sub-arrow {
+//   display: inline-block;
+//   width: 12px;   /* reserve space even before render */
+//   height: 12px;
+// }
+
+// .navbar {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+// .nav-link {
+//   flex: 1;  /* all items same width */
+//   text-align: center;
+// }

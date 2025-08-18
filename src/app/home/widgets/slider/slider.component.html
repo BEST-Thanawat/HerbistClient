@@ -24,9 +24,15 @@
 
         <div class="home" [ngClass]="textClass">
           <picture>
-            <!-- <source srcset="{{slider.fullURL}}" type="image/webp"> -->
-            <img fetchpriority="high" priority [src]="slider.fullURL" [attr.secret]="slider.secret" sizes="{{ slider.sizes }}" width="1920" height="718" alt="{{ slider.title }}" style="position: absolute; object-fit: cover; background-repeat: no-repeat; background-position: center" />
+            <source [attr.srcset]="slider.responsiveSrcSet" sizes="100vw" type="image/webp" />
+            <img rel="preload" fetchpriority="high" priority [src]="slider.defaultImage" alt="Trays" decoding="async" sizes="{{ slider.sizes }}" width="1920" height="718" alt="{{ slider.title }}" style="position: absolute; object-fit: cover; background-repeat: no-repeat; background-position: center" />
           </picture>
+
+          <!-- <picture>
+            <source type="image/webp" [srcset]="slider.fullURL"/>
+            <img rel="preload" fetchpriority="high" priority [src]="slider.image" [attr.srcset]="slider.srcset" sizes="{{ slider.sizes }}" width="1920" height="718" alt="{{ slider.title }}" style="position: absolute; object-fit: cover; background-repeat: no-repeat; background-position: center" />
+          </picture> -->
+
           <div class="container">
             <div class="row">
               <div class="col">
