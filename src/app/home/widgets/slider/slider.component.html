@@ -25,7 +25,7 @@
         <div class="home" [ngClass]="textClass">
           <picture>
             <source [attr.srcset]="slider.responsiveSrcSet" sizes="100vw" type="image/webp" />
-            <img rel="preload" fetchpriority="high" priority [src]="slider.defaultImage" alt="Trays" decoding="async" sizes="{{ slider.sizes }}" width="1920" height="718" alt="{{ slider.title }}" style="position: absolute; object-fit: cover; background-repeat: no-repeat; background-position: center" />
+            <img fetchpriority="high" [src]="slider.defaultImage" alt="{{ slider.title }}" decoding="async" sizes="{{ slider.sizes }}" width="1920" height="718" alt="{{ slider.title }}" style="position: absolute; object-fit: cover; background-repeat: no-repeat; background-position: center" />
           </picture>
 
           <!-- <picture>

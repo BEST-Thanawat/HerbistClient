@@ -38,18 +38,22 @@ npm run serve:ssr:HerbistClient
 1.npm install touch-cli -g
 2.run "touch Dockerfile" and copy config from other project into this file
 3.add "outputPath": "dist/herbistclient", into angular.json
-4.docker build --no-cache . -t herbist-client -f Dockerfile
-5.docker login -u sukwibul -p Best0015!@#
-6.docker image list (get the latest IMAGE ID and set to 4.)
-7.docker tag b0db906cbd10 sukwibul/herbistclient:production-2.0
-8.docker push sukwibul/herbistclient:production-2.0
-9. open putty
+4.npm run build
+5.check index.html for preload items(fonts and i18n files) in the html that they changed after built or not
+  -if changed then change fonts and i18n files file in index.html to the same name in dist\HerbistClient\browser\media
+  -if not changed then do nothings
+65.docker build --no-cache . -t herbist-client -f Dockerfile
+7.docker login -u sukwibul -p Best0015!@#
+8.docker image list (get the latest IMAGE ID and set to 4.)
+9.docker tag b0db906cbd10 sukwibul/herbistclient:production-2.0
+10.docker push sukwibul/herbistclient:production-2.0
+11. open putty
     156.67.216.24
     C:\Users\thana\Desktop\New Herbist\Keys
     Alvin@2021925
-10. nano docker-compose.yml
-11. change to image: sukwibul/herbistapi:production-1.7 then save
-12. docker-compose up -d
+12. nano docker-compose.yml
+13. change to image: sukwibul/herbistapi:production-1.7 then save
+14. docker-compose up -d
 
 ///////////////////////////////////////////////////////// Make Dump file for Postgresql
 *start with all container running

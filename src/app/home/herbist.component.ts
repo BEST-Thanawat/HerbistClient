@@ -65,6 +65,54 @@ export class HerbistComponent implements OnInit, OnDestroy {
   // parallaxUrl = 'parallax_seedling.webp'; //environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/parallax_seedling.webp' : '/assets/images/parallax/parallax_seedling.webp';
   parallaxUrl = environment.cloudinary ? environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/parallax/pot.webp' : '/assets/images/parallax/pot.webp';
 
+  public sliders: {
+    title: string;
+    subTitle: string;
+    description: string;
+    // fullURL: string;
+    // image: string;
+    // srcset: string;
+    sizes: string;
+    link: string;
+    isSale: boolean;
+    responsiveSrcSet: string;
+    defaultImage: string;
+  }[] = [];
+
+  // Collection banner
+  public collections = [
+    {
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/herbs.webp' : 'assets/images/collection/herbs.webp',
+      srcset: '320w, 481w, 672w',
+      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
+      save: 'สมุนไพรฝรั่ง',
+      title: 'Herbs',
+      link: '/shop/collection/left/sidebar',
+      setCat: true,
+      catId: 1,
+    },
+    {
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/vegetable.webp' : 'assets/images/collection/vegetable.webp',
+      srcset: '320w, 481w, 672w',
+      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
+      save: 'ผักสวนครัว',
+      title: 'Veggies',
+      link: '/shop/collection/left/sidebar',
+      setCat: true,
+      catId: 2,
+    },
+    {
+      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/flowers.webp' : 'assets/images/collection/flowers.webp',
+      srcset: '320w, 481w, 672w',
+      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
+      save: 'ดอกไม้',
+      title: 'Flowers',
+      link: '/shop/collection/left/sidebar',
+      setCat: true,
+      catId: 3,
+    },
+  ];
+
   constructor(
     private shopService: ShopService,
     private seoService: SeoService,
@@ -224,6 +272,38 @@ export class HerbistComponent implements OnInit, OnDestroy {
         },
       ];
     });
+
+    //Use in windgets/slider
+    this.sliders = [
+      {
+        title: 'Ultra high quality trays',
+        subTitle: '6-Cell Trays',
+        description: 'Made in USA',
+        sizes: '100vw',
+        link: '/shop/product/1',
+        isSale: false,
+        responsiveSrcSet: this.navServices.GetResponsiveSrcSet('assets/images/trays.webp'),
+        defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp',
+
+        //fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp 1600w, ' + environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/medium/trays.webp 800w,' : 'assets/images/trays.webp',
+        //image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp' : 'assets/images/trays.webp',
+        //srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
+      },
+      {
+        title: '20% Off',
+        subTitle: 'Combo Set2',
+        description: 'Imported from USA',
+        sizes: '100vw',
+        link: '/shop/product/191',
+        isSale: false,
+        responsiveSrcSet: this.navServices.GetResponsiveSrcSet('assets/images/trays.webp'),
+        defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp',
+
+        //fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
+        //image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
+        //srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
+      },
+    ];
   }
 
   ngAfterViewInit() {
@@ -394,80 +474,6 @@ export class HerbistComponent implements OnInit, OnDestroy {
       this.productService.setShopParams(params);
     }
   }
-
-  getResponsiveSrcSet(publicId: string): string {
-    return `
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_480/v1684193376/${publicId} 480w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_768/v1684193376/${publicId} 768w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_1200/v1684193376/${publicId} 1200w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_2000/v1684193376/${publicId} 2000w
-  `;
-  }
-
-  public sliders = [
-    {
-      title: 'Ultra high quality trays',
-      subTitle: '6-Cell Trays',
-      description: 'Made in USA',
-      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp 1600w, ' + environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/medium/trays.webp 800w,' : 'assets/images/trays.webp',
-      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp' : 'assets/images/trays.webp',
-      srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
-      sizes: '100vw',
-      link: '/shop/product/1',
-      isSale: false,
-
-      responsiveSrcSet: this.getResponsiveSrcSet('/assets/images/trays.webp'),
-      defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/large/trays.webp',
-    },
-    {
-      title: '20% Off',
-      subTitle: 'Combo Set2',
-      description: 'Imported from USA',
-      fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
-      image: environment.cloudinary ? environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
-      srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
-      sizes: '100vw',
-      link: '/shop/product/191',
-      isSale: false,
-
-      responsiveSrcSet: this.getResponsiveSrcSet('/assets/images/settwo.webp'),
-      defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp',
-    },
-  ];
-
-  // Collection banner
-  public collections = [
-    {
-      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/herbs.webp' : 'assets/images/collection/herbs.webp',
-      srcset: '320w, 481w, 672w',
-      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
-      save: 'สมุนไพรฝรั่ง',
-      title: 'Herbs',
-      link: '/shop/collection/left/sidebar',
-      setCat: true,
-      catId: 1,
-    },
-    {
-      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/vegetable.webp' : 'assets/images/collection/vegetable.webp',
-      srcset: '320w, 481w, 672w',
-      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
-      save: 'ผักสวนครัว',
-      title: 'Veggies',
-      link: '/shop/collection/left/sidebar',
-      setCat: true,
-      catId: 2,
-    },
-    {
-      image: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection/flowers.webp' : 'assets/images/collection/flowers.webp',
-      srcset: '320w, 481w, 672w',
-      sizes: '60vw', //'(min-width: 60rem) 50vw, (min-width: 40rem) 60vw, 70vw',
-      save: 'ดอกไม้',
-      title: 'Flowers',
-      link: '/shop/collection/left/sidebar',
-      setCat: true,
-      catId: 3,
-    },
-  ];
 
   ngOnDestroy(): void {
     if (this.appService.isBrowser()) {

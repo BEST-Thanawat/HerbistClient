@@ -5,7 +5,7 @@ const path = require("path");
 (async () => {
   console.log("🔥 postbuild.js running...");
 
-  const DIST_PATH = path.join(__dirname, "dist/HerbistClient/browser");
+  const DIST_PATH = path.join(__dirname, "dist/herbistclient/browser");
 
   // Helper to get file size in KB
   const getFilesizeInKB = (filename) => {

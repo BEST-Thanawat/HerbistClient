@@ -6,5 +6,14 @@
 }
 
 .menu-min-width {
-  min-width: 120px;
+  min-width: 132px;
+}
+
+.header-min-width {
+    min-width: 185px;
+}
+
+.menu-text {
+  display: inline-block;
+  min-width: 8ch; /* reserve 6 characters of width */
 }

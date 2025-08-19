@@ -128,4 +128,14 @@ export class NavService {
     this.currentIsEnglishSource.next(lang == 'th' ? false : true);
     this.currentItemsSource.next(this.MENUITEMS);
   }
+
+  //Preset to preload hero images
+  GetResponsiveSrcSet(publicId: string): string {
+    return `
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_480/v1684193376/${publicId} 480w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_768/v1684193376/${publicId} 768w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_1200/v1684193376/${publicId} 1200w,
+    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_2000/v1684193376/${publicId} 2000w
+  `;
+  }
 }

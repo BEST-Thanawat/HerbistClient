@@ -1,17 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  Signal,
-  signal,
-  viewChild,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, Signal, signal, viewChild, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { TapToTopComponent } from './shared/components/tap-to-top/tap-to-top.component';
-import { NgProgressbar } from "ngx-progressbar";
+import { NgProgressbar } from 'ngx-progressbar';
 import { NgProgressRouter } from 'ngx-progressbar/router';
+import { NavService } from './shared/services/nav.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +24,11 @@ export class App implements OnInit {
   blur: number = 2;
   fgsSize: number = 30;
 
-  constructor(private toastrService: ToastrService) {}
+  constructor(
+    private toastrService: ToastrService,
+    private navService: NavService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit(): void {
     this.toastrService.overlayContainer = this.toastContainer;
