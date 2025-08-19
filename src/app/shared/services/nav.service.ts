@@ -1,6 +1,7 @@
 import { Injectable, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 // Menu
 export interface Menu {
@@ -132,10 +133,26 @@ export class NavService {
   //Preset to preload hero images
   GetResponsiveSrcSet(publicId: string): string {
     return `
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_480/v1684193376/${publicId} 480w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_768/v1684193376/${publicId} 768w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_1200/v1684193376/${publicId} 1200w,
-    https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto,dpr_auto,w_2000/v1684193376/${publicId} 2000w
+    ${environment.cloudinaryURL + ',w_480/' + environment.cloudinaryId + '/' + publicId + ' 480w'},
+    ${environment.cloudinaryURL + ',w_768/' + environment.cloudinaryId + '/' + publicId + ' 768w'},
+    ${environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/' + publicId + ' 1200w'},
+    ${environment.cloudinaryURL + ',w_1880/' + environment.cloudinaryId + '/' + publicId + ' 1880w'}
   `;
+  }
+
+  GetProductResponsiveSrcSet(publicId: string): string {
+    return `
+    ${environment.cloudinaryURL + ',w_200/' + environment.cloudinaryId + '/' + publicId + ' 200w'},
+    ${environment.cloudinaryURL + ',w_400/' + environment.cloudinaryId + '/' + publicId + ' 400w'},
+    ${environment.cloudinaryURL + ',w_600/' + environment.cloudinaryId + '/' + publicId + ' 600w'}
+  `;
+
+    // GetProductResponsiveSrcSet(publicId: string): string {
+    //   return `
+    //   ${environment.cloudinaryURL + ',w_200/' + environment.cloudinaryId + '/' + publicId + ' 200w'},
+    //   ${environment.cloudinaryURL + ',w_400/' + environment.cloudinaryId + '/' + publicId + ' 400w'},
+    //   ${environment.cloudinaryURL + ',w_800/' + environment.cloudinaryId + '/' + publicId + ' 800w'},
+    //   ${environment.cloudinaryURL + ',w_1024/' + environment.cloudinaryId + '/' + publicId + ' 1024w'}
+    // `;
   }
 }

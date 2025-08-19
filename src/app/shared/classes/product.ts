@@ -37,6 +37,7 @@ export interface Images {
     variant_id?: any[];
     imageOrder?: number;
     productId?: number;
+    responsiveSrcSet: string;
 }
 
 export interface IProduct {

@@ -21,7 +21,12 @@
     <div class="front" [ngClass]="product!.stock == 0 ? 'outofstock' : ''">
       <a [routerLink]="['/shop/product/', product!.id]" [attr.aria-label]="product?.name">
         @if (this.showImg) {
-          <img loading="lazy" [src]="ImageSrc ? ImageSrc : product!.images[0].src!" width="1280" height="1588" [attr.srcset]="srcset" sizes="{{ this.sizes !== '' ? this.sizes : this.productSizes }}" class="img-fluid lazy-loading" alt="{{ product!.images[0].alt }}" />
+          <picture>
+            <source [attr.srcset]="product!.images[0].responsiveSrcSet" sizes="100vw" type="image/webp" />
+            <img loading="lazy" alt="{{ product!.images[0].alt }}" decoding="async" [src]="ImageSrc ? ImageSrc : product!.images[0].src!" width="1280" height="1588" sizes="{{ this.sizes !== '' ? this.sizes : this.productSizes }}" class="img-fluid lazy-loading" />
+          </picture>
+
+          <!-- <img loading="lazy" [src]="ImageSrc ? ImageSrc : product!.images[0].src!" width="1280" height="1588" [attr.srcset]="srcset" sizes="{{ this.sizes !== '' ? this.sizes : this.productSizes }}" class="img-fluid lazy-loading" alt="{{ product!.images[0].alt }}" /> -->
         }
       </a>
     </div>

@@ -143,7 +143,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
 
     this.translate.get(['March']).subscribe((translations) => {
       // console.log(translations['March']);
-      let prepUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/blog/';
+      let prepUrl = environment.cloudinaryURL + ',w_500/' + environment.cloudinaryId + '/assets/images/blog/';
 
       // console.log(environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/trays.webp' : 'assets/images/trays.webp');
       // console.log(environment.production);
@@ -352,9 +352,15 @@ export class HerbistComponent implements OnInit, OnDestroy {
 
             products.data.forEach((product, index, array) => {
               product.images.forEach((item, index, array) => {
-                // console.log(array[index].src);
+                // console.log(array[index]);
                 let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
                 array[index].src = temp;
+
+                const filename = array[index].src.substring(array[index].src.lastIndexOf('/') + 1);
+
+                // Prepare responsive source set
+                array[index].responsiveSrcSet = this.navServices.GetProductResponsiveSrcSet('Products/' + filename);
+                // console.log(array[index].responsiveSrcSet);
                 // console.log(temp);
                 // console.log(array[index].src);
               });

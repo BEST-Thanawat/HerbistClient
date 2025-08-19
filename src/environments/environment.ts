@@ -8,6 +8,6 @@ export const environment = {
     ads: 'AW-585564604',
     // tagmanager: 'GTM-5BZKJ96',
     cloudinary: true,
-    cloudinaryURL: 'https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto',
+    cloudinaryURL: 'https://res.cloudinary.com/djg2zn5cf/image/upload/f_auto,q_auto:low',
     cloudinaryId: 'v1684193376',
 };
