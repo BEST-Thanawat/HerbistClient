@@ -143,8 +143,7 @@ export class NavService {
   GetProductResponsiveSrcSet(publicId: string): string {
     return `
     ${environment.cloudinaryURL + ',w_200/' + environment.cloudinaryId + '/' + publicId + ' 200w'},
-    ${environment.cloudinaryURL + ',w_400/' + environment.cloudinaryId + '/' + publicId + ' 400w'},
-    ${environment.cloudinaryURL + ',w_600/' + environment.cloudinaryId + '/' + publicId + ' 600w'}
+    ${environment.cloudinaryURL + ',w_300/' + environment.cloudinaryId + '/' + publicId + ' 300w'},
   `;
 
     // GetProductResponsiveSrcSet(publicId: string): string {

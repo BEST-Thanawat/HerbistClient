@@ -2,9 +2,11 @@
 1.cd HerbistClient
 2.ng serve -c development -o
 
+
 /////////////////////////////////////////////////////////To Build
 1.npm run build
 2.npm run serve:ssr:HerbistClient
+
 
 ///////////////////////////////////////////////////////// To test ssr
 *When build this will replace environment.development.ts with environment.ts
@@ -16,6 +18,7 @@ ng Build
 2.Run test on client with ssr(but real api data)
 npm run serve:ssr:HerbistClient
 
+
 ///////////////////////////////////////////////////////// Purgecss
 1.npm i -D purgecss
 2.Create postbuild.js in the root of your project
@@ -25,6 +28,7 @@ npm run serve:ssr:HerbistClient
 "postbuild": "node postbuild.js",
 5.build project using npm run build
 7.npm run purgecss (to clear unused css)
+
 
 ///////////////////////////////////////////////////////// Source-map-explorer 
 *To see details of chunk
@@ -42,18 +46,31 @@ npm run serve:ssr:HerbistClient
 5.check index.html for preload items(fonts and i18n files) in the html that they changed after built or not
   -if changed then change fonts and i18n files file in index.html to the same name in dist\HerbistClient\browser\media
   -if not changed then do nothings
-65.docker build --no-cache . -t herbist-client -f Dockerfile
+6.docker build --no-cache . -t herbist-client -f Dockerfile
 7.docker login -u sukwibul -p Best0015!@#
 8.docker image list (get the latest IMAGE ID and set to 4.)
 9.docker tag b0db906cbd10 sukwibul/herbistclient:production-2.0
 10.docker push sukwibul/herbistclient:production-2.0
 11. open putty
-    156.67.216.24
-    C:\Users\thana\Desktop\New Herbist\Keys
-    Alvin@2021925
+    156.67.216.87 port 8894
+    root Z3&2lA72APgtjjDyQj&p
 12. nano docker-compose.yml
-13. change to image: sukwibul/herbistapi:production-1.7 then save
+13. change to image: sukwibul/herbistapi:production-2.0 then save
 14. docker-compose up -d
+
+*For reference to remove downloaded docket image on server
+docker container stop herbist-client
+docker container rm herbist-client
+docker image list
+ddocker image rm 34c53a14c271
+docker-compose up -d
+
+*For reference to update docker image to hub.docker.com
+docker build --no-cache . -t herbist-client -f Dockerfile
+docker image list
+docker tag ae7df9b8297c sukwibul/herbistclient:production-2.0
+docker push sukwibul/herbistclient:production-2.0    
+
 
 ///////////////////////////////////////////////////////// Make Dump file for Postgresql
 *start with all container running
@@ -72,8 +89,7 @@ npm run serve:ssr:HerbistClient
 13.exit
 
 
-
-
+///////////////////////////////////////////////////////// https://hub.docker.com/
 
 
 
