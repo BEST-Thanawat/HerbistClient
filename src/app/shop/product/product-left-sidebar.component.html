@@ -1,734 +1,489 @@
-@if(product) {
-<app-breadcrumb
-  [title]="product!.name"
-  [breadcrumb]="'Product'"
-></app-breadcrumb>
+@if (product) {
+  <app-breadcrumb [title]="product!.name" [breadcrumb]="'Product'"></app-breadcrumb>
 }
 
 <!-- section start -->
-@if(this.product) {
-<section class="section-b-space">
-  <div class="collection-wrapper">
-    <div class="container">
-      <div class="row">
-        <div
-          class="col-sm-3 mobileSidenav"
-          [class.openSide]="this.mobileSideBar"
-        >
-          <span
-            href="javascript:void(0)"
-            class="overlay"
-            (click)="toggleMobileSidebar()"
-          ></span>
-          <div
-            class="collection-filter"
-            [class.openFilterbar]="this.mobileSideBar"
-          >
-            <div class="collection-filter-block">
-              <div
-                class="collection-mobile-back"
-                (click)="toggleMobileSidebar()"
-              >
-                <span class="filter-back">
-                  <i class="fa fa-angle-left" aria-hidden="true"></i>
-                  {{ "Back" | translate }}
-                </span>
-              </div>
-              <app-categories
-                (categoriesFilter)="updateFilter()"
-              ></app-categories>
-            </div>
-            <div class="collection-filter-block">
-              <app-services></app-services>
-            </div>
-            <app-product-box-vertical-slider [title]="'New products'">
-            </app-product-box-vertical-slider>
-          </div>
-        </div>
-        <div class="col-lg-9 col-sm-12 col-xs-12">
-          <div class="container-fluid p-0">
-            <div class="row">
-              <div class="col-lg-6">
-                <owl-carousel-o
-                  [options]="ProductDetailsMainSliderConfig"
-                  #owlCar
-                  class="product-slick"
-                >
-                  <ng-container
-                    *ngFor="let image of product?.images; index as i"
-                  >
-                    <ng-template carouselSlide [id]="i.toString()">
-                      @if(i === 0) {
-                      <div>
-                        <img
-                          [src]="image.src!"
-                          [attr.srcset]="this.productSrcset"
-                          sizes="{{ this.productSizes }}"
-                          [alt]="image.alt"
-                          class="img-fluid"
-                          width="1280"
-                          height="1588"
-                          priority
-                        />
-                      </div>
-                      } @if(i !== 0) {
-                      <div>
-                        <img
-                          [src]="image.src!"
-                          [attr.srcset]="this.productSrcset"
-                          sizes="{{ this.productSizes }}"
-                          [alt]="image.alt"
-                          class="img-fluid"
-                          width="1280"
-                          height="1588"
-                        />
-                      </div>
-                      }
-                    </ng-template>
-                  </ng-container>
-                </owl-carousel-o>
-                @if(product!.images.length > 1) {
-                <div class="col-12 p-0">
-                  <div class="slider-nav">
-                    <owl-carousel-o
-                      [options]="ProductDetailsThumbConfig"
-                      class="product-slick"
-                    >
-                      <ng-container
-                        *ngFor="let image of product?.images; index as i"
-                      >
-                        <ng-template carouselSlide [id]="i.toString()">
-                          <div
-                            class="owl-thumb"
-                            [class.active]="i == activeSlide"
-                          >
-                            <img
-                              [src]="image.src!"
-                              [attr.srcset]="this.productSrcset"
-                              sizes="{{ this.productSizes }}"
-                              [alt]="image.alt"
-                              class="img-fluid"
-                              width="1280"
-                              height="1588"
-                              (click)="owlCar.to((activeSlide = i.toString()))"
-                            />
-                          </div>
-                        </ng-template>
-                      </ng-container>
-                    </owl-carousel-o>
-                  </div>
+@if (this.product) {
+  <section class="section-b-space">
+    <div class="collection-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3 mobileSidenav" [class.openSide]="this.mobileSideBar">
+            <span href="javascript:void(0)" class="overlay" (click)="toggleMobileSidebar()"></span>
+            <div class="collection-filter" [class.openFilterbar]="this.mobileSideBar">
+              <div class="collection-filter-block">
+                <div class="collection-mobile-back" (click)="toggleMobileSidebar()">
+                  <span class="filter-back">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    {{ "Back" | translate }}
+                  </span>
                 </div>
-                }
+                <app-categories (categoriesFilter)="updateFilter()"></app-categories>
               </div>
-              <div class="col-lg-6 rtl-text">
-                <div class="product-right">
-                  <h2>{{ product!.name }}</h2>
-                  @if(this.rating !== 0) {
-                  <ul class="rating-score" [attr.data-rating]="this.rating">
-                    <li class="rating-score-item"></li>
-                    <li class="rating-score-item"></li>
-                    <li class="rating-score-item"></li>
-                    <li class="rating-score-item"></li>
-                    <li class="rating-score-item"></li>
-                  </ul>
-                  }
-                  <h3>
-                    {{
-                      (product!.price | discount : product) *
-                        productService.Currency!.price
-                        | currency
-                          : productService.Currency!.currency
-                          : "symbol"
-                    }}
-                  </h3>
-                  <h4>
-                    @if(product.discount) {
-                    <del>{{
-                      product!.price * productService.Currency!.price
-                        | currency
-                          : productService.Currency!.currency
-                          : "symbol"
-                    }}</del>
-                    } @if(product.sale) {
-                    <span
-                      >{{ product!.discount }}% {{ "Off" | translate }}</span
-                    >
-                    } @if(product.isNew) {
-                    <span>{{ "New Product" | translate }}</span>
-                    }
-                  </h4>
-                  @if(counter <= product.stock) {
-                  <h5 class="avalibility">
-                    <span>{{ "In Stock" | translate }}</span>
-                  </h5>
-                  } @if(counter > product.stock) {
-                  <h5 class="avalibility">
-                    <span>{{ "Out of Stock" | translate }}</span>
-                  </h5>
-                  } @if(product.stock !== 0) {
-                  <app-stock-inventory
-                    [stock]="product!.stock"
-                  ></app-stock-inventory>
-                  } @if(product.stock !== 0) {
-                  <div class="product-description border-product">
-                    <h6 class="product-title">{{ "Quantity" | translate }}</h6>
-                    <div class="qty-box">
-                      <div class="input-group">
-                        <span class="input-group-prepend">
-                          <button
-                            type="button"
-                            class="btn quantity-left-minus"
-                            data-type="minus"
-                            (click)="decrement()"
-                            aria-label="increase"
-                          >
-                            <i class="ti-angle-left"></i>
-                          </button>
-                        </span>
-                        <input
-                          type="text"
-                          name="quantity"
-                          class="form-control input-number"
-                          [value]="counter"
-                          disabled
-                          aria-label="quantity"
-                        />
-                        <span class="input-group-prepend">
-                          <button
-                            type="button"
-                            class="btn quantity-right-plus"
-                            data-type="plus"
-                            (click)="increment()"
-                            aria-label="decrease"
-                          >
-                            <i class="ti-angle-right"></i>
-                          </button>
-                        </span>
+              <div class="collection-filter-block">
+                <app-services></app-services>
+              </div>
+              <app-product-box-vertical-slider [title]="'New products'"> </app-product-box-vertical-slider>
+            </div>
+          </div>
+          <div class="col-lg-9 col-sm-12 col-xs-12">
+            <div class="container-fluid p-0">
+              <div class="row">
+                <div class="col-lg-6">
+                  <owl-carousel-o [options]="ProductDetailsMainSliderConfig" #owlCar class="product-slick">
+                    <ng-container *ngFor="let image of product?.images; index as i">
+                      <ng-template carouselSlide [id]="i.toString()">
+                        @if (i === 0) {
+                          <picture>
+                            <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
+                            <img priority loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
+                          </picture>
+
+                          <!-- <div>
+                            <img  [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" priority />
+                          </div> -->
+                        }
+                        @if (i !== 0) {
+                          <picture>
+                            <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
+                            <img loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
+                          </picture>
+
+                          <!-- <div>
+                            <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" />
+                          </div> -->
+                        }
+
+                        <!-- @if (i === 0) {
+                          <div>
+                            <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" priority />
+                          </div>
+                        }
+                        @if (i !== 0) {
+                          <div>
+                            <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" />
+                          </div>
+                        } -->
+                      </ng-template>
+                    </ng-container>
+                  </owl-carousel-o>
+                  @if (product!.images.length > 1) {
+                    <div class="col-12 p-0">
+                      <div class="slider-nav">
+                        <owl-carousel-o [options]="ProductDetailsThumbConfig" class="product-slick">
+                          <ng-container *ngFor="let image of product?.images; index as i">
+                            <ng-template carouselSlide [id]="i.toString()">
+                              <div class="owl-thumb" [class.active]="i == activeSlide">
+                                <picture>
+                                  <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
+                                  <img loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" (click)="owlCar.to((activeSlide = i.toString()))" />
+                                </picture>
+                                <!-- <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" (click)="owlCar.to((activeSlide = i.toString()))" /> -->
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </owl-carousel-o>
                       </div>
                     </div>
-                  </div>
-                  } @if(product.stock !== 0) {
-                  <div class="product-buttons">
-                    <span
-                      class="btn btn-solid spanbtn"
-                      [class.disabled]="counter > product.stock"
-                      (click)="addToCart(product)"
-                      >{{ "Add to Cart" | translate }}</span
-                    >
-                    <span
-                      class="btn btn-solid spanbtn"
-                      [class.disabled]="counter > product.stock"
-                      (click)="buyNow(product)"
-                      >{{ "Buy Now" | translate }}</span
-                    >
-                  </div>
                   }
+                </div>
+                <div class="col-lg-6 rtl-text">
+                  <div class="product-right">
+                    <h2>{{ product!.name }}</h2>
+                    @if (this.rating !== 0) {
+                      <ul class="rating-score" [attr.data-rating]="this.rating">
+                        <li class="rating-score-item"></li>
+                        <li class="rating-score-item"></li>
+                        <li class="rating-score-item"></li>
+                        <li class="rating-score-item"></li>
+                        <li class="rating-score-item"></li>
+                      </ul>
+                    }
+                    <h3>
+                      {{ (product!.price | discount: product) * productService.Currency!.price | currency: productService.Currency!.currency : "symbol" }}
+                    </h3>
+                    <h4>
+                      @if (product.discount) {
+                        <del>{{ product!.price * productService.Currency!.price | currency: productService.Currency!.currency : "symbol" }}</del>
+                      }
+                      @if (product.sale) {
+                        <span>{{ product!.discount }}% {{ "Off" | translate }}</span>
+                      }
+                      @if (product.isNew) {
+                        <span>{{ "New Product" | translate }}</span>
+                      }
+                    </h4>
+                    @if (counter <= product.stock) {
+                      <h5 class="avalibility">
+                        <span>{{ "In Stock" | translate }}</span>
+                      </h5>
+                    }
+                    @if (counter > product.stock) {
+                      <h5 class="avalibility">
+                        <span>{{ "Out of Stock" | translate }}</span>
+                      </h5>
+                    }
+                    @if (product.stock !== 0) {
+                      <app-stock-inventory [stock]="product!.stock"></app-stock-inventory>
+                    }
+                    @if (product.stock !== 0) {
+                      <div class="product-description border-product">
+                        <h6 class="product-title">{{ "Quantity" | translate }}</h6>
+                        <div class="qty-box">
+                          <div class="input-group">
+                            <span class="input-group-prepend">
+                              <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement()" aria-label="increase">
+                                <i class="ti-angle-left"></i>
+                              </button>
+                            </span>
+                            <input type="text" name="quantity" class="form-control input-number" [value]="counter" disabled aria-label="quantity" />
+                            <span class="input-group-prepend">
+                              <button type="button" class="btn quantity-right-plus" data-type="plus" (click)="increment()" aria-label="decrease">
+                                <i class="ti-angle-right"></i>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                    @if (product.stock !== 0) {
+                      <div class="product-buttons">
+                        <span class="btn btn-solid spanbtn" [class.disabled]="counter > product.stock" (click)="addToCart(product)">{{ "Add to Cart" | translate }}</span>
+                        <span class="btn btn-solid spanbtn" [class.disabled]="counter > product.stock" (click)="buyNow(product)">{{ "Buy Now" | translate }}</span>
+                      </div>
+                    }
 
-                  <div class="border-product">
-                    @if(product.productTypeId !== 4) {
-                    <h6 class="product-title">
-                      {{ "Seed Count/Packet (Approx.)" | translate }}
-                    </h6>
-                    } @if(product.productTypeId === 4) {
-                    <h6 class="product-title">
-                      {{ "Piece Count" | translate }}
-                    </h6>
-                    }
-                    <!-- <p>{{ product.description.substring(0, 200)+'...' }}</p> -->
-                    <p>{{ product.descriptionSeedCount }}</p>
-                  </div>
-                  <div class="border-product">
-                    <h6 class="product-title">
-                      {{ "Product details" | translate }}
-                    </h6>
-                    <!-- <p>{{ product.description.substring(0, 200)+'...' }}</p> -->
-                    <p style="white-space: pre-line">
-                      {{ product.description }}
-                    </p>
-                    @if(product.isHummingbird) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isHummingbird) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_bird.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'attract bird'"
-                        class="m-2"
-                        width="594"
-                        height="104"
-                      />
+                    <div class="border-product">
+                      @if (product.productTypeId !== 4) {
+                        <h6 class="product-title">
+                          {{ "Seed Count/Packet (Approx.)" | translate }}
+                        </h6>
+                      }
+                      @if (product.productTypeId === 4) {
+                        <h6 class="product-title">
+                          {{ "Piece Count" | translate }}
+                        </h6>
+                      }
+                      <!-- <p>{{ product.description.substring(0, 200)+'...' }}</p> -->
+                      <p>{{ product.descriptionSeedCount }}</p>
+                    </div>
+                    <div class="border-product">
+                      <h6 class="product-title">
+                        {{ "Product details" | translate }}
+                      </h6>
+                      <!-- <p>{{ product.description.substring(0, 200)+'...' }}</p> -->
+                      <p style="white-space: pre-line">
+                        {{ product.description }}
+                      </p>
+                      @if (product.isHummingbird) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isHummingbird) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_bird.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'attract bird'" class="m-2" width="594" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isPollinators) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isPollinators) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_bee.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'attract pollinators'" class="m-2" width="600" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isButterfly) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isButterfly) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_butterfly.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'attract butterfly'" class="m-2" width="580" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isHeirloom) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isHeirloom) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_heirloom.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'heirloom seeds'" class="m-2" width="516" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isOrganic) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isOrganic) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_usda.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'organic seeds'" class="m-2" width="432" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isGreatInContainers) {
+                        <div style="height: 50px; margin-bottom: 10px">
+                          @if (product.isGreatInContainers) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_pot.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'great in container'" class="m-2" width="406" height="104" />
+                          }
+                        </div>
+                      }
+                      @if (product.isPrimedSeed) {
+                        <div style="height: 50px">
+                          @if (product.isPrimedSeed) {
+                            <img style="height: 100%; width: auto" [src]="'assets/images/herbist_primedseeds.png'" [attr.srcset]="this.descSrcset" sizes="{{ this.descSizes }}" [alt]="'primed seeds'" class="m-2" width="622" height="104" />
+                          }
+                        </div>
                       }
                     </div>
-                    } @if(product.isPollinators) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isPollinators) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_bee.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'attract pollinators'"
-                        class="m-2"
-                        width="600"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    } @if(product.isButterfly) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isButterfly) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_butterfly.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'attract butterfly'"
-                        class="m-2"
-                        width="580"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    } @if(product.isHeirloom) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isHeirloom) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_heirloom.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'heirloom seeds'"
-                        class="m-2"
-                        width="516"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    } @if(product.isOrganic) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isOrganic) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_usda.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'organic seeds'"
-                        class="m-2"
-                        width="432"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    } @if(product.isGreatInContainers) {
-                    <div style="height: 50px; margin-bottom: 10px">
-                      @if(product.isGreatInContainers) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_pot.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'great in container'"
-                        class="m-2"
-                        width="406"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    } @if(product.isPrimedSeed) {
-                    <div style="height: 50px">
-                      @if(product.isPrimedSeed) {
-                      <img
-                        style="height: 100%; width: auto"
-                        [src]="'assets/images/herbist_primedseeds.png'"
-                        [attr.srcset]="this.descSrcset"
-                        sizes="{{ this.descSizes }}"
-                        [alt]="'primed seeds'"
-                        class="m-2"
-                        width="622"
-                        height="104"
-                      />
-                      }
-                    </div>
-                    }
-                  </div>
-                  <div class="border-product">
-                    <h6 class="product-title">{{ "Share It" | translate }}</h6>
-                    <div class="product-icon">
-                      <app-social></app-social>
+                    <div class="border-product">
+                      <h6 class="product-title">{{ "Share It" | translate }}</h6>
+                      <div class="product-icon">
+                        <app-social></app-social>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <section class="tab-product m-0">
-            <div class="row">
-              <div class="col-sm-12 col-lg-12">
-                <!-- class="tabs tab-title justify-content-center nav nav-pills" -->
+            <section class="tab-product m-0">
+              <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                  <!-- class="tabs tab-title justify-content-center nav nav-pills" -->
 
-                <app-accordion [collapsing]="collapsing">
-                  <accordion-item
-                    title="{{ 'Description' | translate }}"
-                    [expanded]="true"
-                  >
-                    <ng-template accordionContent>
-                      <section class="section-b-space blog-detail-page">
-                        <div class="container">
-                          <div class="no-slider row" tabindex="0">
-                            @if(product.productTypeId !== 4) {
-                            <p>
-                              <b
-                                >{{
-                                  "Seed Count/Packet (Approx.)" | translate
-                                }}:</b
-                              >
-                              {{ product.detailsSeedCount }}
-                              {{ "Seeds Count" | translate }}
-                            </p>
-                            } @if(product.productTypeId !== 4) {
-                            <p>
-                              <b>{{ "ScientificName" | translate }}:</b>
-                              {{ product.detailsScientificName }}
-                            </p>
-                            } @if(product.productTypeId !== 4) {
-                            <p>
-                              <b>{{ "Type" | translate }}:</b>
-                              {{ product.detailsType }}
-                            </p>
-                            } @if(product.productTypeId !== 4) {
-                            <p>
-                              <b>{{ "Propagation" | translate }}:</b>
-                              {{ product.detailsPropagation }}
-                            </p>
-                            } @if(product.productTypeId === 4) {
-                            <p>
-                              {{ product.detailsSeedCount }}
-                            </p>
-                            } @if(product.productTypeId === 4) {
-                            <p style="white-space: pre-line">
-                              {{ product.feature }}
-                            </p>
-                            }
+                  <app-accordion [collapsing]="collapsing">
+                    <accordion-item title="{{ 'Description' | translate }}" [expanded]="true">
+                      <ng-template accordionContent>
+                        <section class="section-b-space blog-detail-page">
+                          <div class="container">
+                            <div class="no-slider row" tabindex="0">
+                              @if (product.productTypeId !== 4) {
+                                <p>
+                                  <b>{{ "Seed Count/Packet (Approx.)" | translate }}:</b>
+                                  {{ product.detailsSeedCount }}
+                                  {{ "Seeds Count" | translate }}
+                                </p>
+                              }
+                              @if (product.productTypeId !== 4) {
+                                <p>
+                                  <b>{{ "ScientificName" | translate }}:</b>
+                                  {{ product.detailsScientificName }}
+                                </p>
+                              }
+                              @if (product.productTypeId !== 4) {
+                                <p>
+                                  <b>{{ "Type" | translate }}:</b>
+                                  {{ product.detailsType }}
+                                </p>
+                              }
+                              @if (product.productTypeId !== 4) {
+                                <p>
+                                  <b>{{ "Propagation" | translate }}:</b>
+                                  {{ product.detailsPropagation }}
+                                </p>
+                              }
+                              @if (product.productTypeId === 4) {
+                                <p>
+                                  {{ product.detailsSeedCount }}
+                                </p>
+                              }
+                              @if (product.productTypeId === 4) {
+                                <p style="white-space: pre-line">
+                                  {{ product.feature }}
+                                </p>
+                              }
+                            </div>
                           </div>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </accordion-item>
-                  @if(product.productTypeId !== 4) {
-                  <accordion-item title="{{ 'Seeds Starting' | translate }}">
-                    <ng-template accordionContent>
-                      <section class="section-b-space blog-detail-page">
-                        <div class="container">
-                          <div class="no-slider row" tabindex="0">
-                            <p>
-                              <b>{{ "Seeds Starting" | translate }}:</b>
-                              {{ product.detailsHowToGerm }}
-                            </p>
-                            <p>
-                              <b>{{ "Day to Germination" | translate }}:</b>
-                              {{ product.detailsDayToGerm }}
-                            </p>
-                          </div>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </accordion-item>
-                  } @if(product.productTypeId !== 4) {
-                  <accordion-item title="{{ 'How to plant' | translate }}">
-                    <ng-template accordionContent>
-                      <section class="section-b-space blog-detail-page">
-                        <div class="container">
-                          <div class="no-slider row" tabindex="0">
-                            <p>
-                              <b>{{ "Lighting" | translate }}:</b>
-                              {{ product.detailsLighting }}
-                            </p>
-                            <p>
-                              <b>{{ "Plant Spacing" | translate }}:</b>
-                              {{ product.detailsLength }}
-                            </p>
-                            <p>
-                              <b>{{ "Day to maturity" | translate }}:</b>
-                              {{ product.detailsDayToMaturity }}
-                            </p>
-                            <p>
-                              <b>{{ "How to plant" | translate }}:</b>
-                              {{ product.detailsHowToGrow1 }}
-                            </p>
-                            <p>{{ product.detailsHowToGrow2 }}</p>
-                            <p>{{ product.detailsHowToGrow3 }}</p>
-                            <p>{{ product.detailsHowToGrow4 }}</p>
-                          </div>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </accordion-item>
-                  } @if(product.productTypeId !== 4) {
-                  <accordion-item title="{{ 'Soil' | translate }}">
-                    <ng-template accordionContent>
-                      <section class="section-b-space blog-detail-page">
-                        <div class="container">
-                          <div class="no-slider row" tabindex="0">
-                            <p>
-                              <b>{{ "Soil" | translate }}:</b>
-                              {{ product.detailsCompost }}
-                            </p>
-                          </div>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </accordion-item>
-                  } @if(product.productTypeId) {
-                  <accordion-item
-                    title="{{ 'Review' | translate }} {{
-                      this.aggregateRatingCount !== 0
-                        ? '(' +
-                          this.aggregateRatingCount +
-                          ' ' +
-                          ('Review' | translate) +
-                          ')'
-                        : ''
-                    }}"
-                    id="tab5"
-                  >
-                    <ng-template accordionContent>
-                      <section
-                        class="section-b-space blog-detail-page review-page"
-                      >
-                        <div class="container">
-                          <div class="no-slider row" tabindex="0">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <ul class="comment-section">
-                                  <li
-                                    *ngFor="let review of product?.reviews"
-                                    class="col-12"
-                                  >
-                                    <div class="media">
-                                      <div class="media-body">
-                                        <span>
-                                          @if(this.rating !== 0) {
-                                          <ul
-                                            class="rating-score"
-                                            [attr.data-rating]="review.rating"
-                                          >
-                                            <li class="rating-score-item"></li>
-                                            <li class="rating-score-item"></li>
-                                            <li class="rating-score-item"></li>
-                                            <li class="rating-score-item"></li>
-                                            <li class="rating-score-item"></li>
-                                          </ul>
-                                          }
-                                        </span>
-                                        <h6>{{ review.buyerName }}</h6>
-                                        <div class="spanreview">
-                                          <span>{{
-                                            review.reviewDate
-                                              | date : "dd/MM/yyyy HH:mm"
-                                          }}</span>
-                                        </div>
-                                        <p>{{ review.text }}</p>
-                                      </div>
-                                    </div>
-                                  </li>
-                                </ul>
+                        </section>
+                      </ng-template>
+                    </accordion-item>
+                    @if (product.productTypeId !== 4) {
+                      <accordion-item title="{{ 'Seeds Starting' | translate }}">
+                        <ng-template accordionContent>
+                          <section class="section-b-space blog-detail-page">
+                            <div class="container">
+                              <div class="no-slider row" tabindex="0">
+                                <p>
+                                  <b>{{ "Seeds Starting" | translate }}:</b>
+                                  {{ product.detailsHowToGerm }}
+                                </p>
+                                <p>
+                                  <b>{{ "Day to Germination" | translate }}:</b>
+                                  {{ product.detailsDayToGerm }}
+                                </p>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </section>
-                      @if(this.canComment && !this.isAlreadyCommented) {
-                      <form
-                        class="theme-form"
-                        [formGroup]="reviewForm!"
-                        (ngSubmit)="onSubmit()"
-                      >
-                        <div class="addline"></div>
-                        <h3>{{ "Submit Your Review" | translate }}</h3>
-                        <div class="row">
-                          <div class="media rating-sec">
-                            <label>{{ "Rating" | translate }}</label>
-                            <div class="media-body ms-3">
-                              <fieldset class="rating-input">
-                                <input
-                                  type="radio"
-                                  value="5"
-                                  id="stars-star5"
-                                  name="rating"
-                                  (change)="onRatingChange($event.target)"
-                                  checked
-                                />
-                                <label
-                                  for="stars-star5"
-                                  title="5 Stars"
-                                ></label>
-                                <input
-                                  type="radio"
-                                  value="4"
-                                  id="stars-star4"
-                                  name="rating"
-                                  (change)="onRatingChange($event.target)"
-                                />
-                                <label
-                                  for="stars-star4"
-                                  title="4 Stars"
-                                ></label>
-                                <input
-                                  type="radio"
-                                  value="3"
-                                  id="stars-star3"
-                                  name="rating"
-                                  (change)="onRatingChange($event.target)"
-                                />
-                                <label
-                                  for="stars-star3"
-                                  title="3 Stars"
-                                ></label>
-                                <input
-                                  type="radio"
-                                  value="2"
-                                  id="stars-star2"
-                                  name="rating"
-                                  (change)="onRatingChange($event.target)"
-                                />
-                                <label
-                                  for="stars-star2"
-                                  title="2 Stars"
-                                ></label>
-                                <input
-                                  type="radio"
-                                  value="1"
-                                  id="stars-star1"
-                                  name="rating"
-                                  (change)="onRatingChange($event.target)"
-                                />
-                                <label
-                                  for="stars-star1"
-                                  title="1 Stars"
-                                ></label>
-                              </fieldset>
+                          </section>
+                        </ng-template>
+                      </accordion-item>
+                    }
+                    @if (product.productTypeId !== 4) {
+                      <accordion-item title="{{ 'How to plant' | translate }}">
+                        <ng-template accordionContent>
+                          <section class="section-b-space blog-detail-page">
+                            <div class="container">
+                              <div class="no-slider row" tabindex="0">
+                                <p>
+                                  <b>{{ "Lighting" | translate }}:</b>
+                                  {{ product.detailsLighting }}
+                                </p>
+                                <p>
+                                  <b>{{ "Plant Spacing" | translate }}:</b>
+                                  {{ product.detailsLength }}
+                                </p>
+                                <p>
+                                  <b>{{ "Day to maturity" | translate }}:</b>
+                                  {{ product.detailsDayToMaturity }}
+                                </p>
+                                <p>
+                                  <b>{{ "How to plant" | translate }}:</b>
+                                  {{ product.detailsHowToGrow1 }}
+                                </p>
+                                <p>{{ product.detailsHowToGrow2 }}</p>
+                                <p>{{ product.detailsHowToGrow3 }}</p>
+                                <p>{{ product.detailsHowToGrow4 }}</p>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 mb-1 fixapptextinput">
-                            <app-text-input
-                              formControlName="name"
-                              [label]="'First Name'"
-                              [isDisabled]="true"
-                            ></app-text-input>
-                          </div>
-                          <div class="col-md-6 mb-1 fixapptextinput">
-                            <app-text-input
-                              formControlName="email"
-                              [label]="'Email'"
-                              [isDisabled]="true"
-                            ></app-text-input>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <div class="col-md-12 mb-1 fixapptextinput">
-                            <div class="form-floating">
-                              <textarea
-                                data-testid="review-input"
-                                class="form-control"
-                                formControlName="text"
-                                placeholder="{{ 'Message' | translate }}"
-                                id="reviewtext"
-                                rows="6"
-                                [ngClass]="
-                                  this.reviewForm!.get('text') &&
-                                  this.reviewForm!.get('text')!.touched
-                                    ? this.reviewForm!.get('text')!.status ==
-                                      'VALID'
-                                      ? 'is-valid'
-                                      : 'is-invalid'
-                                    : null
-                                "
-                              ></textarea>
-                              <label for="reviewtext">{{
-                                "Message" | translate
-                              }}</label>
+                          </section>
+                        </ng-template>
+                      </accordion-item>
+                    }
+                    @if (product.productTypeId !== 4) {
+                      <accordion-item title="{{ 'Soil' | translate }}">
+                        <ng-template accordionContent>
+                          <section class="section-b-space blog-detail-page">
+                            <div class="container">
+                              <div class="no-slider row" tabindex="0">
+                                <p>
+                                  <b>{{ "Soil" | translate }}:</b>
+                                  {{ product.detailsCompost }}
+                                </p>
+                              </div>
                             </div>
-                            @if(this.reviewForm!.get('text') &&
-                            this.reviewForm!.get('text')!.status != 'VALID' &&
-                            this.reviewForm!.get('text')!.touched) {
-                            <div class="invalid-feedback">
-                              <span>{{
-                                "Describe your experience about the product here"
-                                  | translate
-                              }}</span>
+                          </section>
+                        </ng-template>
+                      </accordion-item>
+                    }
+                    @if (product.productTypeId) {
+                      <accordion-item title="{{ 'Review' | translate }} {{ this.aggregateRatingCount !== 0 ? '(' + this.aggregateRatingCount + ' ' + ('Review' | translate) + ')' : '' }}" id="tab5">
+                        <ng-template accordionContent>
+                          <section class="section-b-space blog-detail-page review-page">
+                            <div class="container">
+                              <div class="no-slider row" tabindex="0">
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <ul class="comment-section">
+                                      <li *ngFor="let review of product?.reviews" class="col-12">
+                                        <div class="media">
+                                          <div class="media-body">
+                                            <span>
+                                              @if (this.rating !== 0) {
+                                                <ul class="rating-score" [attr.data-rating]="review.rating">
+                                                  <li class="rating-score-item"></li>
+                                                  <li class="rating-score-item"></li>
+                                                  <li class="rating-score-item"></li>
+                                                  <li class="rating-score-item"></li>
+                                                  <li class="rating-score-item"></li>
+                                                </ul>
+                                              }
+                                            </span>
+                                            <h6>{{ review.buyerName }}</h6>
+                                            <div class="spanreview">
+                                              <span>{{ review.reviewDate | date: "dd/MM/yyyy HH:mm" }}</span>
+                                            </div>
+                                            <p>{{ review.text }}</p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            }
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <button
-                              data-testid="submit-review"
-                              class="btn btn-solid"
-                              type="submit"
-                              [disabled]="this.reviewForm!.invalid"
-                            >
-                              {{ "Submit Your Review" | translate }}
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                      } @if( this.isAlreadyCommented && (this.currentUser$ |
-                      async) !== null) {
-                      <div class="col-md-12">
-                        <div class="d-flex justify-content-center">
-                          <p>
-                            <b>{{
-                              "You have already reviewed this product. We appreciated"
-                                | translate
-                            }}</b>
-                          </p>
-                        </div>
-                      </div>
-                      } @if( !this.canComment && (this.currentUser$ | async) !==
-                      null) {
-                      <div class="col-md-12">
-                        <div class="d-flex justify-content-center">
-                          <p>
-                            <b>{{
-                              "You have no purchased this product" | translate
-                            }}</b>
-                          </p>
-                        </div>
-                      </div>
-                      } @if((this.currentUser$ | async) === null) {
-                      <div class="col-md-12 mb-3">
-                        <div class="d-flex justify-content-center container">
-                          <p>
-                            <b>{{
-                              "If you have bought this product and wouldn’t mind leaving a review, we would really appreciate that. Please login to write a review."
-                                | translate
-                            }}</b>
-                          </p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                          <a
-                            [routerLink]="['/pages/login']"
-                            class="btn btn-solid"
-                            >{{ "Login" | translate }}</a
-                          >
-                        </div>
-                      </div>
-                      }
-                    </ng-template>
-                  </accordion-item>
-                  }
-                </app-accordion>
+                          </section>
+                          @if (this.canComment && !this.isAlreadyCommented) {
+                            <form class="theme-form" [formGroup]="reviewForm!" (ngSubmit)="onSubmit()">
+                              <div class="addline"></div>
+                              <h3>{{ "Submit Your Review" | translate }}</h3>
+                              <div class="row">
+                                <div class="media rating-sec">
+                                  <label>{{ "Rating" | translate }}</label>
+                                  <div class="media-body ms-3">
+                                    <fieldset class="rating-input">
+                                      <input type="radio" value="5" id="stars-star5" name="rating" (change)="onRatingChange($event.target)" checked />
+                                      <label for="stars-star5" title="5 Stars"></label>
+                                      <input type="radio" value="4" id="stars-star4" name="rating" (change)="onRatingChange($event.target)" />
+                                      <label for="stars-star4" title="4 Stars"></label>
+                                      <input type="radio" value="3" id="stars-star3" name="rating" (change)="onRatingChange($event.target)" />
+                                      <label for="stars-star3" title="3 Stars"></label>
+                                      <input type="radio" value="2" id="stars-star2" name="rating" (change)="onRatingChange($event.target)" />
+                                      <label for="stars-star2" title="2 Stars"></label>
+                                      <input type="radio" value="1" id="stars-star1" name="rating" (change)="onRatingChange($event.target)" />
+                                      <label for="stars-star1" title="1 Stars"></label>
+                                    </fieldset>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6 mb-1 fixapptextinput">
+                                  <app-text-input formControlName="name" [label]="'First Name'" [isDisabled]="true"></app-text-input>
+                                </div>
+                                <div class="col-md-6 mb-1 fixapptextinput">
+                                  <app-text-input formControlName="email" [label]="'Email'" [isDisabled]="true"></app-text-input>
+                                </div>
+                              </div>
+                              <div class="row mb-3">
+                                <div class="col-md-12 mb-1 fixapptextinput">
+                                  <div class="form-floating">
+                                    <textarea data-testid="review-input" class="form-control" formControlName="text" placeholder="{{ 'Message' | translate }}" id="reviewtext" rows="6" [ngClass]="this.reviewForm!.get('text') && this.reviewForm!.get('text')!.touched ? (this.reviewForm!.get('text')!.status == 'VALID' ? 'is-valid' : 'is-invalid') : null"></textarea>
+                                    <label for="reviewtext">{{ "Message" | translate }}</label>
+                                  </div>
+                                  @if (this.reviewForm!.get("text") && this.reviewForm!.get("text")!.status != "VALID" && this.reviewForm!.get("text")!.touched) {
+                                    <div class="invalid-feedback">
+                                      <span>{{ "Describe your experience about the product here" | translate }}</span>
+                                    </div>
+                                  }
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <button data-testid="submit-review" class="btn btn-solid" type="submit" [disabled]="this.reviewForm!.invalid">
+                                    {{ "Submit Your Review" | translate }}
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          }
+                          @if (this.isAlreadyCommented && (this.currentUser$ | async) !== null) {
+                            <div class="col-md-12">
+                              <div class="d-flex justify-content-center">
+                                <p>
+                                  <b>{{ "You have already reviewed this product. We appreciated" | translate }}</b>
+                                </p>
+                              </div>
+                            </div>
+                          }
+                          @if (!this.canComment && (this.currentUser$ | async) !== null) {
+                            <div class="col-md-12">
+                              <div class="d-flex justify-content-center">
+                                <p>
+                                  <b>{{ "You have no purchased this product" | translate }}</b>
+                                </p>
+                              </div>
+                            </div>
+                          }
+                          @if ((this.currentUser$ | async) === null) {
+                            <div class="col-md-12 mb-3">
+                              <div class="d-flex justify-content-center container">
+                                <p>
+                                  <b>{{ "If you have bought this product and wouldn’t mind leaving a review, we would really appreciate that. Please login to write a review." | translate }}</b>
+                                </p>
+                              </div>
+                              <div class="d-flex justify-content-center">
+                                <a [routerLink]="['/pages/login']" class="btn btn-solid">{{ "Login" | translate }}</a>
+                              </div>
+                            </div>
+                          }
+                        </ng-template>
+                      </accordion-item>
+                    }
+                  </app-accordion>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <app-related-product [type]="product!.productType"></app-related-product>
-</section>
+    <app-related-product [type]="product!.productType"></app-related-product>
+  </section>
 }

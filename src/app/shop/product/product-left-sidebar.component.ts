@@ -34,6 +34,7 @@ import { AccordionItemDirective } from '../../shared/components/accordion/direct
 import { RelatedProductComponent } from './widgets/related-product/related-product.component';
 import { TextInputComponent } from '../../shared/components/text-input/text-input.component';
 import { AccordionContentDirective } from '../../shared/components/accordion/directives/accordion-content.directive';
+import { NavService } from '../../shared/services/nav.service';
 
 @Component({
   selector: 'app-product-left-sidebar',
@@ -85,7 +86,8 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     private router: Router,
     public productService: ProductService,
     private cartService: CartService,
-    private shopService: ShopService
+    private shopService: ShopService,
+    private navServices: NavService
   ) {
     // if (this.appService.isBrowser()) {
     this.subscriptionParamMap = this.route.paramMap.subscribe((paramMap) => {
@@ -134,6 +136,10 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
         // console.log(array[index].src);
         let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
         array[index].src = temp;
+
+        const filename = array[index].src.substring(array[index].src.lastIndexOf('/') + 1);
+
+        array[index].responsiveSrcSet = this.navServices.GetProductResponsiveSrcSet('Products/' + filename);
         // console.log(array[index].src);
       });
     }

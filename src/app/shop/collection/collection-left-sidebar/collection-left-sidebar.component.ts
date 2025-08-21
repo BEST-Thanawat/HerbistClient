@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterModule} from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../../shared/services/product.service';
 import { SeoService } from '../../../shared/services/seo.service';
 import { ShopParams } from '../../../shared/classes/shopParams';
@@ -14,23 +14,23 @@ import { LoadingComponent } from '../../../shared/components/loading/loading.com
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { PaginationComponent } from "../widgets/pagination/pagination.component";
-import { ProductBoxOneComponent } from "../../../shared/components/product/product-box-one/product-box-one.component";
-import { GridComponent } from "../widgets/grid/grid.component";
-import { ProductBoxVerticalSliderComponent } from "../../../shared/components/product/product-box-vertical-slider/product-box-vertical-slider.component";
-import { CategoriesComponent } from "../../../shared/components/categories/categories.component";
-import { BreadcrumbComponent } from "../../../shared/components/breadcrumb/breadcrumb.component";
-import { BrandsComponent } from "../widgets/brands/brands.component";
-import { TagsComponent } from "../widgets/tags/tags.component";
+import { PaginationComponent } from '../widgets/pagination/pagination.component';
+import { ProductBoxOneComponent } from '../../../shared/components/product/product-box-one/product-box-one.component';
+import { GridComponent } from '../widgets/grid/grid.component';
+import { ProductBoxVerticalSliderComponent } from '../../../shared/components/product/product-box-vertical-slider/product-box-vertical-slider.component';
+import { CategoriesComponent } from '../../../shared/components/categories/categories.component';
+import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
+import { BrandsComponent } from '../widgets/brands/brands.component';
+import { TagsComponent } from '../widgets/tags/tags.component';
+import { NavService } from '../../../shared/services/nav.service';
 
 @Component({
   selector: 'app-collection-left-sidebar',
-    imports: [CommonModule, TranslateModule, RouterModule, PaginationComponent, ProductBoxOneComponent, GridComponent, ProductBoxVerticalSliderComponent, CategoriesComponent, BreadcrumbComponent, BrandsComponent, TagsComponent],
+  imports: [CommonModule, TranslateModule, RouterModule, PaginationComponent, ProductBoxOneComponent, GridComponent, ProductBoxVerticalSliderComponent, CategoriesComponent, BreadcrumbComponent, BrandsComponent, TagsComponent],
   templateUrl: './collection-left-sidebar.component.html',
-  styleUrls: ['./collection-left-sidebar.component.scss']
+  styleUrls: ['./collection-left-sidebar.component.scss'],
 })
 export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
-
   public grid: string = 'col-xl-3 col-md-6';
   public layoutView: string = 'grid-view';
   public products: IProduct[] = [];
@@ -56,22 +56,29 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
 
   mobileSideBar: boolean | undefined;
   navigationSubs = new Subscription();
-  
+
   destroyed = new Subject<any>();
 
-  bannerSrcset = '';//'150w, 220w, 295w';
+  bannerSrcset = ''; //'150w, 220w, 295w';
   bannerSizes = '20vw';
-  collectionBannerSrcset = '';//'320w, 481w, 672w, 800w, 1000w, 1200w, 1370w'
+  collectionBannerSrcset = ''; //'320w, 481w, 672w, 800w, 1000w, 1200w, 1370w'
   collectionBannerSizes = '60vw';
-  collectionSidebarBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-sidebar-banner.webp' : "assets/images/collection-sidebar-banner.webp";
-  collectionBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-banner.webp' : "assets/images/collection-banner.webp";
+  collectionSidebarBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-sidebar-banner.webp' : 'assets/images/collection-sidebar-banner.webp';
+  collectionBannerImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/collection-banner.webp' : 'assets/images/collection-banner.webp';
 
   modalLoadingRef?: BsModalRef;
-  
-  constructor(private modalService: BsModalService, private seoService: SeoService, private router: Router, public productService: ProductService, private shopService: ShopService, private appService: AppService) {
+
+  constructor(
+    private modalService: BsModalService,
+    private seoService: SeoService,
+    private router: Router,
+    public productService: ProductService,
+    private shopService: ShopService,
+    private appService: AppService,
+    private navServices: NavService
+  ) {
     this.seoService.setMainPageTags('Collection(คอลเลกชัน) | Herbist(เฮิบบิสท์) | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า');
-    
-    
+
     if (this.appService.isBrowser()) {
       this.getBrands();
       this.getTags();
@@ -80,7 +87,7 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
         next: (value: boolean) => {
           //console.log(value);
           this.mobileSideBar = value;
-        }
+        },
       });
 
       this.shopService.setShowFooter(true);
@@ -90,10 +97,15 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.appService.isBrowser()) {
       //For main menu reload product
-      this.router.events.pipe(filter((event) => event instanceof NavigationEnd), takeUntil(this.destroyed)).subscribe((event: NavigationEnd | any) => {
-        //console.log('For main menu reload product');
-        this.getProducts();
-      });
+      this.router.events
+        .pipe(
+          filter((event) => event instanceof NavigationEnd),
+          takeUntil(this.destroyed)
+        )
+        .subscribe((event: NavigationEnd | any) => {
+          //console.log('For main menu reload product');
+          this.getProducts();
+        });
 
       //console.log('normal load product');
       const params = this.productService.getShopParams();
@@ -117,42 +129,54 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     // params.pageSize = this.pageSize;
     // params.collections = '';
     // this.productService.setShopParams(params);
-    this.productService.getProductPagination(false).pipe(map((products) => {
-      if (environment.cloudinary === true) {
-        let imageUrl = environment.apiUrl.replace('api/', '')
-        if (imageUrl.includes('https')) { 
-          imageUrl = imageUrl.replace('https', 'http');
-        }
-        let apiImageUrl = imageUrl + 'Content/images/products/';
-        let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
-        //  console.log(apiImageUrl);
-        //  console.log(cloudinaryUrl);
+    this.productService
+      .getProductPagination(false)
+      .pipe(
+        map((products) => {
+          if (environment.cloudinary === true) {
+            let imageUrl = environment.apiUrl.replace('api/', '');
+            if (imageUrl.includes('https')) {
+              imageUrl = imageUrl.replace('https', 'http');
+            }
+            let apiImageUrl = imageUrl + 'Content/images/products/';
+            let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
+            //  console.log(apiImageUrl);
+            //  console.log(cloudinaryUrl);
 
-        products.data.forEach((product, index, array) => {
-          product.images.forEach((item, index, array) => {
-            let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
-            array[index].src = temp; 
-            // console.log(array[index].src);
-          });
-        });        
-      }
-      
-      return products;
-    })).subscribe({
-      next: (response) => {
-        this.products = response.data;
-        this.paginate = this.productService.getPager(+response.count, +response.pageIndex, +response.pageSize);
-      },
-      error: (e) => { 
-        console.error(e);
-        if (this.modalLoadingRef) this.modalLoadingRef!.hide();
-      },
-      complete: () => { 
-        this.shopService.scrollToTop();
-        if (this.modalLoadingRef) this.modalLoadingRef!.hide();
-        //this.shopService.setShowFooter(true);
-      }
-    })
+            products.data.forEach((product, index, array) => {
+              product.images.forEach((item, index, array) => {
+                let temp = array[index].src?.includes('https') ? array[index].src!.replace('https', 'http').replace(apiImageUrl, cloudinaryUrl) : array[index].src!.replace(apiImageUrl, cloudinaryUrl);
+                array[index].src = temp;
+
+                const filename = array[index].src.substring(array[index].src.lastIndexOf('/') + 1);
+
+                // Prepare responsive source set
+                array[index].responsiveSrcSet = this.navServices.GetProductResponsiveSrcSet('Products/' + filename);
+                // console.log(array[index].responsiveSrcSet);
+                // console.log(temp);
+                // console.log(array[index].src);
+              });
+            });
+          }
+
+          return products;
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.products = response.data;
+          this.paginate = this.productService.getPager(+response.count, +response.pageIndex, +response.pageSize);
+        },
+        error: (e) => {
+          console.error(e);
+          if (this.modalLoadingRef) this.modalLoadingRef!.hide();
+        },
+        complete: () => {
+          this.shopService.scrollToTop();
+          if (this.modalLoadingRef) this.modalLoadingRef!.hide();
+          //this.shopService.setShowFooter(true);
+        },
+      });
   }
 
   getBrands() {
@@ -160,9 +184,11 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
       next: (response: IBrand[]) => {
         this.allBrands = [{ name: 'All', id: 0 }, ...response];
       },
-      error: (e) => { console.error(e) },
+      error: (e) => {
+        console.error(e);
+      },
       //complete: () => { console.info('get brands complete') }
-    })
+    });
   }
 
   getTags() {
@@ -170,9 +196,11 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
       next: (response: any[]) => {
         this.allTags = ['All', ...response];
       },
-      error: (e) => { console.error(e) },
+      error: (e) => {
+        console.error(e);
+      },
       //complete: () => { console.info('get tags complete') }
-    })
+    });
   }
 
   // Append filter value to Url
@@ -180,8 +208,8 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     this.getProducts();
   }
 
-  updateCategories(categorie: number) {    
-    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true});
+  updateCategories(categorie: number) {
+    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true });
 
     this.brands = [];
     this.tags = [];
@@ -197,8 +225,8 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     this.getProducts();
   }
 
-  updateBrand(tags: any) {    
-    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true});
+  updateBrand(tags: any) {
+    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true });
 
     const params = this.productService.getShopParams();
     params.pageSize = this.pageSize;
@@ -213,15 +241,14 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     // this.productService.setShopParams(params);
 
     this.brands = [];
-    if (this.productService.shopParams.brandId != 0)
-      this.brands.push(this.allBrands![this.productService.shopParams.brandId].name);
+    if (this.productService.shopParams.brandId != 0) this.brands.push(this.allBrands![this.productService.shopParams.brandId].name);
 
     this.getProducts();
   }
 
   updateTags(tags: string[]) {
-    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true});
-    
+    this.modalLoadingRef = this.modalService.show(LoadingComponent, { class: 'modal-sm modal-dialog-centered', ignoreBackdropClick: true });
+
     this.tags = tags;
 
     // const params = new ShopParams();
@@ -246,7 +273,7 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     else if (value == 'high') params.sort = 'priceDesc';
     else if (value == 'a-z') params.sort = 'nameAsc';
     else if (value == 'z-a') params.sort = 'nameDesc';
-    else params.sort = ''
+    else params.sort = '';
 
     params.collections = '';
     this.productService.setShopParams(params);
@@ -256,9 +283,11 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
         this.products = response.data;
         this.paginate = this.productService.getPager(+response.count, +response.pageIndex, +response.pageSize);
       },
-      error: (e) => { console.error(e) },
+      error: (e) => {
+        console.error(e);
+      },
       //complete: () => { console.info('load products complete') }
-    })
+    });
 
     // this.router.navigate([], {
     //   relativeTo: this.route,
@@ -278,10 +307,10 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   removeTag(tag: string) {
-    this.tags = this.tags.filter(val => val !== tag);
+    this.tags = this.tags.filter((val) => val !== tag);
     this.resetTag.next(this.tags);
 
-    if ((!Array.isArray(this.tags)) || (this.tags.length == 0)) {
+    if (!Array.isArray(this.tags) || this.tags.length == 0) {
       this.tags = [];
     }
 
@@ -293,7 +322,7 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     // this.ngxLoader.startLoader('loader-01');
     this.reloadCurrentPage();
     // this.ngxLoader.stopLoader('loader-01');
-    
+
     // // Clear brand
     // this.removeBrand('');
 
@@ -310,7 +339,6 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
     // this.productService.setShopParams(params);
 
     // this.getProducts(false);
-    
 
     // this.router.navigate([], {
     //   relativeTo: this.route,
@@ -349,10 +377,8 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
   // Change Layout View
   updateLayoutView(value: string) {
     this.layoutView = value;
-    if (value == 'list-view')
-      this.grid = 'col-lg-12';
-    else
-      this.grid = 'col-xl-3 col-md-6';
+    if (value == 'list-view') this.grid = 'col-lg-12';
+    else this.grid = 'col-xl-3 col-md-6';
   }
 
   // Mobile sidebar
@@ -365,10 +391,10 @@ export class CollectionLeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   onHover(menuItem: any) {
-    if(window.innerWidth > 1200 && menuItem){
-       document.getElementById('unset')!.classList.add('sidebar-unset')
+    if (window.innerWidth > 1200 && menuItem) {
+      document.getElementById('unset')!.classList.add('sidebar-unset');
     } else {
-      document.getElementById('unset')!.classList.remove('sidebar-unset')
+      document.getElementById('unset')!.classList.remove('sidebar-unset');
     }
   }
 }
