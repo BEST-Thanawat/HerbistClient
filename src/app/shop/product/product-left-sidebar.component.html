@@ -8,9 +8,9 @@
     <div class="collection-wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-sm-3 mobileSidenav" [class.openSide]="this.mobileSideBar">
+          <div class="col-sm-3 mobileSidenav" [class.openSide]="this.mobileSidebar">
             <span href="javascript:void(0)" class="overlay" (click)="toggleMobileSidebar()"></span>
-            <div class="collection-filter" [class.openFilterbar]="this.mobileSideBar">
+            <div class="collection-filter" [class.openFilterbar]="this.mobileSidebar">
               <div class="collection-filter-block">
                 <div class="collection-mobile-back" (click)="toggleMobileSidebar()">
                   <span class="filter-back">
@@ -31,30 +31,30 @@
               <div class="row">
                 <div class="col-lg-6">
                   <owl-carousel-o [options]="ProductDetailsMainSliderConfig" #owlCar class="product-slick">
-                    <ng-container *ngFor="let image of product?.images; index as i">
-                      <ng-template carouselSlide [id]="i.toString()">
-                        @if (i === 0) {
-                          <picture>
-                            <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
-                            <img priority loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
-                          </picture>
+                    @for (image of product.images; track $index) {
+                      <ng-container>
+                        <ng-template carouselSlide [id]="$index.toString()">
+                          @if ($index === 0) {
+                            <picture>
+                              <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
+                              <img priority loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
+                            </picture>
+                            <!-- <div>
+                              <img priority [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" />
+                            </div> -->
+                          }
+                          @if ($index !== 0) {
+                            <picture>
+                              <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
+                              <img loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
+                            </picture>
 
-                          <!-- <div>
-                            <img  [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" priority />
-                          </div> -->
-                        }
-                        @if (i !== 0) {
-                          <picture>
-                            <source [attr.srcset]="image.responsiveSrcSet" sizes="{{ this.productSizes }}" type="image/webp" />
-                            <img loading="lazy" alt="{{ image.alt }}" decoding="async" [src]="image.src!" width="1280" height="1588" sizes="{{ this.productSizes }}" class="img-fluid" />
-                          </picture>
-
-                          <!-- <div>
+                            <!-- <div>
                             <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" />
                           </div> -->
-                        }
+                          }
 
-                        <!-- @if (i === 0) {
+                          <!-- @if (i === 0) {
                           <div>
                             <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" priority />
                           </div>
@@ -64,8 +64,9 @@
                             <img [src]="image.src!" [attr.srcset]="this.productSrcset" sizes="{{ this.productSizes }}" [alt]="image.alt" class="img-fluid" width="1280" height="1588" />
                           </div>
                         } -->
-                      </ng-template>
-                    </ng-container>
+                        </ng-template>
+                      </ng-container>
+                    }
                   </owl-carousel-o>
                   @if (product!.images.length > 1) {
                     <div class="col-12 p-0">
