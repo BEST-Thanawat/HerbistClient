@@ -96,7 +96,7 @@ export class SettingsComponent implements OnInit {
             imageUrl = imageUrl.replace('https', 'http');
           }
           let apiImageUrl = imageUrl + 'Content/images/products/';
-          let cloudinaryUrl = environment.cloudinaryId + '/Products/';
+          let cloudinaryUrl = environment.cloudinaryURL + '/' + environment.cloudinaryId + '/Products/';
 
           if (cart !== null) {
             cart.items.forEach((product: ICartItem, index: number, array: ICartItem[]) => {

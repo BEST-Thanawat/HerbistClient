@@ -292,6 +292,8 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
   }
 }
 
+
+//Old code before fix double download image from load product
 // import { Component, OnDestroy, OnInit } from '@angular/core';
 // import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 // import { IProduct } from '../../shared/classes/product';
