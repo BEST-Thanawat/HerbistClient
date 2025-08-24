@@ -34,6 +34,11 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/responsive.scss",
+                "bundleName": "responsive",
+                "inject": true
+              },
               "src/styles.scss",
               {
                 "input": "node_modules/cookieconsent/build/cookieconsent.min.css",

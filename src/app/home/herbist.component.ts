@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Renderer2 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppService } from '../shared/services/app.service';
 import { IBrand } from '../shared/classes/brand';
@@ -39,6 +39,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
   public year: IYear = { id: 1, year1: 2025, year2: 2568 };
 
   public showImg = true;
+  private preloadLink: HTMLLinkElement | null = null;
   //public products: Product[] = [];
   public productCollections: ITab[] = [];
   public active: any | undefined;
@@ -119,7 +120,8 @@ export class HerbistComponent implements OnInit, OnDestroy {
     public productService: ProductService,
     private translate: TranslateService,
     private appService: AppService,
-    private navServices: NavService
+    private navServices: NavService,
+    private renderer: Renderer2
   ) {
     this.currentIsEnglish$ = this.navServices.currentIsEnglish$;
     // this.currentIsEnglish$.subscribe();
@@ -304,6 +306,48 @@ export class HerbistComponent implements OnInit, OnDestroy {
         //srcset: '320w, 481w, 672w, 800w, 1000w, 1200w, 1400w',
       },
     ];
+
+    this.sliders.forEach((element) => {
+      const filename = element.defaultImage.substring(element.defaultImage.lastIndexOf('/') + 1);
+
+      // Preload image
+      // Dynamically create preload link
+      this.preloadLink = this.renderer.createElement('link');
+      this.preloadLink!.rel = 'preload';
+      this.preloadLink!.as = 'image';
+      this.preloadLink!.fetchPriority = 'high'; // ✅ dynamically set fetchpriority
+      this.preloadLink!.type = 'image/webp';
+      this.preloadLink!.href = environment.cloudinaryURL + ',w_1880/' + environment.cloudinaryId + '/assets/images/' + filename;
+      this.preloadLink!.setAttribute(
+        'imagesrcset',
+        `${environment.cloudinaryURL + ',w_480/' + environment.cloudinaryId + '/assets/images/' + filename + ' 480w,'}
+        ${environment.cloudinaryURL + ',w_768/' + environment.cloudinaryId + '/assets/images/' + filename + ' 768w,'}
+        ${environment.cloudinaryURL + ',w_1200/' + environment.cloudinaryId + '/assets/images/' + filename + ' 1200w,'}
+        ${environment.cloudinaryURL + ',w_1880/' + environment.cloudinaryId + '/assets/images/' + filename + ' 1880w,'}
+      `
+      );
+      this.renderer.appendChild(document.head, this.preloadLink);
+    });
+
+    this.collections.forEach((element) => {
+      const filename = element.image.substring(element.image.lastIndexOf('/') + 1);
+
+      // Preload image
+      // Dynamically create preload link
+      this.preloadLink = this.renderer.createElement('link');
+      this.preloadLink!.rel = 'preload';
+      this.preloadLink!.as = 'image';
+      this.preloadLink!.fetchPriority = 'high'; // ✅ dynamically set fetchpriority
+      this.preloadLink!.type = 'image/webp';
+      this.preloadLink!.href = environment.cloudinaryURL + environment.cloudinaryId + '/assets/images/collection/' + filename;
+      this.preloadLink!.setAttribute(
+        'imagesrcset',
+        `${environment.cloudinaryURL + ',w_480/' + environment.cloudinaryId + '/assets/images/collection/' + filename + ' 480w,'}
+        ${environment.cloudinaryURL + ',w_672/' + environment.cloudinaryId + '/assets/images/collection/' + filename + ' 672w,'}
+      `
+      );
+      this.renderer.appendChild(document.head, this.preloadLink);
+    });
   }
 
   ngAfterViewInit() {
@@ -484,6 +528,10 @@ export class HerbistComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.appService.isBrowser()) {
       document.documentElement.style.removeProperty('--theme-default');
+    }
+
+    if (this.preloadLink) {
+      this.renderer.removeChild(document.head, this.preloadLink);
     }
   }
 }
