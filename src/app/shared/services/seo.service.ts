@@ -3,15 +3,23 @@ import { Meta, Title } from '@angular/platform-browser';
 import { IProduct } from '../classes/product';
 import { CanonicalService } from './canonical.service';
 import { DOCUMENT } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SeoService {
   private jsonSnippet: HTMLScriptElement;
   private graphObjects: any[] = [];
 
-  constructor(@Inject(DOCUMENT) private doc: Document, private canonicalService: CanonicalService, private titleService: Title, private metaTagService: Meta) {
+  logoImg = environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/icon/herbist.png' : 'assets/images/icon/herbist.png';
+
+  constructor(
+    @Inject(DOCUMENT) private doc: Document,
+    private canonicalService: CanonicalService,
+    private titleService: Title,
+    private metaTagService: Meta
+  ) {
     // initial ld+json script
     this.jsonSnippet = this.doc.querySelector('script[type="application/ld+json"]') || this.createJsonSnippet();
   }
@@ -29,7 +37,7 @@ export class SeoService {
     this.canonicalService.setCanonicalURL();
     this.metaTagService.addTags([
       { name: 'description', content: description },
-      { name: 'keywords', content: 'เมล็ดพันธุ์โรสแมรี่ ลาเวนเดอร์ สมุนไพรฝรั่ง เมล็ดพันธุ์นำเข้า ถาดเพาะเมล็ดคุณภาพสูง วิธีเพาะเมล็ดโรสแมรี่', },
+      { name: 'keywords', content: 'เมล็ดพันธุ์โรสแมรี่ ลาเวนเดอร์ สมุนไพรฝรั่ง เมล็ดพันธุ์นำเข้า ถาดเพาะเมล็ดคุณภาพสูง วิธีเพาะเมล็ดโรสแมรี่' },
       { name: 'robots', content: 'follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large' },
       { name: 'author', content: 'Thanawat Sukwibul' },
       //{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -62,7 +70,7 @@ export class SeoService {
     this.canonicalService.setCanonicalURL();
     this.metaTagService.addTags([
       { name: 'description', content: description },
-      { name: 'keywords', content: 'เมล็ดพันธุ์โรสแมรี่ ลาเวนเดอร์ สมุนไพรฝรั่ง เมล็ดพันธุ์นำเข้า ถาดเพาะเมล็ดคุณภาพสูง วิธีเพาะเมล็ดโรสแมรี่', },
+      { name: 'keywords', content: 'เมล็ดพันธุ์โรสแมรี่ ลาเวนเดอร์ สมุนไพรฝรั่ง เมล็ดพันธุ์นำเข้า ถาดเพาะเมล็ดคุณภาพสูง วิธีเพาะเมล็ดโรสแมรี่' },
       { name: 'robots', content: 'follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large' },
       { name: 'author', content: 'Thanawat Sukwibul' },
       //{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -93,7 +101,7 @@ export class SeoService {
     this.titleService.setTitle(title);
     this.canonicalService.setCanonicalURL();
 
-    this.metaTagService.updateTag({ name: 'keywords', content: product.name + ' วิธีปลูก วิธีเพาะเมล็ด' }); /******/    
+    this.metaTagService.updateTag({ name: 'keywords', content: product.name + ' วิธีปลูก วิธีเพาะเมล็ด' }); /******/
     //this.metaTagService.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes' });
     this.metaTagService.updateTag({ name: 'author', content: 'Herbist(เฮิบบิสท์)' });
     this.metaTagService.updateTag({ property: 'og:type', content: 'product' });
@@ -103,8 +111,8 @@ export class SeoService {
     this.metaTagService.updateTag({ property: 'og:updated_time', content: new Date().toISOString() });
     this.metaTagService.updateTag({ property: 'og:image', content: productImageURL });
     this.metaTagService.updateTag({ property: 'og:image:secure_url', content: productImageURL });
-    this.metaTagService.updateTag({ property: 'og:image:width', content: '1280' });//productImage.naturalWidth.toString() }); /******/
-    this.metaTagService.updateTag({ property: 'og:image:height', content: '1588' });//productImage.naturalHeight.toString() }); /******/
+    this.metaTagService.updateTag({ property: 'og:image:width', content: '1280' }); //productImage.naturalWidth.toString() }); /******/
+    this.metaTagService.updateTag({ property: 'og:image:height', content: '1588' }); //productImage.naturalHeight.toString() }); /******/
     this.metaTagService.updateTag({ property: 'og:image:alt', content: product.images[0].alt! }); /******/
     this.metaTagService.updateTag({ property: 'og:image:type', content: 'image/webp' });
     this.metaTagService.updateTag({ property: 'product:price:amount', content: product.price.toString() });
@@ -121,6 +129,55 @@ export class SeoService {
     this.metaTagService.updateTag({ name: 'twitter:data1', content: product.price.toString() });
     this.metaTagService.updateTag({ name: 'twitter:label2', content: 'Availability' });
     this.metaTagService.updateTag({ name: 'twitter:data2', content: availability });
+
+    // --- NEW: inject JSON-LD product schema ---
+    let availabilityForGoogle = product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    const productSchema = {
+      '@type': 'Product',
+      name: product.name,
+      image: productImageURL,
+      description: product.description,
+      sku: product.id.toString(),
+      brand: {
+        '@type': 'Brand',
+        name: 'Herbist',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: this.canonicalService.getCanonicalURL(),
+        priceCurrency: 'THB',
+        price: product.price.toString(),
+        availability: availabilityForGoogle,
+        itemCondition: 'https://schema.org/NewCondition',
+      },
+    };
+
+    const websiteSchema = {
+      '@type': 'WebSite',
+      '@id': 'https://herbist.shop/#website',
+      url: 'https://herbist.shop/',
+      name: 'Herbist',
+      publisher: { '@id': 'https://herbist.shop/#organization' },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://herbist.shop/search?query={search_term_string}',
+        'query-input': 'required name=search_term_string',
+      },
+    };
+
+    const organizationSchema = {
+      '@type': 'Organization',
+      '@id': 'https://herbist.shop/#organization',
+      name: 'Herbist',
+      url: 'https://herbist.shop/',
+      logo: {
+        '@type': 'ImageObject',
+        url: this.logoImg, // replace with your real logo URL
+      },
+    };
+
+    // --- Merge all into @graph ---
+    this.updateJsonSnippet([productSchema, websiteSchema, organizationSchema]);
   }
 
   //blog.component.ts
@@ -143,14 +200,14 @@ export class SeoService {
     this.metaTagService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaTagService.updateTag({ name: 'twitter:title', content: title });
     this.metaTagService.updateTag({ name: 'twitter:site', content: '"@rosemary.herbist' });
-    this.metaTagService.updateTag({ name: 'twitter:image', content: 'assets/images/blog/rosemary_h.webp'}); //blogImage.src });
+    this.metaTagService.updateTag({ name: 'twitter:image', content: 'assets/images/blog/rosemary_h.webp' }); //blogImage.src });
     this.metaTagService.updateTag({ property: 'og:locale', content: 'th_TH' });
     this.metaTagService.updateTag({ property: 'og:type', content: 'blog' });
     this.metaTagService.updateTag({ property: 'og:title', content: title });
     this.metaTagService.updateTag({ property: 'og:url', content: this.canonicalService.getCanonicalURL() });
     this.metaTagService.updateTag({ property: 'og:site_name', content: 'Herbist' });
-    this.metaTagService.updateTag({ property: 'og:image', content: 'assets/images/blog/rosemary_h.webp'}); //blogImage.src });
-    this.metaTagService.updateTag({ property: 'og:image:secure_url', content: 'assets/images/blog/rosemary_h.webp'}); //blogImage.src });
+    this.metaTagService.updateTag({ property: 'og:image', content: 'assets/images/blog/rosemary_h.webp' }); //blogImage.src });
+    this.metaTagService.updateTag({ property: 'og:image:secure_url', content: 'assets/images/blog/rosemary_h.webp' }); //blogImage.src });
     this.metaTagService.updateTag({ property: 'og:image:width', content: '1370' });
     this.metaTagService.updateTag({ property: 'og:image:height', content: '385' });
     this.metaTagService.updateTag({ property: 'og:image:alt', content: title });
@@ -192,8 +249,8 @@ export class SeoService {
     this.metaTagService.updateTag({ property: 'og:url', content: this.canonicalService.getCanonicalURL() });
     this.metaTagService.updateTag({ property: 'og:site_name', content: 'Herbist' });
     this.metaTagService.updateTag({ property: 'og:updated_time', content: new Date().toISOString() });
-    this.metaTagService.updateTag({ property: 'og:image', content:  image }); //blogImage.src });
-    this.metaTagService.updateTag({ property: 'og:image:secure_url', content:  image }); //blogImage.src });
+    this.metaTagService.updateTag({ property: 'og:image', content: image }); //blogImage.src });
+    this.metaTagService.updateTag({ property: 'og:image:secure_url', content: image }); //blogImage.src });
     this.metaTagService.updateTag({ property: 'og:image:width', content: imageWidth });
     this.metaTagService.updateTag({ property: 'og:image:height', content: imageHeight });
     this.metaTagService.updateTag({ property: 'og:image:alt', content: alt });
@@ -263,9 +320,7 @@ export class SeoService {
     // if on briwser platform return
 
     // first find the graph objects then append to it
-    const found = this.graphObjects.findIndex(
-      (n) => n['@type'] === schema['@type']
-    );
+    const found = this.graphObjects.findIndex((n) => n['@type'] === schema['@type']);
     if (found > -1) {
       this.graphObjects[found] = schema;
     } else {
