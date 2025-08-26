@@ -198,7 +198,7 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
       name: product.name,
       description: product.description,
       brand: { '@type': 'Brand', name: product.productBrand },
-      offer: {
+      offers: {
         '@type': 'Offer',
         url: `https://herbist.shop/shop/product/${product.id}`,
         itemCondition: 'https://schema.org/NewCondition',

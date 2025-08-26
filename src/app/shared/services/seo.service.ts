@@ -130,27 +130,32 @@ export class SeoService {
     this.metaTagService.updateTag({ name: 'twitter:label2', content: 'Availability' });
     this.metaTagService.updateTag({ name: 'twitter:data2', content: availability });
 
-    // --- NEW: inject JSON-LD product schema ---
-    let availabilityForGoogle = product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
-    const productSchema = {
-      '@type': 'Product',
-      name: product.name,
-      image: productImageURL,
-      description: product.description,
-      sku: product.id.toString(),
-      brand: {
-        '@type': 'Brand',
-        name: 'Herbist',
-      },
-      offers: {
-        '@type': 'Offer',
-        url: this.canonicalService.getCanonicalURL(),
-        priceCurrency: 'THB',
-        price: product.price.toString(),
-        availability: availabilityForGoogle,
-        itemCondition: 'https://schema.org/NewCondition',
-      },
-    };
+    // // --- NEW: inject JSON-LD product schema ---
+    // let availabilityForGoogle = product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    // const productSchema = {
+    //   '@type': 'Product',
+    //   name: product.name,
+    //   image: productImageURL,
+    //   description: product.description,
+    //   sku: product.id.toString(),
+    //   brand: {
+    //     '@type': 'Brand',
+    //     name: 'Herbist',
+    //   },
+    //   offers: {
+    //     '@type': 'Offer',
+    //     url: this.canonicalService.getCanonicalURL(),
+    //     priceCurrency: 'THB',
+    //     price: product.price.toString(),
+    //     availability: availabilityForGoogle,
+    //     itemCondition: 'https://schema.org/NewCondition',
+    //   },
+    //   aggregateRating: {
+    //     '@type': 'AggregateRating',
+    //     ratingValue: product.reviews,
+    //     reviewCount: '37',
+    //   },
+    // };
 
     const websiteSchema = {
       '@type': 'WebSite',
@@ -177,7 +182,7 @@ export class SeoService {
     };
 
     // --- Merge all into @graph ---
-    this.updateJsonSnippet([productSchema, websiteSchema, organizationSchema]);
+    this.updateJsonSnippet([websiteSchema, organizationSchema]);
   }
 
   //blog.component.ts
@@ -312,7 +317,7 @@ export class SeoService {
     script.setAttribute('type', 'application/ld+json');
 
     // append and return reference
-    this.doc.body.appendChild(script);
+    this.doc.head.appendChild(script);
     return script;
   }
 
