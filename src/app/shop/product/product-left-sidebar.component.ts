@@ -192,6 +192,12 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
   private addProductSnippet(product: IProduct, productImageURL: string, reviewsArray: any) {
     //this.seoService.emptyJsonSnippet();
 
+    // Today + 1 year
+    const oneYearLater = new Date();
+    oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+    // Format YYYY-MM-DD
+    const priceValidUntil = oneYearLater.toISOString().split('T')[0];
+
     if (product.reviews?.length) {
       return {
         '@context': 'https://schema.org/',
@@ -208,6 +214,36 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
           availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
           price: product.price,
           priceCurrency: 'THB',
+          priceValidUntil: priceValidUntil,
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: {
+              '@type': 'MonetaryAmount',
+              value: '50',
+              currency: 'THB',
+            },
+            shippingDestination: {
+              '@type': 'DefinedRegion',
+              addressCountry: 'TH',
+            },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: {
+                '@type': 'QuantitativeValue',
+                minValue: '0',
+                maxValue: '1',
+              },
+              transitTime: {
+                '@type': 'QuantitativeValue',
+                minValue: '1',
+                maxValue: '5',
+              },
+            },
+          },
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+          },
         },
         review: reviewsArray,
         aggregateRating: {
@@ -234,6 +270,36 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
           availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
           price: product.price,
           priceCurrency: 'THB',
+          priceValidUntil: priceValidUntil,
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: {
+              '@type': 'MonetaryAmount',
+              value: '50',
+              currency: 'THB',
+            },
+            shippingDestination: {
+              '@type': 'DefinedRegion',
+              addressCountry: 'TH',
+            },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: {
+                '@type': 'QuantitativeValue',
+                minValue: '0',
+                maxValue: '1',
+              },
+              transitTime: {
+                '@type': 'QuantitativeValue',
+                minValue: '1',
+                maxValue: '5',
+              },
+            },
+          },
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+          },
         },
       };
     }
