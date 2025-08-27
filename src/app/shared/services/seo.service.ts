@@ -91,7 +91,7 @@ export class SeoService {
   }
 
   //product-left-sidebar.component.ts
-  setProductPageTags(product: IProduct, productImageURL: string) {
+  setProductPageTags(product: IProduct, productImageURL: string, otherSnipet: any) {
     this.removeAllTags();
 
     let title = product.name + ' | Herbist(เฮิบบิสท์) | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า';
@@ -131,58 +131,29 @@ export class SeoService {
     this.metaTagService.updateTag({ name: 'twitter:data2', content: availability });
 
     // // --- NEW: inject JSON-LD product schema ---
-    // let availabilityForGoogle = product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
-    // const productSchema = {
-    //   '@type': 'Product',
-    //   name: product.name,
-    //   image: productImageURL,
-    //   description: product.description,
-    //   sku: product.id.toString(),
-    //   brand: {
-    //     '@type': 'Brand',
-    //     name: 'Herbist',
-    //   },
-    //   offers: {
-    //     '@type': 'Offer',
-    //     url: this.canonicalService.getCanonicalURL(),
-    //     priceCurrency: 'THB',
-    //     price: product.price.toString(),
-    //     availability: availabilityForGoogle,
-    //     itemCondition: 'https://schema.org/NewCondition',
-    //   },
-    //   aggregateRating: {
-    //     '@type': 'AggregateRating',
-    //     ratingValue: product.reviews,
-    //     reviewCount: '37',
-    //   },
-    // };
-
-    const websiteSchema = {
-      '@type': 'WebSite',
-      '@id': 'https://herbist.shop/#website',
-      url: 'https://herbist.shop/',
-      name: 'Herbist',
-      publisher: { '@id': 'https://herbist.shop/#organization' },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: 'https://herbist.shop/search?query={search_term_string}',
-        'query-input': 'required name=search_term_string',
-      },
-    };
-
     const organizationSchema = {
       '@type': 'Organization',
-      '@id': 'https://herbist.shop/#organization',
-      name: 'Herbist',
       url: 'https://herbist.shop/',
-      logo: {
-        '@type': 'ImageObject',
-        url: this.logoImg, // replace with your real logo URL
+      // sameAs: ['https://example.net/profile/example1234', 'https://example.org/example1234'],
+      logo: this.logoImg,
+      name: 'Herbist',
+      description: 'Herbist | เมล็ดพันธุ์สมุนไพรฝรั่ง โรสแมรี่ ลาเวนเดอร์ ผัก ดอกไม้นำเข้า',
+      email: 'herbist.th@gmail.com',
+      telephone: '086-565-1009',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Bangkhuntien-Chaytale',
+        addressLocality: 'Bangkhuntien',
+        addressCountry: 'TH',
+        addressRegion: 'Bangkok',
+        postalCode: '10150',
       },
+      vatID: '',
+      iso6523Code: '',
     };
 
     // --- Merge all into @graph ---
-    this.updateJsonSnippet([websiteSchema, organizationSchema]);
+    this.updateJsonSnippet([otherSnipet, organizationSchema]);
   }
 
   //blog.component.ts

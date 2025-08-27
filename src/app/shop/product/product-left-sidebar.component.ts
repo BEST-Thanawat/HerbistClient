@@ -123,8 +123,9 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     params.typeId = product.productTypeId;
     this.productService.setShopParams(params);
 
-    this.seoService.setProductPageTags(product, product.images[0]?.src ?? '');
-    this.calculateRatingAndAddSnippets();
+    const otherSnippet = this.calculateRatingAndAddSnippets();
+    this.seoService.setProductPageTags(product, product.images[0]?.src ?? '', otherSnippet);
+    // this.calculateRatingAndAddSnippets();
 
     this.shopService.scrollToTop();
     this.shopService.setShowFooter(true);
@@ -161,16 +162,16 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   private calculateRatingAndAddSnippets() {
-    if (!this.product?.reviews?.length) return;
+    // if (!this.product?.reviews?.length) return;
 
-    const sumRating = this.product.reviews.reduce((a, b) => a + b.rating, 0);
-    const avg = this.round(sumRating / this.product.reviews.length, 0.5);
+    const sumRating = this.product?.reviews?.length ? this.product.reviews.reduce((a, b) => a + b.rating, 0) : 0;
+    const avg = this.product?.reviews?.length ? this.round(sumRating / this.product.reviews.length, 0.5) : 0;
 
     this.rating = avg;
     this.aggregateRatingValue = avg;
-    this.aggregateRatingCount = this.product.reviews.length;
+    this.aggregateRatingCount = this.product?.reviews?.length ? this.product.reviews.length : 0;
 
-    this.generateProductSnippets(this.product);
+    return this.generateProductSnippets(this.product);
   }
 
   private generateProductSnippets(product: IProduct) {
@@ -185,36 +186,57 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
       author: { '@type': 'Person', name: r.buyerName },
     }));
 
-    this.addProductSnippet(product, product.images[0]?.src ?? '', reviewArray);
+    return this.addProductSnippet(product, product.images[0]?.src ?? '', product.reviews?.length ? reviewArray : null);
   }
 
   private addProductSnippet(product: IProduct, productImageURL: string, reviewsArray: any) {
-    this.seoService.emptyJsonSnippet();
-    this.seoService.updateJsonSnippet({
-      '@context': 'https://schema.org/',
-      '@type': 'Product',
-      sku: product.id,
-      image: [productImageURL],
-      name: product.name,
-      description: product.description,
-      brand: { '@type': 'Brand', name: product.productBrand },
-      offers: {
-        '@type': 'Offer',
-        url: `https://herbist.shop/shop/product/${product.id}`,
-        itemCondition: 'https://schema.org/NewCondition',
-        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-        price: product.price,
-        priceCurrency: 'THB',
-      },
-      review: reviewsArray,
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: this.aggregateRatingValue,
-        reviewCount: this.aggregateRatingCount,
-        bestRating: this.aggregateBestRating,
-        worstRating: this.aggregateWorstRating,
-      },
-    });
+    //this.seoService.emptyJsonSnippet();
+
+    if (product.reviews?.length) {
+      return {
+        '@context': 'https://schema.org/',
+        '@type': 'Product',
+        sku: product.id,
+        image: [productImageURL],
+        name: product.name,
+        description: product.description,
+        brand: { '@type': 'Brand', name: product.productBrand },
+        offers: {
+          '@type': 'Offer',
+          url: `https://herbist.shop/shop/product/${product.id}`,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          price: product.price,
+          priceCurrency: 'THB',
+        },
+        review: reviewsArray,
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: this.aggregateRatingValue,
+          reviewCount: this.aggregateRatingCount,
+          bestRating: this.aggregateBestRating,
+          worstRating: this.aggregateWorstRating,
+        },
+      };
+    } else {
+      return {
+        '@context': 'https://schema.org/',
+        '@type': 'Product',
+        sku: product.id,
+        image: [productImageURL],
+        name: product.name,
+        description: product.description,
+        brand: { '@type': 'Brand', name: product.productBrand },
+        offers: {
+          '@type': 'Offer',
+          url: `https://herbist.shop/shop/product/${product.id}`,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          price: product.price,
+          priceCurrency: 'THB',
+        },
+      };
+    }
   }
 
   private round(value: number, step = 1) {
@@ -291,7 +313,6 @@ export class ProductLeftSidebarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/shop/collection/left/sidebar']);
   }
 }
-
 
 //Old code before fix double download image from load product
 // import { Component, OnDestroy, OnInit } from '@angular/core';
