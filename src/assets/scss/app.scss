@@ -32,7 +32,7 @@
 @use "theme/variables" as *;
 @use "theme/style" as *;
 @use "theme/menu" as *;
-// @use "theme/responsive" as *; File too large then move it into a separate file
+@use "theme/responsive" as *;
 @use "ngx-bootstrap/datepicker/bs-datepicker" as *;
 
 :root {
