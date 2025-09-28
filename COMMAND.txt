@@ -49,13 +49,13 @@ npm run serve:ssr:HerbistClient
 6.docker build --no-cache . -t herbist-client -f Dockerfile
 7.docker login -u sukwibul -p Best0015!@#
 8.docker image list (get the latest IMAGE ID and set to 4.)
-9.docker tag b0db906cbd10 sukwibul/herbistclient:production-2.0
-10.docker push sukwibul/herbistclient:production-2.0
+9.docker tag 1ade863ffdc4 sukwibul/herbistclient:production-2.1
+10.docker push sukwibul/herbistclient:production-2.1
 11. open putty
     156.67.216.87 port 8894
     root Z3&2lA72APgtjjDyQj&p
 12. nano docker-compose.yml
-13. change to image: sukwibul/herbistapi:production-2.0 then save
+13. change to image: sukwibul/herbistapi:production-2.1 then save
 14. docker-compose up -d
 
 *For reference to remove downloaded docket image on server

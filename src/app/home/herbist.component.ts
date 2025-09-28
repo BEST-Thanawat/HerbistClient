@@ -298,7 +298,7 @@ export class HerbistComponent implements OnInit, OnDestroy {
         sizes: '100vw',
         link: '/shop/product/191',
         isSale: false,
-        responsiveSrcSet: this.navServices.GetResponsiveSrcSet('assets/images/trays.webp'),
+        responsiveSrcSet: this.navServices.GetResponsiveSrcSet('assets/images/settwo.webp'),
         defaultImage: environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp',
 
         //fullURL: environment.cloudinary ? environment.cloudinaryURL + '/' + environment.cloudinaryId + '/assets/images/settwo.webp' : 'assets/images/settwo.webp',
